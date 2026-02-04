@@ -12,6 +12,12 @@ export const Lessons = [
         url: "/sistemski-pozivi/",
         posted: true,
     },
+    {
+        title: "Procesi",
+        description: "",
+        url: "/procesi/",
+        posted: true,
+    },
 ];
 
 function TextCard({title, description, url, posted}) {
