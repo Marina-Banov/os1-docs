@@ -18,6 +18,12 @@ export const Lessons = [
         url: "/procesi/",
         posted: true,
     },
+    {
+        title: "Dretve",
+        description: "",
+        url: "/dretve/",
+        posted: true,
+    },
 ];
 
 function TextCard({title, description, url, posted}) {
