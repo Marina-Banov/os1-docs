@@ -172,7 +172,7 @@ strace -c python3 L04_unix_timestamp.py
 Napišite program koji će ispisivati broj `txt` datoteka u mapi koja je dana kao CLI argument programu. Ako taj argument nije dan, onda treba ispisati broj datoteka u mapi gdje je spremljen program (u tom slučaju kreirajte barem jednu `txt` datoteku).
 
 <Tabs>
-  <TabItem value="primjer" label="Primjer u C-u">
+  <TabItem value="c" label="Primjer u C-u">
 
 ```c title="L04_txt_datoteke.c"
 #include <stdlib.h>
@@ -181,7 +181,8 @@ Napišite program koji će ispisivati broj `txt` datoteka u mapi koja je dana ka
 #include <string.h>
 
 int main(int argc, char const *argv[]) {
-    // Pročitati direktorij iz prvog argumenta ako postoji ili dodijeliti defaultnu vrijednost (.)
+    // Pročitati direktorij iz prvog argumenta ako postoji
+    // ili dodijeliti defaultnu vrijednost (.)
     const char *dir_name = (argc > 1 ? argv[1] : ".");
     // Provjeriti postoji li direktorij
     DIR *pdir = opendir(dir_name);
@@ -190,7 +191,8 @@ int main(int argc, char const *argv[]) {
         return 1;
     }
 
-    // Ako je direktorij mapa gdje je spremljen program, stvoriti bar jednu txt datoteku
+    // Ako je direktorij mapa gdje je spremljen program,
+    // stvoriti bar jednu txt datoteku
     if (strcmp(dir_name, ".") == 0) {
         printf("Creating dummy file\n");
         FILE *fp = fopen("L04_dummy_file.txt", "w");
@@ -198,13 +200,17 @@ int main(int argc, char const *argv[]) {
         printf("Dummy file created\n");
     }
 
-    // Proći kroz datoteke u direktoriju i prebrojati sve koje završavaju na .txt
+    // Proći kroz datoteke u direktoriju i prebrojati sve
+    // koje završavaju na .txt
     int txt_files = 0;
     struct dirent *dent;
     while ((dent = readdir(pdir)) != NULL) {
-        // readdir() returns a pointer to a dirent structure representing the next directory entry in the directory stream
+        // readdir() returns a pointer to a dirent structure
+        // representing the next directory entry in the
+        // directory stream
         int d_name_len = strlen(dent -> d_name);
-        if (d_name_len > 4 && strcmp(dent -> d_name + (d_name_len - 4), ".txt") == 0) {
+        if (d_name_len > 4 &&
+            strcmp(dent -> d_name + (d_name_len - 4), ".txt") == 0) {
             txt_files++;
         }
     }
@@ -221,7 +227,7 @@ gcc L04_txt_datoteke.c -o L04_txt_datoteke
 strace -c ./L04_txt_datoteke
 ```
   </TabItem>
-  <TabItem value="predlozak" label="Predložak">
+  <TabItem value="bash" label="Bash predložak">
 
 ```bash title="L04_txt_datoteke.sh"
 #!/bin/bash
@@ -243,7 +249,46 @@ chmod +x L04_txt_datoteke.sh
 strace -c ./L04_txt_datoteke.sh
 ```
 
-  </TabItem>
-</Tabs>
-
 **Napomena:** Bash sintaksa `${n:-val}` vraća vrijednost `n`-tog argumenta ako on postoji, a u suprotnom vraća ono što je zadano u `val`
+
+  </TabItem>
+  <TabItem value="python" label="Python predložak">
+
+```python title="L04_txt_datoteke.py"
+import os
+import sys
+
+# Postavite dir_name (slično kao u C programu)
+# Defaultna vrijednost neka bude prazan znakovni niz (""),
+# a ne točka (".")
+# dir_name = ...
+dir_path = os.path.join(os.getcwd(), dir_name)
+
+# Kreirajte jednu txt datoteku ako nije dan argument
+if dir_name == "":
+    # ...
+
+txt_files = 0
+try:
+    # Iterirajte po datotekama u direktoriju i za svaku datoteku
+    # koja ima ekstenziju .txt inkrementirajte varijablu txt_files
+    # ...
+    print(f"Number of txt files: {txt_files}")
+except OSError:
+    print(f"Can't open directory")
+```
+```bash
+strace -c python3 L04_txt_datoteke.py
+```
+
+**Napomene:**
+- Argumentima Python skripte pristupate pomoću `sys.argv`. Zato se u predlošku nalazi linija `import sys`.
+- U ovom zadatku možete pretpostaviti da će korisnik kao argument predati relativnu putanju željene mape u odnosu na mapu u kojoj je spremljen program. Trenutni direktorij dohvaća se pomoću funkcije `os.getcwd()`. Zato se u predlošku nalazi linija `import os`.
+- Putanje se drugačije označavaju u Linuxu i u Windowsu. Zato je funkcija `os.path.join()` dobra za pisanje koda koji je moguće koristiti na raznim platformama ([više na poveznici](https://docs.python.org/3/library/os.path.html#os.path.join)).
+- Popis datoteka u direktoriju `dir_path` dohvaća se pomoću funkcije `os.listdir(dir_path)`.
+- Možete provjeriti ako datoteka `file` ima određenu ekstenziju pomoću funkcije `file.endswith(ekstenzija)`.
+- `try-except` blok će upravljati greškama ako se neka od operacija unutar `try` bloka neuspješno izvrši.
+
+
+</TabItem>
+</Tabs>

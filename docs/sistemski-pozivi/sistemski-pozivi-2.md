@@ -8,7 +8,7 @@ sidebar_position: 3
 
 Prisjetimo se primjera iz prošlotjedne vježbe:
 
-```c title="L05_hello_world.c"
+```c title="L04_hello_world.c"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -20,8 +20,8 @@ int main(int argc, char const *argv[]) {
 ```
 
 ```bash
-gcc L05_hello_world.c -o L05_hello_world
-strace ./L05_hello_world
+gcc L04_hello_world.c -o L04_hello_world
+strace ./L04_hello_world
 ```
 
 Vidimo da je funkcija `printf` zapravo *wrapper* za sistemski poziv `write`. Funkcija `write` prihvaća tri argumenta:
@@ -53,7 +53,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 <Tabs>
-  <TabItem value="primjer" label="Primjer u C-u">
+  <TabItem value="c" label="Primjer u C-u">
 
 ```c title="L05_sqr.c"
 #include <stdlib.h>
@@ -107,9 +107,9 @@ cat L05_sqr.txt
 ```
 
   </TabItem>
-  <TabItem value="predlozak" label="Predložak">
+  <TabItem value="bash" label="Bash predložak">
 
-```bash
+```bash title="L05_sqr.sh"
 #!/bin/bash
 
 # Skripta prima tri argumenta, i to redom: filename, from, to
@@ -127,6 +127,45 @@ strace -c ./L05_sqr.sh L05_sqr.txt 8 20
 cat L05_sqr.txt
 ```
   </TabItem>
+    <TabItem value="python" label="Python predložak">
+
+```python title="L05_sqr.py"
+import sys
+import math
+
+if len(sys.argv) < 4:
+    sys.exit("Please provide all args")
+
+# Učitajte argumente koje je proslijedio korisnik
+# filename = ...
+# _from = ...
+# to = ...
+
+try:
+    # Otvorite datoteku imena filename
+    
+    # Zapišite zaglavlje tablice u datoteku
+    
+    # Popunite tablicu kvadrata (koristite petlje u Pythonu)
+    
+    # Zatvorite datoteku
+    
+except OSError:
+    sys.exit("An error ocurred")
+```
+```bash
+rm L05_sqr.txt
+strace -c python3 L05_sqr.py L05_sqr.txt 8 20
+cat L05_sqr.txt
+```
+
+**Napomene:**
+- Pazite na tipove podataka za argumente koje je proslijedio korisnik.
+- Istražite funkcije za [otvaranje datoteka](https://www.w3schools.com/python/ref_func_open.asp) i [rad s datotekama](https://www.w3schools.com/python/python_ref_file.asp) u Pythonu.
+- Pazite na [formatiranje stringova](http://cissandbox.bentley.edu/sandbox/wp-content/uploads/2022-02-10-Documentation-on-f-strings-Updated.pdf).
+- Ne morate brinuti o rukovanju pogreškama jer je ono već uključeno u predložak.
+
+</TabItem>
 </Tabs>
 
 Komentirajte vrijeme izvršavanja programa za kreiranje tablice kvadrata brojeva pisanog u C-u i u Bash-u. Vrijeme izvršavanja naredbe, programa ili skripte možemo dobiti koristeći naredbu `time`. [Više o mjerenju vremena izvršavanja](https://stackoverflow.com/a/47478852/11497334)
@@ -134,6 +173,7 @@ Komentirajte vrijeme izvršavanja programa za kreiranje tablice kvadrata brojeva
 ```bash
 time ./L05_sqr L05_sqr.txt 4 5000
 time ./L05_sqr.sh L05_sqr.txt 4 5000
+time python3 L05_sqrt.py L05_sqrt.txt 4 5000
 ```
 
 ### Zadatak 2: Kopiranje sadržaja datoteke

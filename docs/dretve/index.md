@@ -10,9 +10,10 @@ U ovim vježbama fokusirat ćemo se na problem utrkivanja i međusobno isključi
 
 Prije pisanja višedretvenih programa, pažljivo razmotrite maksimalan broj dretvi koje će biti korisne za paralelizaciju zadatka. Ako računalo ima više CPU jezgri, možete koristiti veći broj dretvi, ali nemojte premašiti broj logičkih jezgri. Za provjeru broja logičkih jezgri na računalu koristite funkciju `nproc`, a za detaljnije informacije o CPU naredbu `lscpu`:
 
+```bash
 nproc
-
 lscpu
+```
 
 Operacijski sustavi iz Unix obitelji prate sučelje za dretve definirano POSIX standardom. Implementacija tog sučelja zove se POSIX threads ili pthreads. Sučelje za POSIX dretve u programskom jeziku C sadržano je u GNU standardnoj C knjižnici (header `pthread.h`). Prilikom prevođenja C koda, potrebno je dodati zastavicu `-lpthread`.
 ```
@@ -134,8 +135,7 @@ man pthread_exit 2> /dev/null | head -n 16
 
 U slučaju da dretva nema vrijednost koju želi vratiti, kao argument funkcije `pthread_exit` preda se `NULL`. Ako dretvi koja čeka nije bitan rezultat dretve, kao drugi argument funkcije `pthread_join` preda se `NULL`.
 
-```
-%%writefile L08_single_thread.c
+```c title="L08_single_thread.c"
 #include<stdio.h>
 #include<pthread.h>
 
@@ -145,13 +145,13 @@ int counter = 0;  // Dijeljena globalna varijabla
 
 void* worker(void* arg) {
     for (int i = 0; i < N_ITERATIONS; i++) {
-    counter++;
-}
-pthread_exit(NULL);
+        counter++;
+    }
+    pthread_exit(NULL);
 }
 
 int main() {
-pthread_t thread;
+    pthread_t thread;
 
     // Stvaranje dretve
     pthread_create(&thread, NULL, worker, NULL);
@@ -166,15 +166,17 @@ pthread_t thread;
 
 U ovom slučaju, u funkciju pthread_create je za `attr` argument predano `NULL` kako bi se koristili defaultni atributi. Argument `arg` je u ovom slučaju `NULL` zato što funkcija `worker` ne prima niti jedan argument, ali inače se može koristiti kako bi dretvama predali dodatne informacije tj. proslijedili parametre u zadatak dretve.
 
+```bash
 gcc L08_single_thread.c -o L08_single_thread -pthread &&./L08_single_thread
+```
 
 ### Primjer 1: Brojač
 
 U ovom primjeru zadužit ćemo nekoliko dretvi za višestruko inkrementiranje globalnog brojača. Definirat ćemo globalne varijable kojima sve dretve imaju pristup.
 
 Kako bi se postigla paralelizacija, važno je pozvati funkciju `pthread_join` u odvojenoj petlji od one u kojoj su dretve pokrenute.
-```
-%%writefile L08_race_condition.c
+
+```c title="L08_race_condition.c"
 #include<stdio.h>
 #include<pthread.h>
 
@@ -184,14 +186,14 @@ Kako bi se postigla paralelizacija, važno je pozvati funkciju `pthread_join` u 
 int counter = 0;  // Dijeljena globalna varijabla
 
 void* worker(void* arg) {
-for (int i = 0; i < N_ITERATIONS; i++) {
-counter++;  // Nesigurna modifikacija dijeljene varijable
-}
-pthread_exit(NULL);
+    for (int i = 0; i < N_ITERATIONS; i++) {
+        counter++;  // Nesigurna modifikacija dijeljene varijable
+    }
+    pthread_exit(NULL);
 }
 
 int main() {
-pthread_t threads[N_THREADS];
+    pthread_t threads[N_THREADS];
 
     // Stvaranje dretvi
     for (int i = 0; i < N_THREADS; i++) {
@@ -208,15 +210,18 @@ pthread_t threads[N_THREADS];
     return 0;
 }
 ```
+
+```bash
 gcc L08_race_condition.c -o L08_race_condition -pthread && ./L08_race_condition
+```
 
 Razlika u očekivanom i ostvarenom rezultatu događa se zbog toga što se operacija inkrementiranja odvija u tri koraka: učitavanje varijable `counter` u privremeni registar, inkrementiranje registra i konačno ažuriranje varijable `counter`. S obzirom na to da se dretve natječu za iste resurse i nisu dobro usklađene, može doći do problema prilikom mijenjanja vrijednosti:
 
 ![](L08_race_condition.png)
 
 Problem utrkivanja koji je prisutan u prethodnom primjeru možemo rješiti korištenjem *mutex*-a, što zahtjeva minimalne promjene u našem kodu.  Kada neka dretva dobije pristup resursima oni će se zaključati, što znači da ih ostale dretve neće moći koristiti dok se ne završi rad trenutne dretve. [Više u dokumentaciji](https://man7.org/linux/man-pages/man3/pthread_mutex_lock.3.html)
-```
-%%writefile L08_race_condition_lock.c
+
+```c title="L08_race_condition_lock.c"
 #include<stdio.h>
 #include<pthread.h>
 
@@ -227,16 +232,16 @@ int counter = 0;    // Dijeljena globalna varijabla
 pthread_mutex_t lock;    // Novo
 
 void* worker(void* arg) {
-for (int i = 0; i < N_ITERATIONS; i++) {
-pthread_mutex_lock(&lock);    // Novo
-counter++;  // Nesigurna modifikacija dijeljene varijable
-pthread_mutex_unlock(&lock);  // Novo
-}
-pthread_exit(NULL);
+    for (int i = 0; i < N_ITERATIONS; i++) {
+        pthread_mutex_lock(&lock);    // Novo
+        counter++;  // Nesigurna modifikacija dijeljene varijable
+        pthread_mutex_unlock(&lock);  // Novo
+    }
+    pthread_exit(NULL);
 }
 
 int main() {
-pthread_t threads[N_THREADS];
+    pthread_t threads[N_THREADS];
 
     // Stvaranje dretvi
     pthread_mutex_init(&lock, NULL);    // Novo
@@ -255,7 +260,10 @@ pthread_t threads[N_THREADS];
     return 0;
 }
 ```
+
+```bash
 gcc L08_race_condition_lock.c -o L08_race_condition_lock -pthread && ./L08_race_condition_lock
+```
 
 Ključne operacije za rad s *mutex* objektima su inicijalizacija (`init`), zaključavanje (`lock`), otključavanje (`unlock`) i uništavanje (`destroy`).
 
@@ -264,8 +272,8 @@ Ključne operacije za rad s *mutex* objektima su inicijalizacija (`init`), zaklj
 Pokušajte demonstrirati *mutex* na primjeru bankovnih transakcija kod velike količine transakcija.
 
 Volonterska udruga priprema veliku humanitarnu akciju prikupljanja donacija. Očekuje da će puno zainteresiranih građana htjeti uplatiti donacije i da će puno korisnika udruge htjeti isplatiti prikupljeni novac. Kako ne bi nastala velika čekanja, sustav je paraleliziran s 10 dretvi, a Vi ste zaduženi za njegovo testiranje. U Vašim testovima, svaka dretva treba obaviti 10 transakcija sa zajedničkom varijablom `total`. U svakoj transakciji, dretva može uplatiti ili isplatiti nasumičnu količinu novca (između -100 i 100\\$, koristiti [funkciju](https://en.cppreference.com/w/c/numeric/random/rand) `rand()`). Isplata je moguća samo ako ima dovoljno sredstava na računu. Ako transakcija dovodi do negativnog stanja računa, nemojte ažurirati varijablu `total`, nego ispišite poruku i nastavite dalje s izvršavanjem dretve.
-```
-%%writefile L08_bank.c
+
+```c title="L08_bank.c"
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -277,26 +285,25 @@ Volonterska udruga priprema veliku humanitarnu akciju prikupljanja donacija. Oč
 int total;
 
 void *client(void *arg) {
-int thread_i = (intptr_t) arg;
-for (int i = 0; i < N_TRANSACTIONS; i++) {
-// Nasumična količina novaca koju će klijent uplatiti ili isplatiti
-int amount = ...
-// Provjera je li moguća uplata ili isplata
-if (...) {
-// Ažurirajte globalnu varijablu total
-// ...
-printf("[Client %d] Transaction: %4d$\    Total: %4d$\n", thread_i, amount, total);
-} else {
-printf("[Client %d] Transaction: %4d$\    Not enough money in the bank\n", thread_i, amount);
-}
-}
-pthread_exit(NULL);
+    int thread_i = (intptr_t) arg;
+    for (int i = 0; i < N_TRANSACTIONS; i++) {
+        // Nasumična količina novaca koju će klijent uplatiti ili isplatiti
+        int amount = ...
+        // Provjera je li moguća uplata ili isplata
+        if (...) {
+            // Ažurirajte globalnu varijablu total
+            // ...
+            printf("[Client %d] Transaction: %4d$\    Total: %4d$\n", thread_i, amount, total);
+        } else {
+            printf("[Client %d] Transaction: %4d$\    Not enough money in the bank\n", thread_i, amount);
+        }
+    }
+    pthread_exit(NULL);
 }
 
 int main() {
-pthread_t thread[N_CLIENTS];
-srand(time(NULL));
-
+    pthread_t thread[N_CLIENTS];
+    srand(time(NULL));
 
     for (int i = 0; i < N_CLIENTS; i++) {
         // Kreirajte dretve koje će izvršavati funkciju client, dodajte ih u niz threads i pokrenite
@@ -311,7 +318,10 @@ srand(time(NULL));
     return 0;
 }
 ```
+
+```bash
 gcc L08_bank.c -o L08_bank -pthread && ./L08_bank
+```
 
 Ako uočite da dolazi do utrkivanja i da se stanje na računu ne mijenja na konzistentan način, pokušajte nadopuniti program mehanizmom za zaključavanje resursa.
 
@@ -320,8 +330,8 @@ Ako uočite da dolazi do utrkivanja i da se stanje na računu ne mijenja na konz
 Paralelizacija ubrzava obradu velikog skupa podataka tako što se ti podaci podijele na manje dijelove koji se zatim obrađuju neovisno i istovremeno, svaki u vlastitoj dretvi. Na primjer, kada treniramo model strojnog učenja s velikim brojem slika za treniranje, paralelizacija nam omogućuje da te slike dodijelimo određenom broju dretvi kako bismo istovremeno obradili više slika, svaku u zasebnoj dretvi. Nakon što se sve slike obrade, rezultati se mogu kombinirati kako bi se dobio konačni model.
 
 U ovom primjeru želimo obraditi 5 datoteka (na prilično jednostavan način) i dobiti neki konačni rezultat. Koristimo paralelizaciju i obrađujemo jednu datoteku po dretvi.
-```
-%%writefile L08_files.c
+
+```c title="L08_files.c"
 #include <pthread.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -336,8 +346,8 @@ int sizes[N_FILES];
 char* files[N_FILES];
 
 void* process_file(void* arg) {
-char* filename = (char*)arg;
-struct stat st;
+    char* filename = (char*)arg;
+    struct stat st;
 
     // Dretva obrađuje jednu datoteku
     stat(filename, &st);
@@ -350,9 +360,9 @@ struct stat st;
 }
 
 int main() {
-DIR *dir;
-struct dirent *entry;
-int file_count = 0;
+    DIR *dir;
+    struct dirent *entry;
+    int file_count = 0;
 
     // Niz files predstavlja početni skup podataka
     dir = opendir(".");
@@ -388,4 +398,7 @@ int file_count = 0;
     return 0;
 }
 ```
+
+```bash
 gcc L08_files.c -o L08_files -pthread && ./L08_files
+```

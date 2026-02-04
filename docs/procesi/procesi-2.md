@@ -32,7 +32,13 @@ Isječak iz službene dokumentacije:
 
 ![](L07_fork.jpg)
 
-### Primjer 1: Hello, World
+## Primjer 1: Hello, World
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+  <TabItem value="c" label="C">
 
 ```c title="L07_hello_world.c"
 #include <unistd.h>
@@ -49,16 +55,33 @@ int main() {
     return 0;
 }
 ```
-
 ```bash
 gcc L07_hello_world.c -o L07_hello_world && ./L07_hello_world
 ```
+</TabItem>
+  <TabItem value="python" label="Python">
+
+```python title="L07_hello_world.py"
+import os
+
+print(f"Current process PID={os.getpid()}")
+forked_pid = os.fork()
+print(f"Did a fork. It returned {forked_pid}.\n └─ PID = {os.getpid()}, PPID = {os.getppid()}")
+```
+```bash
+python3 L07_hello_world.py
+```
+</TabItem>
+</Tabs>
 
 **Pitanja:**
 
 - Koji je PID *child* procesa?
 - Zašto ne dolazi do beskonačnog kreiranja novih procesa?
-- Zašto se poruka `Current process PID=X` ispisala dva puta?
+- Zašto se poruka `Current process PID=...` ispisala dva puta?
+
+<Tabs>
+  <TabItem value="c" label="C">
 
 ```c title="L07_hello_world_flush.c"
 #include <unistd.h>
@@ -76,12 +99,33 @@ int main() {
     return 0;
 }
 ```
-
 ```bash
 gcc L07_hello_world_flush.c -o L07_hello_world_flush && ./L07_hello_world_flush
 ```
 
 Kada koristite funkciju `printf()`, C ne ispisuje odmah zadani string, već ga prvo nakratko pohranjuje u privremenu memoriju (međuspremnik). Kada koristite `fork()` za stvaranje novog procesa, *child* proces nasljeđuje međuspremnik od *parent* procesa. Dodavanjem naredbe `fflush(stdout)` prisiljavate C da odmah [ispiše sadržaj međuspremnika i isprazni ga ](https://en.cppreference.com/w/c/io/fflush). Time ujedno i osiguravate da *child* proces naslijedi prazan međuspremnik i izbjegavate moguće *bug*-ove poput dupliciranog ispisa.
+
+</TabItem>
+  <TabItem value="python" label="Python">
+
+```python title="L07_hello_world_flush.py"
+import os
+
+# Odmah isprazni međuspremnik
+print(f"Current process PID={os.getpid()}", flush=True)
+forked_pid = os.fork()
+print(f"Did a fork. It returned {forked_pid}.\n └─ PID = {os.getpid()}, PPID = {os.getppid()}")
+```
+```bash
+python3 L07_hello_world_flush.py
+```
+
+Kada koristite funkciju `print()`, Python ne ispisuje odmah zadani string, već ga prvo nakratko pohranjuje u privremenu memoriju (međuspremnik). Kada koristite `os.fork()` za stvaranje novog procesa, *child* proces nasljeđuje međuspremnik od *parent* procesa. Dodavanjem `flush=True` funkciji `print()` prisiljavate Python da odmah ispiše string i [isprazni međuspremnik](https://docs.python.org/3/library/functions.html#print). Time ujedno i osiguravate da *child* proces naslijedi prazan međuspremnik i izbjegavate moguće *bug*-ove poput dupliciranog ispisa.
+</TabItem>
+</Tabs>
+
+<Tabs>
+  <TabItem value="c" label="C">
 
 ```c title="L07_hello_world_sleep.c"
 #include <unistd.h>
@@ -98,14 +142,22 @@ int main() {
     return 0;
 }
 ```
-
 ```bash
 gcc L07_hello_world_sleep.c -o L07_hello_world_sleep && ./L07_hello_world_sleep
 ```
 
-### Primjer 2: Odnos djeteta i roditelja
+</TabItem>
+  <TabItem value="python" label="Python">
 
-U ovom se primjeru *child* proces izvršava neko dulje vrijeme te završava funkcijom `_exit()` nakon čega se roditelju šalje signal `SIGCHLD`. *Parent* proces čeka na *child* proces.
+```python title="L07_hello_world_sleep.py"
+
+```
+</TabItem>
+</Tabs>
+
+## Primjer 2: Odnos djeteta i roditelja
+
+U ovom se primjeru *child* proces izvršava neko dulje vrijeme i pri uspješnom izvršavanju šalje roditelju `SIGCHLD` signal koristeći funkciju `_exit()`. *Parent* proces čeka na *child* proces.
 
 ```c title="L07_parent_child.c"
 #include <stdio.h>
@@ -145,7 +197,7 @@ gcc L07_parent_child.c -o L07_parent_child && ./L07_parent_child
 
 **Pitanje:** kada bi roditelj imao dva djeteta, kojeg bi funkcija `wait` čekala?
 
-### Zadatak 1: Odnos djeteta i roditelja
+## Zadatak 1: Odnos djeteta i roditelja
 
 Nadopunite uvjete kako bi se ispravno ispisivali odnosi između procesa.
 
@@ -178,7 +230,7 @@ int main() {
 gcc L07_hierarchy.c -o L07_hierarchy && ./L07_hierarchy
 ```
 
-### Primjer 3: Fork bomb
+## Primjer 3: Fork bomb
 
 Nemojte pokretati ovaj kod:
 
@@ -194,7 +246,7 @@ int main() {
 }
 ```
 
-### Zadatak 2: Višestruke kopije
+## Zadatak 2: Višestruke kopije
 
 **Pitanje:** Koliko će se puta ispisati `Hello` kada pokrenemo ovaj kod:
 
@@ -287,7 +339,7 @@ int main() {
 
 Pokušajte mijenjati vrijednosti varijable `FORK_NUM` te predvidjeti broj kreiranih procesa.
 
-### Zadatak 4: Korisna djeca
+## Zadatak 4: Korisna djeca
 
 Stvaranje kloniranih procesa nije uvijek praktično jer često želimo kreirati novi proces kako bi obavljao različite zadatke od svog roditelja.  
 Prije svega, moramo razlikovati *child* proces od *parent* procesa. Dovoljno je provjeriti povratnu vrijednost funkcije `fork()` (0 za dijete i *child* PID za roditelja).  

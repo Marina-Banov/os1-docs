@@ -69,7 +69,13 @@ pstree
 - Napišite naredbu kojom ćete prikazati sve procese koje je pokrenuo korisnik `root`, uz detaljne informacije
 - Isprobajte osnovno korištenje naredbi `top` i `htop` (interaktivni preglednici procesa)
 
-U C-u ovako dohvaćamo PID trenutnog procesa:
+Ovako dohvaćamo PID trenutnog procesa:
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs>
+  <TabItem value="c" label="C">
 
 ```c title="L06_print_pid.c"
 #include <stdio.h>
@@ -80,12 +86,29 @@ int main() {
     return 0;
 }
 ```
-
 ```bash
 gcc L06_print_pid.c -o L06_print_pid && ./L06_print_pid
 ```
 
+</TabItem>
+  <TabItem value="python" label="Python">
+
+```python title="L06_print_pid.py"
+import os
+
+print(f"Process ID: {os.getpid()}")
+```
+```bash
+python3 L06_print_pid.py
+```
+</TabItem>
+
+</Tabs>
+
 Zadana je funkcija koja računa kvadrat unesenog broja i ispisuje PID trenutnog procesa. Kreirajte listu od 10 brojeva i pozovite funkciju `square` nad svim elementima te liste:
+
+<Tabs>
+  <TabItem value="c" label="C">
 
 ```c title="L06_square.c"
 #include <stdio.h>
@@ -103,12 +126,30 @@ int main() {
     return 0;
 }
 ```
-
 ```bash
 gcc L06_square.c -o L06_square && ./L06_square
 ```
 
-Ispišite detaljne informacije o procesu s tim PID-om
+</TabItem>
+  <TabItem value="python" label="Python">
+
+```python title="L06_square.py"
+def square(num):
+    print(f"Uneseni broj: {num}, PID procesa: {os.getpid()}")
+    return num * num
+    
+# Kreirajte listu od 10 brojeva i pozovite funkciju `square`
+# nad svim elementima te liste
+# ...
+```
+```bash
+python3 L06_square.py
+```
+</TabItem>
+
+</Tabs>
+
+Ispišite detaljne informacije o procesu s tim PID-om.
 
 ## Terminiranje procesa
 
@@ -118,6 +159,9 @@ Ispišite detaljne informacije o procesu s tim PID-om
 Ove naredbe po *default*-u procesima šalju signal `SIGTERM (15)` kako bi se procesi normalno završili. Korisnik može procesima poslati i [drugačije signale](https://faculty.cs.niu.edu/~hutchins/csci480/signals.htm), poput `SIGKILL (9)` za trenutačan prekid procesa.
 
 Iskoristimo prethodni primjer i napravimo ga da se vječno izvršava:
+
+<Tabs>
+  <TabItem value="c" label="C">
 
 ```c title="L06_infinite_square.c"
 #include <stdio.h>
@@ -140,6 +184,28 @@ Pokrenimo ovaj beskonačni C proces u novom terminalu:
 ```bash
 gcc L06_infinite_square.c -o L06_infinite_square
 ```
+</TabItem>
+  <TabItem value="python" label="Python">
+
+```python title="L06_infinite_process.py"
+import os
+import time
+
+def square(num):
+    print(f"Uneseni broj: {num}, PID procesa: {os.getpid()}")
+    return num * num
+
+# Proširite prethodni primjer da se beskonačno izvršava
+# ...
+```
+
+Pokrenimo ovaj beskonačni Python proces u novom terminalu:
+
+```bash
+python3 L06_infinite_square.py
+```
+</TabItem>
+</Tabs>
 
 Pronađimo proces u popisu:
 
@@ -159,12 +225,7 @@ Provjerimo je li proces eliminiran:
 ps -fu $USER
 ```
 
-Sada ćemo napisati C program koji ubija procese. Ponovno pokrenite beskonačni program u terminalu:
-
-```bash
-./L06_infinite_square
-```
-
+Sada ćemo napisati program koji ubija procese. Ponovno pokrenite beskonačni program u terminalu.
 Pohranite novi PID kao [varijablu okruženja](https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-env):
 
 ```bash
@@ -173,9 +234,9 @@ Pohranite novi PID kao [varijablu okruženja](https://ipython.readthedocs.io/en/
 
 Kako biste provjerili je li varijabla okruženja `VICTIM_PID` točno zapisana?
 
-```bash
-echo $VICTIM_PID
-```
+
+<Tabs>
+  <TabItem value="c" label="C">
 
 ```c title="L06_murderer.c"
 #include <stdio.h>
@@ -192,13 +253,10 @@ int main() {
 
     pid_t victim_pid = (pid_t)atoi(victim_pid_str);
     printf("My pid is %d\n", getpid());
-
     kill(victim_pid, SIGTERM);
-
     return 0;
 }
 ```
-
 ```bash
 gcc L06_murderer.c -o L06_murderer && ./L06_murderer
 ```
@@ -217,6 +275,37 @@ strace -tt -e 'trace=all' L06_murderer
 ps -fu $USER
 cat L06_victim_strace.out
 ```
+</TabItem>
+  <TabItem value="python" label="Python">
+
+```python title="L06_murderer.py"
+import os
+import signal
+
+pid = int(os.getenv("VICTIM_PID"))
+print(f'My pid is {os.getpid()}')
+os.kill(pid, signal.SIGTERM)
+```
+```bash
+python3 L06_murderer.py
+```
+
+Alat `strace` koji smo do sada koristili za praćenje sistemskih poziva u ovoj ćemo vježbi koristiti za praćenje signala koje procesi primaju. Želimo utvrditi kako će se terminirati naš beskonačni proces. Kopirajte sljedeću naredbu u terminal i **obavezno zamijenite `...` s PID-om procesa žrtve.** Naredbe koje završavaju sa znakom `&` pokreću se u pozadini. Ova `strace` naredba ignorira sve sistemske pozive procesa žrtve i bilježi samo signale koje taj proces prima u datoteku nazvanu `L06_victim_strace.out`.
+
+```bash
+strace -tt -o L06_victim_strace.out -p ... -e 'trace=all' &
+ps -fu $USER
+```
+
+Ubijmo žrtvu i promotrimo signale koje vraća `strace`:
+
+```bash
+strace -tt -e 'trace=all' python3 L06_murderer.py
+ps -fu $USER
+cat L06_victim_strace.out
+```
+</TabItem>
+</Tabs>
 
 ## Siročad *(orphans)*
 
