@@ -30,6 +30,12 @@ export const Lessons = [
         url: "/meduprocesna-komunikacija/",
         posted: true,
     },
+    {
+        title: "Upravljanje memorijom",
+        description: "",
+        url: "/upravljanje-memorijom/",
+        posted: true,
+    },
 ];
 
 function TextCard({title, description, url, posted}) {
