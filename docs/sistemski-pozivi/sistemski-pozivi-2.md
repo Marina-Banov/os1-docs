@@ -1,3 +1,7 @@
+---
+sidebar_position: 3
+---
+
 # Sistemski pozivi 2
 
 ## Kako funkcioniraju sistemski pozivi?

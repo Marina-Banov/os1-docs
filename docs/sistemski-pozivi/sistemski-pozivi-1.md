@@ -1,3 +1,7 @@
+---
+sidebar_position: 2
+---
+
 # Sistemski pozivi 1
 
 Pobrinite se da je na vašem sustavu instaliran dijagnostički alat `strace`.

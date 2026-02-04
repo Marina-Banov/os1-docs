@@ -1,3 +1,7 @@
+---
+sidebar_position: 5
+---
+
 # Procesi 2
 
 Jezgra pokreće `init` proces pri pokretanju sustava, a taj proces onda naknadno stvara sve ostale procese. Tako nastaje hijerarhijska struktura slična (obiteljskom) stablu, gdje svaki proces ima jednog roditelja i može imati više djece.

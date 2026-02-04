@@ -24,6 +24,12 @@ export const Lessons = [
         url: "/dretve/",
         posted: true,
     },
+    {
+        title: "Međuprocesna komunikacija",
+        description: "",
+        url: "/meduprocesna-komunikacija/",
+        posted: true,
+    },
 ];
 
 function TextCard({title, description, url, posted}) {
