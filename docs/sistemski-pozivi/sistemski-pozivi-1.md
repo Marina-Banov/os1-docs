@@ -4,6 +4,9 @@ sidebar_position: 2
 
 # Sistemski pozivi 1
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 Pobrinite se da je na vašem sustavu instaliran dijagnostički alat `strace`.
 
 ## Kako funkcioniraju sistemski pozivi?
@@ -85,9 +88,6 @@ strace -c ./L04_hello_world
 ### Primjer 1: [UNIX timestamp](https://www.unixtimestamp.com/)
 
 Usporedite izvršavanje koda za ispis trenutnog vremena pisanog u Bash-u, C-u i Python-u:
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 <Tabs>
   <TabItem value="bash" label="Bash">

@@ -4,6 +4,9 @@ sidebar_position: 4
 
 # Procesi 1
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## Pregled procesa
 
 - `ps` - daje informacije o procesima koji se trenutno izvršavaju, uključujući i njihov jedinstveni identifikacijski broj (PID)
@@ -70,9 +73,6 @@ pstree
 - Isprobajte osnovno korištenje naredbi `top` i `htop` (interaktivni preglednici procesa)
 
 Ovako dohvaćamo PID trenutnog procesa:
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 <Tabs>
   <TabItem value="c" label="C">
@@ -182,7 +182,7 @@ int main() {
 Pokrenimo ovaj beskonačni C proces u novom terminalu:
 
 ```bash
-gcc L06_infinite_square.c -o L06_infinite_square
+gcc L06_infinite_square.c -o L06_infinite_square && ./L06_infinite_square
 ```
 </TabItem>
   <TabItem value="python" label="Python">
@@ -264,14 +264,14 @@ gcc L06_murderer.c -o L06_murderer && ./L06_murderer
 Alat `strace` koji smo do sada koristili za praćenje sistemskih poziva u ovoj ćemo vježbi koristiti za praćenje signala koje procesi primaju. Želimo utvrditi kako će se terminirati naš beskonačni proces. Kopirajte sljedeću naredbu u terminal i **obavezno zamijenite `...` s PID-om procesa žrtve.** Naredbe koje završavaju sa znakom `&` pokreću se u pozadini. Ova `strace` naredba ignorira sve sistemske pozive procesa žrtve i bilježi samo signale koje taj proces prima u datoteku nazvanu `L06_victim_strace.out`.
 
 ```bash
-strace -tt -o L06_victim_strace.out -p ... -e 'trace=all' &
+strace -tt -o L06_victim_strace.out -p ... -e "trace=all" &
 ps -fu $USER
 ```
 
 Ubijmo žrtvu i promotrimo signale koje vraća `strace`:
 
 ```bash
-strace -tt -e 'trace=all' L06_murderer
+strace -tt -e "trace=all" L06_murderer
 ps -fu $USER
 cat L06_victim_strace.out
 ```
@@ -283,7 +283,7 @@ import os
 import signal
 
 pid = int(os.getenv("VICTIM_PID"))
-print(f'My pid is {os.getpid()}')
+print(f"My pid is {os.getpid()}")
 os.kill(pid, signal.SIGTERM)
 ```
 ```bash
@@ -293,14 +293,14 @@ python3 L06_murderer.py
 Alat `strace` koji smo do sada koristili za praćenje sistemskih poziva u ovoj ćemo vježbi koristiti za praćenje signala koje procesi primaju. Želimo utvrditi kako će se terminirati naš beskonačni proces. Kopirajte sljedeću naredbu u terminal i **obavezno zamijenite `...` s PID-om procesa žrtve.** Naredbe koje završavaju sa znakom `&` pokreću se u pozadini. Ova `strace` naredba ignorira sve sistemske pozive procesa žrtve i bilježi samo signale koje taj proces prima u datoteku nazvanu `L06_victim_strace.out`.
 
 ```bash
-strace -tt -o L06_victim_strace.out -p ... -e 'trace=all' &
+strace -tt -o L06_victim_strace.out -p ... -e "trace=all" &
 ps -fu $USER
 ```
 
 Ubijmo žrtvu i promotrimo signale koje vraća `strace`:
 
 ```bash
-strace -tt -e 'trace=all' python3 L06_murderer.py
+strace -tt -e "trace=all" python3 L06_murderer.py
 ps -fu $USER
 cat L06_victim_strace.out
 ```

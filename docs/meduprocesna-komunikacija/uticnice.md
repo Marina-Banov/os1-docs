@@ -4,6 +4,9 @@ sidebar_position: 13
 
 # Utičnice (Sockets)
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 Stanje utičnica na računalu možete provjeriti uz pomoć alata `netstat`:
 
 ```bash
@@ -110,8 +113,9 @@ int main() {
     return 0;
 }
 ```
-Otvorite terminal i pokrenite `gcc L10_server.c -o L10_server && ./L10_server &`.  
-Ova naredba će stvoriti izvršnu datoteku i pokrenuti ju.
+```bash
+gcc L10_server.c -o L10_server && ./L10_server &
+```
 **Podsjetnik:** znak `&` na kraju naredbe koristi se za pokretanje programa u pozadini.
 
 ```c title="L10_client.c"
@@ -200,10 +204,12 @@ int main() {
     return 0;
 }
 ```
-U terminalu pokrenite `gcc L10_client.c -o L10_client && ./L10_client` i pratite ispis poruka.
+```bash
+gcc L10_client.c -o L10_client && ./L10_client
+```
 
 Pokušajte pokrenuti iduće dvije varijante koda:
-1. varijanta: definirajte port koji želite da klijent koristi prilikom poziva `bind` funkciji (morate koristiti htons funkciju prilikom definiranja porta).
+1. varijanta: definirajte port koji želite da klijent koristi prilikom poziva `bind` funkciji (morate koristiti `htons` funkciju prilikom definiranja porta).
 2. varijanta: pokušajte izbaciti poziv bind funkciji.
 
 ## Zadatak 1: Vješala
@@ -214,7 +220,10 @@ Poslužiteljski dio aplikacije u pravilu sadrži većinu logike, prati trenutno 
 wget https://gist.githubusercontent.com/eotovic/8aa5bad3e2931e1bdcddd503922fe8b4/raw/c41a7e17c8085f50b5c33e4e27d4ec2694e4b717/os_nouns.txt
 ```
 
-Nadopunite kod za poslužitelja i omogućite povezivanje s klijentom putem *socket*-a. Logika igre već je implementirana. Nakon toga otvorite terminal i pokrenite `gcc L10_game_server.c -o L10_game_server && ./L10_game_server &`.
+Nadopunite kod za poslužitelja i omogućite povezivanje s klijentom putem utičnica. Logika igre već je implementirana. Nakon toga otvorite terminal i pokrenite:
+```bash
+gcc L10_game_server.c -o L10_game_server && ./L10_game_server &
+```
 
 ```c title="L10_game_server.c"
 #include <stdio.h>
@@ -352,7 +361,11 @@ int main() {
 }
 ```
 
-Klijentski dio aplikacije predstavlja sučelje prema korisniku koje mu omogućuje sudjelovanje u igri. Nadopunite kod za klijenta i omogućite povezivanje s poslužiteljom putem *socket*-a. Nakon toga u terminalu pokrenite `gcc L10_game_client.c -o L10_game_client && ./L10_game_client` i odigrajte rundu Vješala. **Dozvoljen je unos jednog slova.**
+Klijentski dio aplikacije predstavlja sučelje prema korisniku koje mu omogućuje sudjelovanje u igri. Nadopunite kod za klijenta i omogućite povezivanje s poslužiteljom putem utičnica. Nakon toga u terminalu pokrenite:
+```bash
+gcc L10_game_client.c -o L10_game_client && ./L10_game_client
+```
+Odigrajte rundu Vješala. **Dozvoljen je unos jednog slova.**
 
 ```c title="L10_game_client.c"
 #include <stdio.h>
@@ -433,7 +446,9 @@ S poslužiteljske strane, osim inicijalizacije veze, logike aplikacije i zatvara
 
 *Napomena:* u idućim kodovima su neke od prethodno pokazanih provjera preskočene kako se kod ne bi dodatno zakomplicirao.
 
-U terminalu pokrenite `gcc -pthread L10_multi_server.c -o L10_multi_server && ./L10_multi_server &`.
+```bash
+gcc -pthread L10_multi_server.c -o L10_multi_server && ./L10_multi_server &
+```
 
 ```c title="L10_multi_server.c"
 #include <pthread.h>
@@ -595,7 +610,11 @@ int main() {
 ```
 Kod za klijenta je isto postao malo kompleksniji. U prethodnim slučajevima, komunikacija između klijenta i servera je bila slijedna jer je klijent očekivao poruku od servera tek kao **odgovor** na poruku koju bi mu sam poslao. U chat aplikaciji svi korisnici mogu slati poruke nedefiniranim redoslijedom. To znači da klijent mora istovremeno pratiti dva izvora podataka: standardni ulaz ako trenutni korisnik želi poslati neku poruku i vezu sa server socketom ako želi proslijediti poruke od ostalih klijenata. Te dvije zadaće mogle bi se odvojiti i u dvije dretve, ali ovdje ćemo koristiti malo stariji mehanizam, funkciju `select`.
 
-U dva različita terminala pokrenite `gcc -pthread L10_multi_client.c -o L10_multi_client && ./L10_multi_client` i isprobajte chat funkcionalnost. Kada želite završiti s komunikacijom, pritisnite `Enter`.
+Pokrenite sljedeću naredbu u dva različita terminala i isprobajte chat funkcionalnost:
+```bash
+gcc -pthread L10_multi_client.c -o L10_multi_client && ./L10_multi_client
+```
+Kada želite završiti s komunikacijom, pritisnite `Enter`.
 
 ```c title="L10_multi_client.c"
 #include <stdio.h>

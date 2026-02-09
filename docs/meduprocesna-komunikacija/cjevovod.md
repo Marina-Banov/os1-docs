@@ -4,7 +4,14 @@ sidebar_position: 9
 
 # Cjevovod (Pipe)
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 Cjevovod se koristi za jednosmjernu komunikaciju između *parent* i *child* procesa. Ovakav tip komunikacijskog kanala ponekad se naziva *anonymous/unnamed pipe*. Do sada ste se susretali sa cjevovodima u Bash-u kao mehanizmom redirekcije standardnog izlaza jedne naredbe u standardni ulaz druge naredbe, npr.:
+
+```bash
+man pipe | head -n 32 | tail -n 10
+```
 ```
     DESCRIPTION
        pipe()  creates  a pipe, a unidirectional data channel that can be used
@@ -15,11 +22,13 @@ Cjevovod se koristi za jednosmjernu komunikaciju između *parent* i *child* proc
        kernel until it is read from the read end of the pipe.  For further de‐
        tails, see pipe(7).
 ```
-`man pipe | head -n 32 | tail -n 10`
 
 Vođeni ispisom iz dokumentacije, sada ćemo istražiti kako [u kodu](https://en.wikipedia.org/wiki/Pipeline_(Unix)#Creating_pipelines_programmatically) kreirati cjevovod u svrhu međuprocesne komunikacije. Ako želimo postići potpuno dvosmjernu komunikaciju (takvu da oba procesa mogu istovremeno slati i primati podatke), potrebna su **dva cjevovoda**: jedan za slanje podataka u jednom smjeru, a drugi za slanje u drugom smjeru.
 
 ![](L09_pipe.png)
+
+<Tabs>
+  <TabItem value="c" label="C">
 
 ```c title="L09_pipe.c"
 #include<stdio.h>
@@ -90,7 +99,67 @@ int main() {
     }
 }
 ```
-
 ```bash
 gcc L09_pipe.c -o L09_pipe && ./L09_pipe
 ```
+  </TabItem>
+  <TabItem value="python" label="Python predložak">
+
+```python title="L09_pipe.py"
+import os
+
+read1, write1 = os.pipe()  # Message from parent to child
+read2, write2 = os.pipe()  # Message from child to parent
+
+forked_pid = os.fork()
+
+if forked_pid > 0:
+    # Close reading end of first pipe
+    # ...
+    # Close writing end of second pipe
+    # ...
+    
+    parent_str = "Hello, Child!"
+    # Encode the parent string into a byte array and write message to first pipe
+    # ...
+    # Close writing end of first pipe
+    # ...
+
+    # Wait for child to terminate
+    os.wait()
+
+    # Read message from child (100 bytes) and decode the byte array to string
+    # result_str = ...
+    print(f"[PARENT {os.getpid()}] Message recieved from child: {result_str}")
+    # Close reading end of second pipe
+    # ...
+else:
+    # Close writing end of first pipe
+    # ...
+    # Close reading end of second pipe
+    # ...
+
+    # Read message from parent (100 bytes) and decode the byte array to string
+    # result_str = ...
+    print(f"[CHILD {os.getpid()}] Message recieved from parent: {result_str}")
+    # Close reading end of first pipe
+    # ...
+
+    # Create a concatenated string
+    child_str = " Hope you are well."
+    result_str += child_str
+
+    # Encode the result string into a byte array and write message to second pipe
+    # ...
+    # Close writing end of second pipe
+    # ...
+
+    # Send SIGCHLD signal
+    os._exit(os.EX_OK)
+```
+```bash
+python3 L09_pipe.py
+```
+  </TabItem>
+</Tabs>
+

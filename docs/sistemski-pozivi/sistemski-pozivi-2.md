@@ -4,6 +4,9 @@ sidebar_position: 3
 
 # Sistemski pozivi 2
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## Kako funkcioniraju sistemski pozivi?
 
 Prisjetimo se primjera iz prošlotjedne vježbe:
@@ -48,9 +51,6 @@ syscall
 ### Zadatak 1: Tablica kvadrata
 
 Tablica kvadrata pruža prethodno izračunate vrijednosti kvadrata za različite ulazne vrijednosti. Napišite program koji generira tablicu kvadrata i zapisuje ju u datoteku. Ime datoteke te početna i konačna vrijednost za koju je potrebno izračunati kvadrat zadaju se kao CLI argumenti programu. Ako zadana datoteka ne postoji potrebno ju je dodati, a ako postoji potrebno je izbrisati sav sadržaj iz nje prije zapisa tablice drugog korijena.
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
 <Tabs>
   <TabItem value="c" label="Primjer u C-u">

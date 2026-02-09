@@ -4,48 +4,17 @@ sidebar_position: 11
 
 # Komunikacija porukama (Message queues)
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 Komunikacija porukama koristi strukturu podataka u kojoj procesi mogu pohranjivati poruke koje će drugi procesi kasnije pročitati. Ovaj koncept nalikuje na FIFO, a koristi se na sličan način kao dijeljena memorija (generiranje jedinstvenog ključa uz `ftok`, dohvaćanje identifikatora uz `msgget`, slanje poruka uz `msgsnd`, primanje poruka uz `msgrcv` i uklanjanje *queue*-a uz `msgctl`).
 
-```
-MSGOP(2)                   Linux Programmer's Manual                  MSGOP(2)
+Istražite dokumentaciju funkcije za slanje poruke `man msgsnd`.
 
-NAME
-       msgrcv, msgsnd - System V message queue operations
+<Tabs>
+  <TabItem value="c" label="C">
 
-SYNOPSIS
-       #include <sys/types.h>
-       #include <sys/ipc.h>
-       #include <sys/msg.h>
-
-       int msgsnd(int msqid, const void *msgp, size_t msgsz, int msgflg);
-
-       ssize_t msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp,
-                      int msgflg);
-
-DESCRIPTION
-       The  msgsnd()  and  msgrcv() system calls are used to send messages to,
-       and receive messages from,  a  System V  message  queue.   The  calling
-       process  must  have  write  permission on the message queue in order to
-       send a message, and read permission to receive a message.
-
-       The msgp argument is a pointer to a  caller-defined  structure  of  the
-       following general form:
-
-           struct msgbuf {
-               long mtype;       /* message type, must be > 0 */
-               char mtext[1];    /* message data */
-           };
-
-       The  mtext  field is an array (or other structure) whose size is speci‐
-       fied by msgsz, a nonnegative integer value.  Messages  of  zero  length
-       (i.e.,  no  mtext  field)  are  permitted.  The mtype field must have a
-       strictly positive integer value.  This value can be used by the receiv‐
-       ing  process for message selection (see the description of msgrcv() be‐
-       low).
-```
-`man msgsnd 2> /dev/null | head -n 35`
-
-```c title="L09_msg_q.c"
+```c "L09_msg_q_example.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ipc.h>
@@ -81,12 +50,40 @@ int main() {
     return 0;
 }
 ```
-
 ```bash
-gcc L09_msg_q.c -o L09_msg_q && ./L09_msg_q
+gcc L09_msg_q_example.c -o L09_msg_q_example && ./L09_msg_q_example
+```
+  </TabItem>
+  <TabItem value="python" label="Python">
+
+U Python-u se za dodavanje vrijednosti u *message queue* koristi `send` metoda:
+
+```python title="L09_msg_q_example.py"
+import sysv_ipc
+
+key = sysv_ipc.ftok("/tmp", 65, silence_warning=True)
+queue = sysv_ipc.MessageQueue(key, sysv_ipc.IPC_CREAT)
+queue.send(str(1))
+queue.send(str(3))
+queue.send(str(5))
 ```
 
+Za čitanje vrijednosti iz *message queue*-a koristi se `receive` metoda:
+
+```python
+while queue.current_messages > 0:
+    message, _ = queue.receive()
+    print(int(message))
+```
+
+  </TabItem>
+</Tabs>
+
+
 Nadopunite sljedeći kod na način da jedan proces računa kvadratnu vrijednost za niz brojeva, a drugi ispisuje izračunatu vrijednost. Sve je potrebno učiniti koristeći *message queue*.
+
+<Tabs>
+  <TabItem value="c" label="C">
 
 ```c title="L09_msg_q_writer.c"
 #include <stdio.h>
@@ -109,11 +106,9 @@ int main() {
     return 0;
 }
 ```
-
 ```bash
 gcc L09_msg_q_writer.c -o L09_msg_q_writer && ./L09_msg_q_writer
 ```
-
 ```c title="L09_msg_q_reader.c"
 #include <stdio.h>
 #include <stdlib.h>
@@ -138,7 +133,40 @@ int main() {
     return 0;
 }
 ```
-
 ```bash
 gcc L09_msg_q_reader.c -o L09_msg_q_reader && ./L09_msg_q_reader
 ```
+  </TabItem>
+  <TabItem value="python" label="Python">
+
+```python title="L09_msg_q_reader_writer.py"
+import multiprocessing
+import sysv_ipc
+import os
+
+def writer():
+    key = sysv_ipc.ftok("/tmp", 65, silence_warning=True)
+    queue = sysv_ipc.MessageQueue(key, sysv_ipc.IPC_CREAT)
+    # Dodavanje kvadrata u queue za vrijednosti [1, 2, 3, 4, 5]
+    # ...
+
+def reader():
+    key = sysv_ipc.ftok("/tmp", 65, silence_warning=True)
+    queue = sysv_ipc.MessageQueue(key, sysv_ipc.IPC_CREAT)
+    # Ispis kvadrata iz queue
+    # ...
+    queue.remove()
+
+writer_process = multiprocessing.Process(target=writer, args=())
+writer_process.start()  # Pokretanje procesa koji kvadrira vrijednosti
+writer_process.join()  # Čekaj da proces završi
+
+reader_process = multiprocessing.Process(target=reader, args=())
+reader_process.start()  # Pokretanje procesa koji ispisuje kvadrate
+reader_process.join()
+```
+```bash
+python3 L09_msg_q_reader_writer.py
+```
+  </TabItem>
+</Tabs>
