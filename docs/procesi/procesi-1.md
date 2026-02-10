@@ -137,7 +137,7 @@ gcc L06_square.c -o L06_square && ./L06_square
 def square(num):
     print(f"Uneseni broj: {num}, PID procesa: {os.getpid()}")
     return num * num
-    
+
 # Kreirajte listu od 10 brojeva i pozovite funkciju `square`
 # nad svim elementima te liste
 # ...
@@ -187,7 +187,7 @@ gcc L06_infinite_square.c -o L06_infinite_square && ./L06_infinite_square
 </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L06_infinite_process.py"
+```python title="L06_infinite_square.py"
 import os
 import time
 

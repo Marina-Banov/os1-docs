@@ -163,7 +163,6 @@ cat L09_example.txt
 <Tabs>
   <TabItem value="c" label="C">
 
-
 ```c title="L09_mmap_ipc.c"
 #include <stdio.h>
 #include <stdlib.h>

@@ -36,7 +36,7 @@ Vođeni ispisom iz dokumentacije, sada ćemo istražiti kako [u kodu](https://en
 #include<stdlib.h>
 #include<string.h>
 #include<sys/wait.h>
-  
+
 int main() {
     // We use two pipes
     // First pipe to send message from parent
@@ -118,7 +118,7 @@ if forked_pid > 0:
     # ...
     # Close writing end of second pipe
     # ...
-    
+
     parent_str = "Hello, Child!"
     # Encode the parent string into a byte array and write message to first pipe
     # ...

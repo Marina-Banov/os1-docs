@@ -108,7 +108,6 @@ else
     echo "Standard time"
 fi
 ```
-
 ```bash
 chmod +x L04_unix_timestamp.sh
 strace -c ./L04_unix_timestamp.sh
@@ -125,7 +124,7 @@ int main(int argc, char const *argv[]) {
     time_t timer = time(NULL);
     char *current_time = ctime(&timer);
     struct tm *tm_info = localtime(&timer);
-    
+
     printf("Timer: %ld\n", timer);
     printf("The current time is: \n%s", current_time);
     if (tm_info -> tm_isdst) {
@@ -137,7 +136,6 @@ int main(int argc, char const *argv[]) {
     return 0;
 }
 ```
-
 ```bash
 gcc L04_unix_timestamp.c -o L04_unix_timestamp
 strace -c ./L04_unix_timestamp
@@ -160,7 +158,6 @@ if tm_info.tm_isdst:
 else:
     print("Standard time")
 ```
-
 ```bash
 strace -c python3 L04_unix_timestamp.py
 ```
@@ -221,7 +218,6 @@ int main(int argc, char const *argv[]) {
     return 0;
 }
 ```
-
 ```bash
 gcc L04_txt_datoteke.c -o L04_txt_datoteke
 strace -c ./L04_txt_datoteke
@@ -243,7 +239,6 @@ strace -c ./L04_txt_datoteke
 # Ispisati broj datoteka s .txt nastavkom u zadanom direktoriju
 
 ```
-
 ```bash
 chmod +x L04_txt_datoteke.sh
 strace -c ./L04_txt_datoteke.sh
@@ -289,6 +284,5 @@ strace -c python3 L04_txt_datoteke.py
 - Možete provjeriti ako datoteka `file` ima određenu ekstenziju pomoću funkcije `file.endswith(ekstenzija)`.
 - `try-except` blok će upravljati greškama ako se neka od operacija unutar `try` bloka neuspješno izvrši.
 
-
-</TabItem>
+  </TabItem>
 </Tabs>

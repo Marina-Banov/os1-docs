@@ -139,7 +139,6 @@ int main() {
     return 0;
 }
 ```
-
 ```bash
 gcc L08_race_condition.c -o L08_race_condition -pthread && ./L08_race_condition
 ```
@@ -189,7 +188,6 @@ int main() {
     return 0;
 }
 ```
-
 ```bash
 gcc L08_race_condition_lock.c -o L08_race_condition_lock -pthread && ./L08_race_condition_lock
 ```
@@ -237,7 +235,7 @@ int main() {
     for (int i = 0; i < N_CLIENTS; i++) {
         // Kreirajte dretve koje će izvršavati funkciju client, dodajte ih u niz threads i pokrenite
         // Za i-tu dretvu proslijedite funkciji client argument i
-        // ... 
+        // ...
     }
     for (int i = 0; i < N_CLIENTS; i++) {
         // Čekajte da se i-ta dretva izvrši
@@ -247,7 +245,6 @@ int main() {
     return 0;
 }
 ```
-
 ```bash
 gcc L08_bank.c -o L08_bank -pthread && ./L08_bank
 ```
@@ -282,7 +279,7 @@ void* process_file(void* arg) {
     stat(filename, &st);
     printf("Datoteka %s ima %ldB\n", filename, st.st_size);
 
-    // Dretva zapisuje rezultat pojedinačne obrade 
+    // Dretva zapisuje rezultat pojedinačne obrade
     intptr_t file_size;
     file_size = st.st_size;
     pthread_exit((void*)file_size);
@@ -327,7 +324,6 @@ int main() {
     return 0;
 }
 ```
-
 ```bash
 gcc L08_files.c -o L08_files -pthread && ./L08_files
 ```

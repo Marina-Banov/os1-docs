@@ -21,7 +21,6 @@ int main(int argc, char const *argv[]) {
     return 0;
 }
 ```
-
 ```bash
 gcc L04_hello_world.c -o L04_hello_world
 strace ./L04_hello_world
@@ -119,6 +118,7 @@ cat L05_sqr.txt
 
 # Izračunajte kvadrat brojeva u rasponu [from, to] te rezultate zapišite
 # u izlaznu datoteku.
+
 ```
 ```bash
 chmod +x L05_sqr.sh
@@ -143,13 +143,13 @@ if len(sys.argv) < 4:
 
 try:
     # Otvorite datoteku imena filename
-    
+    # ...
     # Zapišite zaglavlje tablice u datoteku
-    
+    # ...
     # Popunite tablicu kvadrata (koristite petlje u Pythonu)
-    
+    # ...
     # Zatvorite datoteku
-    
+    # ...
 except OSError:
     sys.exit("An error ocurred")
 ```
@@ -184,18 +184,21 @@ Pokrenite sljedeću naredbu kako biste stvorili datoteku veličine 100 MiB:
 dd if=/dev/zero of=L05.data bs=1M count=100
 ```
 
-Nadopunite naredbu u idućem bloku tako da kopira sadržaj datoteke `L05.data` u `L05_kopija.data`. Sadržaj treba kopirati u blokovima s time da:
-- U prvom slučaju koristite blokove maksimalne veličine 1 MiB (1024 * 1024 bajtova)
-- U drugom slučaju koristite blokove maksimalne veličine 20 MiB (20 * 1024 * 1024 bajtova)
+U terminalu pokrenite naredbu koja će kopirati sadržaj datoteke `L05.data` u `L05_kopija.data`. Sadržaj treba kopirati u blokovima, s time da:
+- u prvom slučaju koristite blokove maksimalne veličine 1 MiB (1024 * 1024 bajtova)
+- u drugom slučaju koristite blokove maksimalne veličine 20 MiB (20 * 1024 * 1024 bajtova)
 
 Usporedite ova dva scenarija.
 
 **Pomoć:**
 - Kopiranje datoteke u blokovima je moguće realizirati koristeći alat `dd`
-- Nazivi ulazne i izlazne datoteke se specificiraju pomoću parametara `if` *(input file)* i `of` *(output file)*, npr. `dd if=in.txt of=out.txt`
-- Pomoću parametra `bs` *(block size)* može se specificirati maksimalna veličina bloka u bajtovima prilikom kopiranja. Moguće je koristiti i sufikse M, MB, K, KB, ...
+- Nazivi ulazne i izlazne datoteke se definiraju pomoću parametara `if` *(input file)* i `of` *(output file)*, npr. `dd if=in.txt of=out.txt`
+- Pomoću parametra `bs` *(block size)* može se definirati maksimalna veličina bloka u bajtovima prilikom kopiranja. Moguće je koristiti i sufikse M, MB, K, KB, ...
 
-### Zadatak 3: Informacije sustava
+### Zadatak 3: Održavanje i informacije sustava
+
+<Tabs>
+  <TabItem value="c" label="C">
 
 Iskoristite dani predložak i napišite C program koji ispisuje:
 - proteklo vrijeme od pokretanja sustava u minutama
@@ -219,37 +222,71 @@ Koristite dokumentaciju prilikom rješavanja zadatka: `man sysinfo` i `man statv
 #include <sys/statvfs.h>
 
 int main(int argc, char const *argv[]) {
-  struct sysinfo info;
-  int ret = sysinfo(&info);
+    struct sysinfo info;
+    int ret = sysinfo(&info);
 
-  if (ret == -1) {
-    printf("Greska\n");
-    return -1;
-  }
-    
-  printf("Proteklo vrijeme od pokretanja sustava: ... min\n");
-  printf("\n");
-  printf("RADNA MEMORIJA\n");
-  printf("\tSveukupno: ... B\n");
-  printf("\tSlobodno: ... B\n");
-  printf("\n");
+    if (ret == -1) {
+        printf("Greska\n");
+        return -1;
+    }
 
-  struct statvfs stat;
-  ret = statvfs("/home/student", &stat);
-  /*if (provjerite je li funkcija statvfs javila gresku) {
-    printf("Greska\n");
-    return -1;
-  }*/
+    printf("Proteklo vrijeme od pokretanja sustava: ... min\n");
+    printf("\n");
+    printf("RADNA MEMORIJA\n");
+    printf("\tSveukupno: ... B\n");
+    printf("\tSlobodno: ... B\n");
+    printf("\n");
 
-  printf("POHRANA (/home/student)\n");
-  printf("\tSveukupno: ... B\n");
-  printf("\tSlobodno: ... B\n");
-  
+    struct statvfs stat;
+    ret = statvfs("/home/student", &stat);
+    /*if (provjerite je li funkcija statvfs javila gresku) {
+        printf("Greska\n");
+        return -1;
+    }*/
 
-  return 0;
+    printf("POHRANA (/home/student)\n");
+    printf("\tSveukupno: ... B\n");
+    printf("\tSlobodno: ... B\n");
+
+    return 0;
 }
 ```
-
 ```bash
 gcc L05_sysinfo.c -o L05_sysinfo && ./L05_sysinfo
 ```
+
+  </TabItem>
+  <TabItem value="python" label="Python">
+
+`psutil` je Python knjižnica funkcija za dohvaćanje informacija o trenutno pokrenutim procesima i korištenju resursa sustava (poput CPU-a, memorije, diskova, mreže i senzora). Istražite [dokumentaciju](https://psutil.readthedocs.io/en/latest/#system-related-functions) ove knjižnice i napišite program koji će prikazati informacije o korištenju diska i CPU-a te vrijeme neprekinutog rada.
+
+**Napomena:**
+- Funkcija `psutil.boot_time()` vraća UNIX timestamp (sekunde protekle od 1. siječnja 1970.) za trenutak u kojem je pokrenut sustav. Da biste dobili ukupno vrijeme koliko je sustav bio uključen od posljednjeg pokretanja, potrebno je oduzeti tu vrijednost od trenutnog vremena. Trenutno vrijeme možete dobiti pomoću funkcije `time.time()`.
+- Ako koristite prijenosno računalo možete ispisati i informacije o bateriji.
+
+```python title="L05_sysinfo.py"
+import psutil
+import time
+
+# disk_usage = ...
+print("DISK USAGE:")
+print(f"    Used: {...}B ({...}%)")
+print(f"    Free: {...}B")
+print(f"    Total: {...}B")
+
+# cpu_times = ...
+print("\nCPU INFORMATION:")
+print(f"    User: {...}s")
+print(f"    System: {...}s")
+print(f"    Idle: {...}s")
+print(f"    Wait for IO: {...}s")
+print(f"    Hardware Interrupts: {...}s")
+print(f"    Software Interrupts: {...}s")
+
+print(f"\nSYSTEM UPTIME: {...}s")
+
+# battery_info = ...
+# print(f"\nBATTERY INFORMATION: {...}% (plugged={...})")
+```
+  </TabItem>
+</Tabs>

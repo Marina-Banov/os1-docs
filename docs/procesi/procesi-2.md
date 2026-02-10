@@ -48,7 +48,7 @@ int main() {
     printf("Current process PID=%d", getpid());
 
     pid_t forked_pid = fork();
-    
+
     printf("\nDid a fork. It returned %d.\n └─ PID = %d, PPID = %d\n", 
            forked_pid, getpid(), getppid());
 
@@ -92,7 +92,7 @@ int main() {
     fflush(stdout);
 
     pid_t forked_pid = fork();
-    
+
     printf("\nDid a fork. It returned %d.\n └─ PID = %d, PPID = %d\n", 
            forked_pid, getpid(), getppid());
 
@@ -315,7 +315,7 @@ while True:
 <Tabs>
   <TabItem value="c" label="C">
 
-```c "L07_z2a.c"
+```c
 #include <unistd.h>
 #include <stdio.h>
 
@@ -328,7 +328,7 @@ int main() {
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L07_z2a.py"
+```python
 import os
 
 os.fork()
@@ -338,14 +338,14 @@ print("Hello")
 </Tabs>
 
 ![](L07_fork1_light.png#gh-light-mode-only)
-![](L07_fork1_light.png#gh-dark-mode-only)
+![](L07_fork1_dark.png#gh-dark-mode-only)
 
 **Pitanje:** Koliko će se puta ispisati `Hello` kada pokrenemo ovaj kod:
 
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L07_z2b.c"
+```c
 #include <unistd.h>
 #include <stdio.h>
 
@@ -359,7 +359,7 @@ int main() {
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L07_z2b.py"
+```python
 import os
 
 os.fork()
@@ -370,27 +370,27 @@ print("Hello")
 </Tabs>
 
 ![](L07_fork2_light.png#gh-light-mode-only)
-![](L07_fork2_light.png#gh-dark-mode-only)
+![](L07_fork2_dark.png#gh-dark-mode-only)
 
 **Pitanje:** Kako bismo mogli ispisati `Hello` točno tri puta?
 
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L07_z2c.c"
+```c title="L07_hello_three_times.c"
 #include <unistd.h>
 #include <stdio.h>
 
 int main() {
     // ... nadopuniti
-    
+
     return 0;
 }
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L07_z2c.py"
+```python title="L07_hello_three_times.py"
 import os
 
 # ...
@@ -402,14 +402,14 @@ print("Hello")
 **HINT:**
 
 ![](L07_fork3_light.png#gh-light-mode-only)
-![](L07_fork3_light.png#gh-dark-mode-only)
+![](L07_fork3_dark.png#gh-dark-mode-only)
 
 **Pitanje:** Koliko će se puta ispisati `Hello` kada pokrenemo ovaj kod:
 
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L07_z2d.c"
+```c
 #include <unistd.h>
 #include <stdio.h>
 
@@ -424,7 +424,7 @@ int main() {
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L07_z2d.py"
+```python
 import os
 
 os.fork()
@@ -564,7 +564,7 @@ int main() {
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title=""
+```python title="L07_man_child.py"
 # Stvaranje novog procesa
 # forked_pid = ...
 
