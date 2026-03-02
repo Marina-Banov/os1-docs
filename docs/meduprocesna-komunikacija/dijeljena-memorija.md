@@ -1,7 +1,3 @@
----
-sidebar_position: 7
----
-
 # Dijeljena memorija (Shared memory)
 
 import Tabs from "@theme/Tabs";
@@ -89,4 +85,6 @@ python3 L09_shmreader.py
   </TabItem>
 </Tabs>
 
-**Napomena:** Kada više procesa pokušava istovremeno pristupiti dijeljenoj memoriji, pojavljuje se problem međusobnog isključivanja koji može dovesti do konflikata i neželjenih rezultata. Potrebno je implementirati mehanizme koji će osigurati sigurno korištenje memorije, slično kao i kod višedretvenih programa.
+:::info Napomena
+Kada više procesa pokušava istovremeno pristupiti dijeljenoj memoriji, pojavljuje se problem međusobnog isključivanja koji može dovesti do konflikata i neželjenih rezultata. Potrebno je implementirati mehanizme koji će osigurati sigurno korištenje memorije, slično kao i kod višedretvenih programa.
+:::

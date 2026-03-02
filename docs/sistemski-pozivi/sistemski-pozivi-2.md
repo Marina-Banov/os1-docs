@@ -1,7 +1,3 @@
----
-sidebar_position: 3
----
-
 # Sistemski pozivi 2
 
 import Tabs from "@theme/Tabs";
@@ -127,7 +123,9 @@ strace -c ./L05_sqr.sh L05_sqr.txt 8 20
 cat L05_sqr.txt
 ```
   </TabItem>
-    <TabItem value="python" label="Python predložak">
+  <TabItem value="python" label="Python predložak">
+
+<div>
 
 ```python title="L05_sqr.py"
 import sys
@@ -159,13 +157,16 @@ strace -c python3 L05_sqr.py L05_sqr.txt 8 20
 cat L05_sqr.txt
 ```
 
-**Napomene:**
+::: info Napomene
 - Pazite na tipove podataka za argumente koje je proslijedio korisnik.
 - Istražite funkcije za [otvaranje datoteka](https://www.w3schools.com/python/ref_func_open.asp) i [rad s datotekama](https://www.w3schools.com/python/python_ref_file.asp) u Pythonu.
 - Pazite na [formatiranje stringova](http://cissandbox.bentley.edu/sandbox/wp-content/uploads/2022-02-10-Documentation-on-f-strings-Updated.pdf).
 - Ne morate brinuti o rukovanju pogreškama jer je ono već uključeno u predložak.
+:::
 
-</TabItem>
+</div>
+
+  </TabItem>
 </Tabs>
 
 Komentirajte vrijeme izvršavanja programa za kreiranje tablice kvadrata brojeva pisanog u C-u i u Bash-u. Vrijeme izvršavanja naredbe, programa ili skripte možemo dobiti koristeći naredbu `time`. [Više o mjerenju vremena izvršavanja](https://stackoverflow.com/a/47478852/11497334)
@@ -190,10 +191,11 @@ U terminalu pokrenite naredbu koja će kopirati sadržaj datoteke `L05.data` u `
 
 Usporedite ova dva scenarija.
 
-**Pomoć:**
+:::info Pomoć
 - Kopiranje datoteke u blokovima je moguće realizirati koristeći alat `dd`
 - Nazivi ulazne i izlazne datoteke se definiraju pomoću parametara `if` *(input file)* i `of` *(output file)*, npr. `dd if=in.txt of=out.txt`
 - Pomoću parametra `bs` *(block size)* može se definirati maksimalna veličina bloka u bajtovima prilikom kopiranja. Moguće je koristiti i sufikse M, MB, K, KB, ...
+:::
 
 ### Zadatak 3: Održavanje i informacije sustava
 
@@ -260,9 +262,10 @@ gcc L05_sysinfo.c -o L05_sysinfo && ./L05_sysinfo
 
 `psutil` je Python knjižnica funkcija za dohvaćanje informacija o trenutno pokrenutim procesima i korištenju resursa sustava (poput CPU-a, memorije, diskova, mreže i senzora). Istražite [dokumentaciju](https://psutil.readthedocs.io/en/latest/#system-related-functions) ove knjižnice i napišite program koji će prikazati informacije o korištenju diska i CPU-a te vrijeme neprekinutog rada.
 
-**Napomena:**
+:::info Napomene
 - Funkcija `psutil.boot_time()` vraća UNIX timestamp (sekunde protekle od 1. siječnja 1970.) za trenutak u kojem je pokrenut sustav. Da biste dobili ukupno vrijeme koliko je sustav bio uključen od posljednjeg pokretanja, potrebno je oduzeti tu vrijednost od trenutnog vremena. Trenutno vrijeme možete dobiti pomoću funkcije `time.time()`.
 - Ako koristite prijenosno računalo možete ispisati i informacije o bateriji.
+:::
 
 ```python title="L05_sysinfo.py"
 import psutil

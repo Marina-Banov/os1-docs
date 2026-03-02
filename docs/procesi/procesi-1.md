@@ -1,7 +1,3 @@
----
-sidebar_position: 4
----
-
 # Procesi 1
 
 import Tabs from "@theme/Tabs";
@@ -90,7 +86,7 @@ int main() {
 gcc L06_print_pid.c -o L06_print_pid && ./L06_print_pid
 ```
 
-</TabItem>
+  </TabItem>
   <TabItem value="python" label="Python">
 
 ```python title="L06_print_pid.py"
@@ -101,8 +97,7 @@ print(f"Process ID: {os.getpid()}")
 ```bash
 python3 L06_print_pid.py
 ```
-</TabItem>
-
+  </TabItem>
 </Tabs>
 
 Zadana je funkcija koja računa kvadrat unesenog broja i ispisuje PID trenutnog procesa. Kreirajte listu od 10 brojeva i pozovite funkciju `square` nad svim elementima te liste:
@@ -130,7 +125,7 @@ int main() {
 gcc L06_square.c -o L06_square && ./L06_square
 ```
 
-</TabItem>
+  </TabItem>
   <TabItem value="python" label="Python">
 
 ```python title="L06_square.py"
@@ -145,8 +140,7 @@ def square(num):
 ```bash
 python3 L06_square.py
 ```
-</TabItem>
-
+  </TabItem>
 </Tabs>
 
 Ispišite detaljne informacije o procesu s tim PID-om.
@@ -184,7 +178,7 @@ Pokrenimo ovaj beskonačni C proces u novom terminalu:
 ```bash
 gcc L06_infinite_square.c -o L06_infinite_square && ./L06_infinite_square
 ```
-</TabItem>
+  </TabItem>
   <TabItem value="python" label="Python">
 
 ```python title="L06_infinite_square.py"
@@ -204,7 +198,7 @@ Pokrenimo ovaj beskonačni Python proces u novom terminalu:
 ```bash
 python3 L06_infinite_square.py
 ```
-</TabItem>
+  </TabItem>
 </Tabs>
 
 Pronađimo proces u popisu:
@@ -275,7 +269,7 @@ strace -tt -e "trace=all" L06_murderer
 ps -fu $USER
 cat L06_victim_strace.out
 ```
-</TabItem>
+  </TabItem>
   <TabItem value="python" label="Python">
 
 ```python title="L06_murderer.py"
@@ -304,7 +298,7 @@ strace -tt -e "trace=all" python3 L06_murderer.py
 ps -fu $USER
 cat L06_victim_strace.out
 ```
-</TabItem>
+  </TabItem>
 </Tabs>
 
 ## Siročad *(orphans)*

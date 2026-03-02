@@ -1,7 +1,3 @@
----
-sidebar_position: 5
----
-
 # Procesi 2
 
 import Tabs from "@theme/Tabs";
@@ -74,11 +70,11 @@ python3 L07_hello_world.py
   </TabItem>
 </Tabs>
 
-**Pitanja:**
-
+:::info Pitanja
 - Koji je PID *child* procesa?
 - Zašto ne dolazi do beskonačnog kreiranja novih procesa?
 - Zašto se poruka `Current process PID=...` ispisala dva puta?
+:::
 
 <Tabs>
   <TabItem value="c" label="C">
@@ -222,7 +218,9 @@ strace -e "trace=!all" python3 L07_parent_child.py
   </TabItem>
 </Tabs>
 
-**Pitanje:** kada bi roditelj imao dva djeteta, kojeg bi funkcija `wait` čekala?
+:::info Pitanje
+Kada bi roditelj imao dva djeteta, kojeg bi funkcija `wait` čekala?
+:::
 
 ## Zadatak 1: Odnos djeteta i roditelja
 
@@ -310,7 +308,9 @@ while True:
 
 ## Zadatak 2: Višestruke kopije
 
-**Pitanje:** Koliko će se puta ispisati `Hello` kada pokrenemo ovaj kod:
+:::info Pitanje
+Koliko će se puta ispisati `Hello` kada pokrenemo ovaj kod:
+:::
 
 <Tabs>
   <TabItem value="c" label="C">
@@ -340,7 +340,9 @@ print("Hello")
 ![](L07_fork1_light.png#gh-light-mode-only)
 ![](L07_fork1_dark.png#gh-dark-mode-only)
 
-**Pitanje:** Koliko će se puta ispisati `Hello` kada pokrenemo ovaj kod:
+:::info Pitanje
+Koliko će se puta ispisati `Hello` kada pokrenemo ovaj kod:
+:::
 
 <Tabs>
   <TabItem value="c" label="C">
@@ -372,7 +374,9 @@ print("Hello")
 ![](L07_fork2_light.png#gh-light-mode-only)
 ![](L07_fork2_dark.png#gh-dark-mode-only)
 
-**Pitanje:** Kako bismo mogli ispisati `Hello` točno tri puta?
+:::info Pitanje
+Kako bismo mogli ispisati `Hello` točno tri puta?
+:::
 
 <Tabs>
   <TabItem value="c" label="C">
@@ -399,12 +403,14 @@ print("Hello")
   </TabItem>
 </Tabs>
 
-**HINT:**
-
+:::info Pomoć
 ![](L07_fork3_light.png#gh-light-mode-only)
 ![](L07_fork3_dark.png#gh-dark-mode-only)
+:::
 
-**Pitanje:** Koliko će se puta ispisati `Hello` kada pokrenemo ovaj kod:
+:::info Pitanje
+Koliko će se puta ispisati `Hello` kada pokrenemo ovaj kod:
+:::
 
 <Tabs>
   <TabItem value="c" label="C">
@@ -435,7 +441,9 @@ print("Hello")
   </TabItem>
 </Tabs>
 
-**Pitanje:** Koliko će novih procesa biti kreirano kada pokrenemo ovaj kod:
+:::info Pitanje
+Koliko će novih procesa biti kreirano kada pokrenemo ovaj kod:
+:::
 
 <Tabs>
   <TabItem value="c" label="C">
@@ -473,7 +481,9 @@ FORK_NUM = 3
 
 Pokušajte mijenjati vrijednosti varijable `FORK_NUM` te predvidjeti broj kreiranih procesa.
 
-**Pitanje:** Zašto se redoslijed ispisa mijenja kada pokrenemo program više puta?  
+:::info Pitanje
+Zašto se redoslijed ispisa mijenja kada pokrenemo program više puta?  
+:::
 
 ## Zadatak 3: Korisna djeca
 
@@ -532,7 +542,9 @@ else:
   </TabItem>
 </Tabs>
 
-**Pitanje:** Zašto se nije ispisala poruka `Child executed ls`?  
+:::info Pitanje
+Zašto se nije ispisala poruka `Child executed ls`?  
+:::
 
 Nakon pokretanja programa koji je definiran u `execl` funkciji, proces se više nikada ne vraća u originalni program. Postoji li (hipotetska) situacija u kojoj bi se poruka `Child executed ls` ipak ispisala?
 
@@ -576,4 +588,6 @@ int main() {
   </TabItem>
 </Tabs>
 
-**Napomena:** Ako niste sigurni gdje se nalazi izvršna datoteka za naredbu `man`, možete pokrenuti naredbu `which man`.
+:::info Napomena
+Ako niste sigurni gdje se nalazi izvršna datoteka za naredbu `man`, možete pokrenuti naredbu `which man`.
+:::

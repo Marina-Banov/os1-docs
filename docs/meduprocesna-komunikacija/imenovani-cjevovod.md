@@ -1,7 +1,3 @@
----
-sidebar_position: 10
----
-
 # Imenovani cjevovod (Named pipe, FIFO)
 
 import Tabs from "@theme/Tabs";
@@ -110,4 +106,6 @@ Pokrenite ova dva programa u dva različita terminala. Naizmjence šaljite poruk
 
 ![](L09.gif)
 
-**Pitanje:** Zašto prvi program ne ispisuje ništa sve dok se ne pokrene drugi program? [HINT](https://www.cs.kent.edu/~ruttan/sysprog/lectures/shmem/pipes#named_pipe_read_write)
+:::info Pitanje
+Zašto prvi program ne ispisuje ništa sve dok se ne pokrene drugi program? [HINT](https://www.cs.kent.edu/~ruttan/sysprog/lectures/shmem/pipes#named_pipe_read_write)
+:::

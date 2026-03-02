@@ -1,7 +1,3 @@
----
-sidebar_position: 11
----
-
 # Komunikacija porukama (Message queues)
 
 import Tabs from "@theme/Tabs";

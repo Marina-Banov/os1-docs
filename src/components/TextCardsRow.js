@@ -7,34 +7,46 @@ import Link from '@docusaurus/Link';
 
 export const Lessons = [
     {
+        title: "Ljuske za rad s OS",
+        description: "",
+        url: "/bash/",
+        posted: true,
+    },
+    {
         title: "Sistemski pozivi",
         description: "",
         url: "/sistemski-pozivi/",
-        posted: true,
+        posted: false,
     },
     {
         title: "Procesi",
         description: "",
         url: "/procesi/",
-        posted: true,
+        posted: false,
     },
     {
         title: "Dretve",
         description: "",
         url: "/dretve/",
-        posted: true,
+        posted: false,
     },
     {
         title: "Međuprocesna komunikacija",
         description: "",
         url: "/meduprocesna-komunikacija/",
-        posted: true,
+        posted: false,
     },
     {
         title: "Upravljanje memorijom",
         description: "",
         url: "/upravljanje-memorijom/",
-        posted: true,
+        posted: false,
+    },
+    {
+        title: "Računalna sigurnost",
+        description: "",
+        url: "/racunalna-sigurnost/",
+        posted: false,
     },
 ];
 
@@ -61,9 +73,9 @@ function TextCard({title, description, url, posted}) {
 export function TextCardsRow({array}) {
     return (
         <div className="row">
-            {array.map((item) => (
+            {array.map((item) => item.posted ? (
                 <TextCard key={item.name} {...item} />
-            ))}
+            ): <></>)}
         </div>
     );
 }

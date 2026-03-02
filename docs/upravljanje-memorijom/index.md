@@ -1,7 +1,3 @@
----
-sidebar_position: 14
----
-
 # Upravljanje memorijom
 
 import Tabs from "@theme/Tabs";
@@ -141,7 +137,7 @@ Nadopunite sljedeći kod kako biste realizirali kreiranje procesa s nasumičnim 
 ```bash
 gcc L11_random_generation.c L11_memory_management.c -o L11_random_generation && ./L11_random_generation
 ```
-</TabItem>
+  </TabItem>
   <TabItem value="python" label="Python">
 
 Nadopunite sljedeći kod kako biste realizirali kreiranje procesa s nasumičnim veličinama memorije (raspon 50-400 s korakom 10). Pritom možete koristiti [funkciju](https://www.w3schools.com/python/ref_random_randrange.asp) `random.randrange`.
@@ -149,7 +145,7 @@ Nadopunite sljedeći kod kako biste realizirali kreiranje procesa s nasumičnim 
 ```bash
 python3 L11_random_generation.py
 ```
-</TabItem>
+  </TabItem>
 </Tabs>
 
 ## *Buddy system*

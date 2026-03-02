@@ -1,7 +1,3 @@
----
-sidebar_position: 8
----
-
 # Memorijsko mapiranje (Mapped memory)
 
 import Tabs from "@theme/Tabs";

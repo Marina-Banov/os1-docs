@@ -1,7 +1,3 @@
----
-sidebar_position: 2
----
-
 # Sistemski pozivi 1
 
 import Tabs from "@theme/Tabs";
@@ -244,10 +240,14 @@ chmod +x L04_txt_datoteke.sh
 strace -c ./L04_txt_datoteke.sh
 ```
 
-**Napomena:** Bash sintaksa `${n:-val}` vraća vrijednost `n`-tog argumenta ako on postoji, a u suprotnom vraća ono što je zadano u `val`
+:::info Napomena
+Bash sintaksa `${n:-val}` vraća vrijednost `n`-tog argumenta ako on postoji, a u suprotnom vraća ono što je zadano u `val`
+:::
 
   </TabItem>
   <TabItem value="python" label="Python predložak">
+
+<div>
 
 ```python title="L04_txt_datoteke.py"
 import os
@@ -276,13 +276,16 @@ except OSError:
 strace -c python3 L04_txt_datoteke.py
 ```
 
-**Napomene:**
+:::info Napomene
 - Argumentima Python skripte pristupate pomoću `sys.argv`. Zato se u predlošku nalazi linija `import sys`.
 - U ovom zadatku možete pretpostaviti da će korisnik kao argument predati relativnu putanju željene mape u odnosu na mapu u kojoj je spremljen program. Trenutni direktorij dohvaća se pomoću funkcije `os.getcwd()`. Zato se u predlošku nalazi linija `import os`.
 - Putanje se drugačije označavaju u Linuxu i u Windowsu. Zato je funkcija `os.path.join()` dobra za pisanje koda koji je moguće koristiti na raznim platformama ([više na poveznici](https://docs.python.org/3/library/os.path.html#os.path.join)).
 - Popis datoteka u direktoriju `dir_path` dohvaća se pomoću funkcije `os.listdir(dir_path)`.
 - Možete provjeriti ako datoteka `file` ima određenu ekstenziju pomoću funkcije `file.endswith(ekstenzija)`.
 - `try-except` blok će upravljati greškama ako se neka od operacija unutar `try` bloka neuspješno izvrši.
+:::
+
+</div>
 
   </TabItem>
 </Tabs>

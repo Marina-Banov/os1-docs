@@ -1,7 +1,3 @@
----
-sidebar_position: 9
----
-
 # Cjevovod (Pipe)
 
 import Tabs from "@theme/Tabs";

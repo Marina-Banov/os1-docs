@@ -1,7 +1,3 @@
----
-sidebar_position: 12
----
-
 # Signali (Signals)
 
 import Tabs from "@theme/Tabs";
@@ -83,11 +79,12 @@ python3 L09_signal.py
 
 Probajte slati signale iz jednog procesa u drugi te ispisati poruku kad ste ih primili ([HINT 1](https://www.geeksforgeeks.org/signals-c-language/), [HINT 2](https://en.cppreference.com/w/c/program/signal), [HINT 3](https://man7.org/linux/man-pages/man2/pause.2.html)).
 
-**Napomene:**
+:::info Napomene
 - Signali `SIGKILL` i `SIGSTOP` ne mogu odgovoriti na prilagođene *signal handler*-e, zanemarite ih.
 - Proces bi trebao čekati i primati različite signale i terminirati tek kada zaprimi signal `SIGTERM`. Za to možete koristiti funkcije `pause()` i `exit()`.
 - Ispišite PID kako biste lakše testirali svoj program.
 - Signale šaljite putem naredbi u terminalu.
+:::
 
 ```c title="L09_signal_handler.c"
 #include <stdio.h>
@@ -108,11 +105,12 @@ gcc L09_signal_handler.c -o L09_signal_handler && ./L09_signal_handler
 
 Probajte slati signale iz jednog procesa u drugi te ispisati poruku kad ste ih primili ([HINT 1](https://stackabuse.com/handling-unix-signals-in-python/), [HINT 2](https://stackoverflow.com/questions/2148888/python-trap-all-signals)).
 
-**Napomene:**
+:::info Napomene
 - Signali `SIGKILL` i `SIGSTOP` ne mogu odgovoriti na prilagođene *signal handler*-e, zanemarite ih.
 - Proces bi trebao čekati i primati različite signale i terminirati tek kada zaprimi signal `SIGTERM`. Za to možete koristiti funkcije `signal.pause()` i `sys.exit()`.
 - Ispišite PID kako biste lakše testirali svoj program.
 - Signale šaljite putem naredbi u terminalu.
+:::
 
 ```python title="L09_signal_handler.py"
 import os

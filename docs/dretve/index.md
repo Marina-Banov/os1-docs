@@ -1,7 +1,3 @@
----
-sidebar_position: 6
----
-
 # Dretve
 
 U ovim vježbama fokusirat ćemo se na problem utrkivanja i međusobno isključivanje *(mutex)* kao tehniku sinkronizacije koja rješava taj problem.

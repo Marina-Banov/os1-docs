@@ -1,7 +1,3 @@
----
-sidebar_position: 13
----
-
 # Utičnice (Sockets)
 
 import Tabs from "@theme/Tabs";
@@ -34,7 +30,9 @@ Poslužitelj i klijent razmjenjuju jednu poruku. Za svaku stranu (program) piše
 gcc L10_server.c -o L10_server && ./L10_server &
 ```
 
-**Podsjetnik:** znak `&` na kraju naredbe koristi se za pokretanje programa u pozadini.
+:::info Podsjetnik
+Znak `&` na kraju naredbe koristi se za pokretanje programa u pozadini.
+:::
 
 ```bash
 gcc L10_client.c -o L10_client && ./L10_client
@@ -53,7 +51,9 @@ Poslužitelj i klijent razmjenjuju jednu poruku. Za svaku stranu (program) piše
 python3 L10_server.py &
 ```
 
-**Podsjetnik:** znak `&` na kraju naredbe koristi se za pokretanje programa u pozadini.
+:::info Podsjetnik
+Znak `&` na kraju naredbe koristi se za pokretanje programa u pozadini.
+:::
 
 ```bash
 python3 L10_client.py &
@@ -112,7 +112,9 @@ Ovakva podjela i razdvajanje logike igre od korisničkog sučelja, uz korištenj
 - Možda ćemo jednog dana htjeti izgraditi grafičko sučelje za igru umjesto tekstualnog sučelja. Tada ćemo mijenjati samo klijentski dio aplikacije, a poslužiteljsku logiku ne moramo mijenjati.
 - Možemo mijenjati parametre igre (maksimalan broj pokušaja, raspon duljine nasumičnih riječi) na poslužitelju, bez utjecaja na klijenta.
 
-**Napomena:** Ako budete htjeli više puta isprobati igru, morat ćete sačekati između pokušaja da operacijski sustav oslobodi port koji koristite za komunikaciju. Čak i nakon uspješnog zatvaranja socketa, taj port može ostati u `TIME_WAIT` statusu neko vrijeme. Budite strpljivi i **uvijek prvo pokrećite poslužitelja, a tek onda klijenta**.
+:::info Napomena
+Ako budete htjeli više puta isprobati igru, morat ćete sačekati između pokušaja da operacijski sustav oslobodi port koji koristite za komunikaciju. Čak i nakon uspješnog zatvaranja socketa, taj port može ostati u `TIME_WAIT` statusu neko vrijeme. Budite strpljivi i **uvijek prvo pokrećite poslužitelja, a tek onda klijenta**.
+:::
 
 ## Primjer 2: Višestruke veze
 
@@ -123,7 +125,9 @@ S poslužiteljske strane, osim inicijalizacije veze, logike aplikacije i zatvara
 <Tabs>
   <TabItem value="c" label="C">
 
-*Napomena:* u idućim kodovima su neke od prethodno pokazanih provjera preskočene kako se kod ne bi dodatno zakomplicirao.
+:::info Napomena
+U idućim kodovima su neke od prethodno pokazanih provjera preskočene kako se kod ne bi dodatno zakomplicirao.
+:::
 
 ```bash
 gcc -pthread L10_multi_server.c -o L10_multi_server && ./L10_multi_server &
@@ -149,7 +153,9 @@ Kada želite završiti s komunikacijom, pritisnite `Enter`.
 gcc -pthread L10_multi_client.c -o L10_multi_client && ./L10_multi_client
 ```
 
-**Pitanje:** primjećujete li neki problem u serverskom kodu iz perspektive višedretvenosti?
+:::info Pitanje
+Primjećujete li neki problem u serverskom kodu iz perspektive višedretvenosti?
+:::
 
   </TabItem>
   <TabItem value="python" label="Python">
