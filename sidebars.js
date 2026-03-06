@@ -25,7 +25,7 @@ const sidebars = {
       type: 'category',
       label: 'Ljuske za rad s OS',
       link: { type: 'doc', id: 'bash/index' },
-      items: ['bash/bash-1'/*, 'bash/bash-2'*/],
+      items: ['bash/bash-1', 'bash/bash-2'],
     },
     /*{
       type: 'category',
