@@ -9,9 +9,9 @@ Postoje dva načina korištenja ljuski:
 ## Ponavljanje
 
 U terminalu, na početku svake naredbe obično vidimo oznaku poput ove: `korisnik@racunalo:~$`
-- `korisnik`: Ime trenutno prijavljenog korisnika
+- `korisnik`: Ime trenutačno prijavljenog korisnika
 - `racunalo`: Naziv uređaja na kojem smo prijavljeni
-- `~`: Trenutna putanja direktorija u kojem se nalazimo
+- `~`: Trenutačna putanja direktorija u kojem se nalazimo
 
 Iza znaka `$` možemo upisivati vlastite naredbe. Naredbe se izvršavaju u onom direktoriju u kojem se nalazimo u trenutku pokretanja naredbe.
 
@@ -34,20 +34,21 @@ pwd, cd, ls, mkdir, touch, cat, less, echo, cp, mv, rm, find, grep, sudo...
 Linux koristi stablastu strukturu datotečnog sustava koja kreće iz korijena `/`.
 
 ![](L01_datotecni_sustavi_nobg.png#gh-light-mode-only)
+![](L01_datotecni_sustavi_nobg_dark.png#gh-dark-mode-only)
 
-Navigacija se svodi na kretanje od mjesta gdje se nalazite do mjesta gdje želite doći, pri čemu je "mjesto" direktorij u kojem se trenutno nalazite. Kako biste definirali ciljnu lokaciju, možete koristiti:
+Navigacija se svodi na kretanje od mjesta gdje se nalazite do mjesta gdje želite doći, pri čemu je "mjesto" direktorij u kojem se trenutačno nalazite. Kako biste definirali ciljnu lokaciju, možete koristiti:
 - **Apsolutna putanja:** Kreće od korijena `/` i uvijek je ista bez obzira gdje se nalazite
 ```bash
 /home/korisnik/dokumenti/vjezba.txt
 ```
-- **Relativna putanja:** Kreće od mjesta gdje se trenutno nalazite
+- **Relativna putanja:** Kreće od mjesta gdje se trenutačno nalazite
 ```bash
-./dokumenti/vjezba.txt  # ako ste već u `/home/korisnik/`
+./dokumenti/vjezba.txt  # ako ste već u direktoriju /home/korisnik/
 ```
 
 | Putanja | Opis                     |
 |:-------:|--------------------------|
-|   `.`   | Trenutni direktorij      |
+|   `.`   | Trenutačni direktorij    |
 |  `..`   | Naddirektorij *(parent)* |
 |   `~`   | *home* direktorij        |
 |   `/`   | *root* direktorij        |
@@ -95,13 +96,13 @@ ls -al A[!b-d]*f
 
 Svaki proces koristi: `stdin (0)`, `stdout (1)` i `stderr (2)`.
 
-|  Operator  | Opis                                                   |
-|:----------:|--------------------------------------------------------|
-|    `>`     | Redirekcija standardnog izlaza                         |
-|    `>>`    | Redirekcija standardnog izlaza *(append)*              |
-| `1> 2> &>` | Redirekcija standardnog i error izlaza                 |
-|    `<`     | Redirekcija standardnog ulaza                          |
-|    `\|`    | Redirekcija izlaza jedne naredbe u ulaz druge *(pipe)* |
+|  Operator  | Opis                                                                                                   |
+|:----------:|--------------------------------------------------------------------------------------------------------|
+|    `>`     | Redirekcija standardnog izlaza                                                                         |
+|    `>>`    | Redirekcija standardnog izlaza *(append)*                                                              |
+| `1> 2> &>` | Redirekcija standardnog i error [izlaza](https://stackoverflow.com/questions/818255/what-does-21-mean) |
+|    `<`     | Redirekcija standardnog ulaza                                                                          |
+|    `\|`    | Redirekcija izlaza jedne naredbe u ulaz druge *(pipe)*                                                 |
 
 :::info Pitanje
 Što očekujete kao rezultat sljedećih naredbi?
@@ -134,11 +135,11 @@ drwxr-xr-x 1 root root  4096 Mar  9 14:48 data
 - Sljedeća tri znaka odnose se na dozvole koje ima grupa
 - Posljednja tri znaka odnose se na dozvole koje imaju ostali korisnici
 
-| Bit dopuštenja | Na datoteci              | Na direktoriju                              |
-|:--------------:|--------------------------|---------------------------------------------|
-|   `r` *read*   | Čitanje datoteke         | Izlistavanje sadržaja direktorija           |
-|  `w` *write*   | Uređivanje datoteke      | Stvaranje i brisanje datoteka u direktoriju |
-| `x` *execute*  | **Izvršavanje datoteke** | Pristup direktoriju                         |
+| Bit dopuštenja | Na datoteci                     | Na direktoriju                              |
+|:--------------:|---------------------------------|---------------------------------------------|
+|   `r` *read*   | Čitanje datoteke                | Izlistavanje sadržaja direktorija           |
+|  `w` *write*   | Uređivanje datoteke             | Stvaranje i brisanje datoteka u direktoriju |
+| `x` *execute*  | **<u>Izvršavanje datoteke</u>** | Pristup direktoriju                         |
 
 Za promjenu dopuštenja koristimo naredbu `chmod` i jedan od dva oblika:
 
@@ -157,10 +158,10 @@ chmod g-w my_file.txt
 ```
 
 :::info Napomena
-Naredba `whoami` prikazuje trenutnog korisnika. Naredba `chown` koristi se za promjenu vlasnika, npr. `sudo chown korisnik:grupa datoteka`.
+Naredba `whoami` prikazuje trenutačnog korisnika. Naredba `chown` koristi se za promjenu vlasnika, npr. `sudo chown korisnik:grupa datoteka`.
 :::
 
-### Zadatak 1
+## Zadatak 1
 
 - U svom korisničkom direktoriju `~` izradite sljedeće direktorije jednom naredbom: `Vjezba`, `Backup`, `Skripte`, `Temp`
 - Unutar direktorija `Vjezba` izradite datoteku naziva `prvi.txt` i upišite u nju tekst `Ovo je prvi red.`
@@ -177,10 +178,10 @@ Naredba `whoami` prikazuje trenutnog korisnika. Naredba `chown` koristi se za pr
 - Pronađite i ispišite sve retke iz datoteke `/etc/services` koji sadrže riječ `http`, bez obzira na veličinu slova
 - Provjerite koliko redaka u datoteci `prvih_3.txt` ne sadrži slovo `a`
 - Ispišite današnji datum i vrijeme u formatu: `godina-mjesec-dan_sat:minuta` (npr. `2026-03-17_15:00`)
-- Pomoću jedne naredbe provjerite kojim grupama pripada trenutno prijavljen korisnik i spremite taj izlaz u datoteku `moje_grupe.txt` unutar direktorija `Vjezba`
-- Koristeći odgovarajuću naredbu *(no hard coding!),* nadodajte ime trenutno prijavljenog korisnika na kraj datoteke `moje_grupe.txt`
-- Pomoću odgovarajuće naredbe, ispišite naziv operacijskog sustava i verziju kernela koju koristite
-- Pomoću odgovarajuće naredbe provjerite trenutni radni direktorij
+- S pomoću jedne naredbe provjerite kojim grupama pripada trenutačno prijavljen korisnik i spremite taj izlaz u datoteku `moje_grupe.txt` unutar direktorija `Vjezba`
+- Koristeći odgovarajuću naredbu *(no hard coding!),* nadodajte ime trenutačno prijavljenog korisnika na kraj datoteke `moje_grupe.txt`
+- S pomoću odgovarajuće naredbe, ispišite naziv operacijskog sustava i verziju kernela koju koristite
+- S pomoću odgovarajuće naredbe provjerite trenutačni radni direktorij
 - U direktoriju `Backup` kreirajte novi direktorij `Zasticeno`
 - Koristeći numerički oblik, promijenite dozvole direktoriju `Zasticeno` tako da vlasnik ima sve dozvole, grupa ima samo dozvole čitanja i izvršavanja, a ostali nemaju nikakve dozvole
 - Koristeći simbolički oblik, promijenite dozvole direktoriju `Zasticeno` tako da grupa dobije i dozvolu pisanja

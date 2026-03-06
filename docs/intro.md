@@ -32,9 +32,9 @@ Za praktičan rad koristit ćemo Linux OS. Nekoliko je razloga zašto je Linux d
 - Većina sistemskih funkcija detaljno je dokumentirana i opisana u ugrađenim *man* stranicama.
 
 :::info Napomena
-Ako ne koristite Linux kao primarni OS, preporuča se korištenje jedne od dviju opcija:
+Ako ne koristite Linux kao primarni OS, preporučuje se korištenje jedne od dviju opcija:
 - **VirtualBox:** Preuzeti VM s Merlin stranice kolegija &rarr; otvoriti VirtualBox &rarr; *File* &rarr; *Import Appliance* &rarr; odabrati .ova datoteku koju ste preuzeli &rarr; *Next* &rarr; *Finish*.
-- **WSL (Windows Subsystem for Linux):** [Upute za instalaciju](https://www.youtube.com/watch?v=-Wg2r1lWrTc). WSL primarno pruža rad s Linux sustavom u terminalu, što nam je za ovaj kolegij i najvažnije. U pravilu je brži i troši manje resursa od VirtualBox-a.
+- **WSL (Windows Subsystem for Linux):** [Upute za instalaciju](https://www.youtube.com/watch?v=-Wg2r1lWrTc). WSL primarno pruža rad s Linux sustavom u terminalu, što nam je za ovaj kolegij i najvažnije. U pravilu je brži i troši manje resursa od VirtualBoxa.
 :::
 
 ### Rasprostranjenost operacijskih sustava

@@ -169,7 +169,7 @@ cat L05_sqr.txt
   </TabItem>
 </Tabs>
 
-Komentirajte vrijeme izvršavanja programa za kreiranje tablice kvadrata brojeva pisanog u C-u i u Bash-u. Vrijeme izvršavanja naredbe, programa ili skripte možemo dobiti koristeći naredbu `time`. [Više o mjerenju vremena izvršavanja](https://stackoverflow.com/a/47478852/11497334)
+Komentirajte vrijeme izvršavanja programa za kreiranje tablice kvadrata brojeva pisanog u C-u i u Bashu. Vrijeme izvršavanja naredbe, programa ili skripte možemo dobiti koristeći naredbu `time`. [Više o mjerenju vremena izvršavanja](https://stackoverflow.com/a/47478852/11497334)
 
 ```bash
 time ./L05_sqr L05_sqr.txt 4 5000

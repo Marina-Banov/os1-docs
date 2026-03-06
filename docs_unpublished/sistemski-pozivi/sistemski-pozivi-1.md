@@ -83,7 +83,7 @@ strace -c ./L04_hello_world
 
 ### Primjer 1: [UNIX timestamp](https://www.unixtimestamp.com/)
 
-Usporedite izvršavanje koda za ispis trenutnog vremena pisanog u Bash-u, C-u i Python-u:
+Usporedite izvršavanje koda za ispis trenutnog vremena pisanog u Bashu, C-u i Pythonu:
 
 <Tabs>
   <TabItem value="bash" label="Bash">

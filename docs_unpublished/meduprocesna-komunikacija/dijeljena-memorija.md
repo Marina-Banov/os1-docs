@@ -61,7 +61,7 @@ gcc L09_shmreader.c -o L09_shmreader && ./L09_shmreader
   </TabItem>
   <TabItem value="python" label="Python">
 
-Upravljanje dijeljenom memorijom u Python-u je moguće uz paket `sysv-ipc` ([dokumentacija](http://semanchuk.com/philip/sysv_ipc/)) koji ćete po potrebi morati prvo instalirati:
+Upravljanje dijeljenom memorijom u Pythonu je moguće uz paket `sysv-ipc` ([dokumentacija](http://semanchuk.com/philip/sysv_ipc/)) koji ćete po potrebi morati prvo instalirati:
 
 ```bash
 pip install sysv-ipc

@@ -52,7 +52,7 @@ gcc L09_msg_q_example.c -o L09_msg_q_example && ./L09_msg_q_example
   </TabItem>
   <TabItem value="python" label="Python">
 
-U Python-u se za dodavanje vrijednosti u *message queue* koristi `send` metoda:
+U Pythonu se za dodavanje vrijednosti u *message queue* koristi `send` metoda:
 
 ```python title="L09_msg_q_example.py"
 import sysv_ipc
