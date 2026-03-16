@@ -296,6 +296,9 @@ Napišite skriptu koja dodaje ekstenziju `.html` svim datotekama u trenutačnom 
 ./test/stariji/datoteka3.txt.html
 ```
 :::
+:::info Napomena
+U Bashu se obrasci poput `./*` i `./**/*` mogu koristiti za izlistavanje datoteka u trenutačnom direktoriju i njegovim poddirektorijima.
+:::
 
 ## Zadatak 5
 
