@@ -281,6 +281,22 @@ Napišite skriptu koja dodaje ekstenziju `.html` svim datotekama u trenutačnom 
 ```
 :::
 
+:::info Datoteke prije poziva
+```bash
+./test/datoteka1.txt
+./test/datoteka2.txt
+./test/stariji/datoteka3.txt
+```
+:::
+
+:::info Datoteke nakon poziva
+```bash
+./test/datoteka1.txt.html
+./test/datoteka2.txt.html
+./test/stariji/datoteka3.txt.html
+```
+:::
+
 ## Zadatak 5
 
 Napišite skriptu koja provjerava je li zadana godina prijestupna. Koristite funkcije u Bashu.
