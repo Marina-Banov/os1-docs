@@ -8,12 +8,14 @@ Dijeljena memorija je najjednostavniji i najefikasniji oblik međuprocesne komun
 Da bi procesi pristupili dijeljenoj memoriji, moraju definirati jedinstveni ključ kako bi se dogovorili oko adrese kojoj će pristupati. Funkcija `ftok()` generira taj ključ koristeći definiranu datoteku i identifikator. Ako vas zanima više, možete proučiti [zašto](https://www.quora.com/Why-do-we-use-a-file-file-path-as-the-input-when-creating-a-key-with-ftok-function-in-inter-process-communication-What-is-the-purpose-of-the-file-when-creating-shared-memory) se u ovom slučaju koristi putanja datoteke i [kako](https://stackoverflow.com/a/3155312/11497334) odabrati primjerenu datoteku.  
 Nakon toga, procesi dohvaćaju identifikator bloka dijeljene memorije (`shmget`, *open*), a potom i sam blok dijeljene memorije (`shmat`, *attach*). Procesi mogu slobodno čitati i pisati u tu memoriju, a kada završe s radom moraju otpustiti (`shmdt`, *detach*) korištene resurse. Blokovi dijeljene memorije nalaze se izvan memorije procesa i neće automatski nestati kada ih procesi otpuste, već je potrebno izričito obrisati (`shmctl`, *remove*) dijeljenu memoriju.
 
+## Primjer 1: Dijeljena memorija
+
 U zadanom primjeru prvi program *(writer)* zapisuje poruku u blok dijeljene memorije, a drugi *(reader)* čita poruku iz tog bloka:
 
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L09_shmwriter.c"
+```c title="P01_shm-writer.c"
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -33,10 +35,10 @@ int main() {
 }
 ```
 ```bash
-gcc L09_shmwriter.c -o L09_shmwriter && ./L09_shmwriter
+gcc P01_shm-writer.c -o P01_shm-writer && ./P01_shm-writer
 ```
 
-```c title="L09_shmreader.c"
+```c title="P01_shm-reader.c"
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -56,7 +58,7 @@ int main() {
 }
 ```
 ```bash
-gcc L09_shmreader.c -o L09_shmreader && ./L09_shmreader
+gcc P01_shm-reader.c -o P01_shm-reader && ./P01_shm-reader
 ```
   </TabItem>
   <TabItem value="python" label="Python">
@@ -67,7 +69,7 @@ Upravljanje dijeljenom memorijom u Pythonu je moguće uz paket `sysv-ipc` ([doku
 pip install sysv-ipc
 ```
 
-```python title="L09_shmreader.py"
+```python title="P01_shm-reader.py"
 import os
 import sysv_ipc
 
@@ -80,7 +82,7 @@ shm.detach()
 shm.remove()
 ```
 ```bash
-python3 L09_shmreader.py
+python3 P01_shm-reader.py
 ```
   </TabItem>
 </Tabs>

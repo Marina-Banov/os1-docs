@@ -8,7 +8,7 @@ U današnjim ćemo vježbama istražiti algoritme za dodjeljivanje memorije i *b
 <Tabs>
   <TabItem value="c" label="C">
 
-U svrhu preglednosti koda, funkcije zajedničke svim algoritmima izdvojene su u posebnu knjižnicu `L11_memory_management.h`.
+U svrhu preglednosti koda, funkcije zajedničke svim algoritmima izdvojene su u posebnu knjižnicu `L10_memory-management.h`.
   </TabItem>
   <TabItem value="python" label="Python">
 
@@ -31,7 +31,7 @@ pip install matplotlib
 Kada se proces završi, zauzeti dio memorije se oslobađa i, ako je to moguće, slobodni dijelovi susjednih blokova se spajaju kako bi se stvorio jedan veći slobodan blok (funkcije `deallocate` i `merge_blocks`).
 
 ```bash
-gcc L11_first_fit.c L11_memory_management.c -o L11_first_fit && ./L11_first_fit
+gcc P01_first-fit.c L10_memory-management.c -o P01_first-fit && ./P01_first-fit
 ```
   </TabItem>
   <TabItem value="python" label="Python">
@@ -39,7 +39,7 @@ gcc L11_first_fit.c L11_memory_management.c -o L11_first_fit && ./L11_first_fit
 Kada se proces završi, zauzeti dio memorije se oslobađa i, ako je to moguće, slobodni dijelovi susjednih blokova se spajaju kako bi se stvorio jedan veći slobodan blok (funkcija `deallocate`).
 
 ```bash
-python3 L11_first_fit.py
+python3 P01_first-fit.py
 ```
   </TabItem>
 </Tabs>
@@ -52,13 +52,13 @@ python3 L11_first_fit.py
   <TabItem value="c" label="C">
 
 ```bash
-gcc L11_next_fit.c L11_memory_management.c -o L11_next_fit && ./L11_next_fit
+gcc P02_next-fit.c L10_memory-management.c -o P02_next-fit && ./P02_next-fit
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
 ```bash
-python3 L11_next_fit.py
+python3 P02_next-fit.py
 ```
   </TabItem>
 </Tabs>
@@ -71,13 +71,13 @@ python3 L11_next_fit.py
   <TabItem value="c" label="C">
 
 ```bash
-gcc L11_best_fit.c L11_memory_management.c -o L11_best_fit && ./L11_best_fit
+gcc P03_best-fit.c L10_memory-management.c -o P03_best-fit && ./P03_best-fit
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
 ```bash
-python3 L11_best_fit.py
+python3 P03_best-fit.py
 ```
   </TabItem>
 </Tabs>
@@ -90,13 +90,13 @@ python3 L11_best_fit.py
   <TabItem value="c" label="C">
 
 ```bash
-gcc L11_worst_fit.c L11_memory_management.c -o L11_worst_fit && ./L11_worst_fit
+gcc P04_worst-fit.c L10_memory-management.c -o P04_worst-fit && ./P04_worst-fit
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
 ```bash
-python3 L11_worst_fit.py
+python3 P04_worst-fit.py
 ```
   </TabItem>
 </Tabs>
@@ -112,7 +112,7 @@ python3 L11_worst_fit.py
 Nadopunite sljedeći kod tako što ćete nasumično odabrati blok iz liste slobodnih blokova. Pritom možete koristiti [funkciju](https://en.cppreference.com/w/c/numeric/random/rand) `rand()`. Pazite na slučaj u kojem nije moguće smjestiti proces niti u jedan slobodni blok, odnosno izlazak iz beskonačne petlje.
 
 ```bash
-gcc L11_random_fit.c L11_memory_management.c -o L11_random_fit && ./L11_random_fit
+gcc Z01_random-fit.c L10_memory-management.c -o Z01_random-fit && ./Z01_random-fit
 ```
   </TabItem>
   <TabItem value="python" label="Python">
@@ -120,7 +120,7 @@ gcc L11_random_fit.c L11_memory_management.c -o L11_random_fit && ./L11_random_f
 Nadopunite sljedeći kod tako što ćete nasumično odabrati blok iz liste slobodnih blokova. Pritom možete koristiti [funkciju](https://www.w3schools.com/python/ref_random_choice.asp) `random.choice`. Pazite na slučaj u kojem nije moguće smjestiti proces niti u jedan slobodni blok, odnosno izlazak iz beskonačne petlje.
 
 ```bash
-python3 L11_random_fit.py
+python3 Z01_random-fit.py
 ```
   </TabItem>
 </Tabs>
@@ -135,7 +135,7 @@ python3 L11_random_fit.py
 Nadopunite sljedeći kod kako biste realizirali kreiranje procesa s nasumičnim veličinama memorije (raspon 50-400 s korakom 10). Pritom možete koristiti [funkciju](https://en.cppreference.com/w/c/numeric/random/rand) `rand()`.
 
 ```bash
-gcc L11_random_generation.c L11_memory_management.c -o L11_random_generation && ./L11_random_generation
+gcc Z02_random-generation.c L10_memory-management.c -o Z02_random-generation && ./Z02_random-generation
 ```
   </TabItem>
   <TabItem value="python" label="Python">
@@ -143,12 +143,12 @@ gcc L11_random_generation.c L11_memory_management.c -o L11_random_generation && 
 Nadopunite sljedeći kod kako biste realizirali kreiranje procesa s nasumičnim veličinama memorije (raspon 50-400 s korakom 10). Pritom možete koristiti [funkciju](https://www.w3schools.com/python/ref_random_randrange.asp) `random.randrange`.
 
 ```bash
-python3 L11_random_generation.py
+python3 Z02_random-generation.py
 ```
   </TabItem>
 </Tabs>
 
-## *Buddy system*
+## Primjer 5: *Buddy system*
 
 *Buddy system* je algoritam za upravljanje memorijom koji dijeli memorijski prostor na blokove veličine $2^k$. Algoritam radi s parovima blokova, gdje svaki blok ima svog partnera ili prijatelja *(buddy)* s kojim se može spojiti nazad u veći blok kada oba postanu slobodna. *Buddy system* započinje s cijelim memorijskim prostorom kao jednim velikim blokom.
 
@@ -160,13 +160,13 @@ Prilikom dealokacije, kada se blok memorije oslobodi, provjerava se njegov *budd
   <TabItem value="c" label="C">
 
 ```bash
-gcc L11_buddy_system.c L11_memory_management.c -lm -o L11_buddy_system && ./L11_buddy_system
+gcc P05_buddy-system.c L10_memory-management.c -lm -o P05_buddy-system && ./P05_buddy-system
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
 ```bash
-python3 L11_buddy_system.py
+python3 P05_buddy-system.py
 ```
   </TabItem>
 </Tabs>

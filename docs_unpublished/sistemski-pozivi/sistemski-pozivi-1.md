@@ -25,9 +25,11 @@ Isječak iz službene dokumentacije `man syscalls 2>/dev/null | head -n 25 | tai
        syscall(2), which can be used to invoke system calls for which no wrap‐
 ```
 
+### Primjer 1
+
 Kreirajmo jednostavan C program:
 
-```c title="L04_hello_world.c"
+```c title="P01_hello-world.c"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -41,9 +43,9 @@ int main(int argc, char const *argv[]) {
 Nakon prevođenja programa, možemo analizirati njegove sistemske pozive koristeći `strace`:
 
 ```bash
-gcc L04_hello_world.c -o L04_hello_world
-./L04_hello_world
-strace ./L04_hello_world
+gcc P01_hello-world.c -o P01_hello-world
+./P01_hello-world
+strace ./P01_hello-world
 ```
 
 Vidimo da je funkcija `printf` zapravo *wrapper* za sistemski poziv `write`. Funkcija `write` prihvaća tri argumenta:
@@ -55,40 +57,38 @@ Vidimo da je funkcija `printf` zapravo *wrapper* za sistemski poziv `write`. Fun
 ### Zadatak 1: Dijagnostički alat `strace`
 
 ```bash
-strace ./L04_hello_world
+strace ./P01_hello-world
 ```
 
 Uz sve sistemske pozive želimo i vrijeme kada su se izvršavali, to radimo sa `-t`. Specifične sistemske pozive možemo pratiti sa `-e`:
 
 ```bash
-strace -t -e trace=openat,read ./L04_hello_world
+strace -t -e trace=openat,read ./P01_hello-world
 ```
 
 Detaljnije vrijeme možemo dobiti sa `-tt`:
 
 ```bash
-strace -tt -e trace=openat,read ./L04_hello_world
+strace -tt -e trace=openat,read ./P01_hello-world
 ```
 
 Dodajmo `-c` opciju kako bi dobili statistički prikaz koji je vizualno prihvatljiviji:
 ```bash
-strace -c ./L04_hello_world
+strace -c ./P01_hello-world
 ```
 
 - Napišite naredbu za detaljni prikaz vremena i pratite sistemske pozive `openat` i `write`
 - Napišite naredbu da pratite samo sistemski poziv `read`, ali uz statistički prikaz
 - Napišite naredbu koja koristi statistički prikaz i prati sistemske pozive `openat` i `read`
 
-## Zadaci za vježbu
-
-### Primjer 1: [UNIX timestamp](https://www.unixtimestamp.com/)
+### Primjer 2: [UNIX timestamp](https://www.unixtimestamp.com/)
 
 Usporedite izvršavanje koda za ispis trenutnog vremena pisanog u Bashu, C-u i Pythonu:
 
 <Tabs>
   <TabItem value="bash" label="Bash">
 
-```bash title="L04_unix_timestamp.sh"
+```bash title="P02_unix-timestamp.sh"
 #!/bin/bash
 
 timer=$(date +%s)
@@ -105,13 +105,13 @@ else
 fi
 ```
 ```bash
-chmod +x L04_unix_timestamp.sh
-strace -c ./L04_unix_timestamp.sh
+chmod +x P02_unix-timestamp.sh
+strace -c ./P02_unix-timestamp.sh
 ```
   </TabItem>
   <TabItem value="c" label="C">
 
-```c title="L04_unix_timestamp.c"
+```c title="P02_unix-timestamp.c"
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -133,13 +133,13 @@ int main(int argc, char const *argv[]) {
 }
 ```
 ```bash
-gcc L04_unix_timestamp.c -o L04_unix_timestamp
-strace -c ./L04_unix_timestamp
+gcc P02_unix-timestamp.c -o P02_unix-timestamp
+strace -c ./P02_unix-timestamp
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L04_unix_timestamp.py"
+```python title="P02_unix-timestamp.py"
 from datetime import datetime
 import time
 
@@ -155,10 +155,12 @@ else:
     print("Standard time")
 ```
 ```bash
-strace -c python3 L04_unix_timestamp.py
+strace -c python3 P02_unix-timestamp.py
 ```
   </TabItem>
 </Tabs>
+
+## Zadaci za vježbu
 
 ### Zadatak 2: `txt` datoteke
 
@@ -167,7 +169,7 @@ Napišite program koji će ispisivati broj `txt` datoteka u mapi koja je dana ka
 <Tabs>
   <TabItem value="c" label="Primjer u C-u">
 
-```c title="L04_txt_datoteke.c"
+```c title="Z02_txt-datoteke.c"
 #include <stdlib.h>
 #include <stdio.h>
 #include <dirent.h>
@@ -188,7 +190,7 @@ int main(int argc, char const *argv[]) {
     // stvoriti bar jednu txt datoteku
     if (strcmp(dir_name, ".") == 0) {
         printf("Creating dummy file\n");
-        FILE *fp = fopen("L04_dummy_file.txt", "w");
+        FILE *fp = fopen("Z02_dummy-file.txt", "w");
         fclose(fp);
         printf("Dummy file created\n");
     }
@@ -215,13 +217,13 @@ int main(int argc, char const *argv[]) {
 }
 ```
 ```bash
-gcc L04_txt_datoteke.c -o L04_txt_datoteke
-strace -c ./L04_txt_datoteke
+gcc Z02_txt-datoteke.c -o Z02_txt-datoteke
+strace -c ./Z02_txt-datoteke
 ```
   </TabItem>
   <TabItem value="bash" label="Bash predložak">
 
-```bash title="L04_txt_datoteke.sh"
+```bash title="Z02_txt-datoteke.sh"
 #!/bin/bash
 
 # Pročitati direktorij iz prvog argumenta ili dodijeliti defaultnu vrijednost (.)
@@ -236,8 +238,8 @@ strace -c ./L04_txt_datoteke
 
 ```
 ```bash
-chmod +x L04_txt_datoteke.sh
-strace -c ./L04_txt_datoteke.sh
+chmod +x Z02_txt-datoteke.sh
+strace -c ./Z02_txt-datoteke.sh
 ```
 
 :::info Napomena
@@ -249,7 +251,7 @@ Bash sintaksa `${n:-val}` vraća vrijednost `n`-tog argumenta ako on postoji, a 
 
 <div>
 
-```python title="L04_txt_datoteke.py"
+```python title="Z02_txt-datoteke.py"
 import os
 import sys
 
@@ -273,7 +275,7 @@ except OSError:
     print(f"Can't open directory")
 ```
 ```bash
-strace -c python3 L04_txt_datoteke.py
+strace -c python3 Z02_txt-datoteke.py
 ```
 
 :::info Napomene

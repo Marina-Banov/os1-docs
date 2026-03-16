@@ -27,7 +27,7 @@ netstat -tn
 Poslužitelj i klijent razmjenjuju jednu poruku. Za svaku stranu (program) pišemo jedan kod. Koristimo `unistd` knjižnicu koja sadrži wrappere za sistemski poziv `close`. Knjižnicu `arpa/inet.h` koristimo za funkcije vezane uz mrežnu komunikaciju (npr. `htons`, `inet_addr`, itd.) Utičnice i funkcije za rad sa utičnicama su definirane u `sys/socket.h`. Struktura `sockaddr_in` je definirana u `netinet/in.h`. Ukoliko dođe do greške, funkcija `perror` omogućava detaljniji ispis greške.
 
 ```bash
-gcc L10_server.c -o L10_server && ./L10_server &
+gcc P01_server.c -o P01_server && ./P01_server &
 ```
 
 :::info Podsjetnik
@@ -35,7 +35,7 @@ Znak `&` na kraju naredbe koristi se za pokretanje programa u pozadini.
 :::
 
 ```bash
-gcc L10_client.c -o L10_client && ./L10_client
+gcc P01_client.c -o P01_client && ./P01_client
 ```
 
 Pokušajte pokrenuti iduće dvije varijante koda:
@@ -48,7 +48,7 @@ Pokušajte pokrenuti iduće dvije varijante koda:
 Poslužitelj i klijent razmjenjuju jednu poruku. Za svaku stranu (program) pišemo jedan kod. Koristimo Python knjižnicu za rad s utičnicama, [socket](https://docs.python.org/3/library/socket.html).
 
 ```bash
-python3 L10_server.py &
+python3 P01_server.py &
 ```
 
 :::info Podsjetnik
@@ -56,7 +56,7 @@ Znak `&` na kraju naredbe koristi se za pokretanje programa u pozadini.
 :::
 
 ```bash
-python3 L10_client.py &
+python3 P01_client.py &
 ```
   </TabItem>
 </Tabs>
@@ -71,13 +71,13 @@ Poslužiteljski dio aplikacije u pravilu sadrži većinu logike, prati trenutno 
 Nadopunite kod za poslužitelja i omogućite povezivanje s klijentom putem utičnica. Logika igre već je implementirana. Nakon toga otvorite terminal i pokrenite:
 
 ```bash
-gcc L10_game_server.c -o L10_game_server && ./L10_game_server &
+gcc Z01_game_server.c -o Z01_game_server && ./Z01_game_server &
 ```
 
 Klijentski dio aplikacije predstavlja sučelje prema korisniku koje mu omogućuje sudjelovanje u igri. Nadopunite kod za klijenta i omogućite povezivanje s poslužiteljom putem utičnica. Nakon toga u terminalu pokrenite:
 
 ```bash
-gcc L10_game_client.c -o L10_game_client && ./L10_game_client
+gcc Z01_game_client.c -o Z01_game_client && ./Z01_game_client
 ```
 
 Odigrajte rundu Vješala. **Dozvoljen je unos jednog slova.**
@@ -94,13 +94,13 @@ pip install wonderwords
 Nadopunite kod za poslužitelja i omogućite povezivanje s klijentom putem utičnica. Logika igre već je implementirana. Nakon toga otvorite terminal i pokrenite:
 
 ```bash
-python3 L10_game_server.py &
+python3 Z01_game_server.py &
 ```
 
 Klijentski dio aplikacije predstavlja sučelje prema korisniku koje mu omogućuje sudjelovanje u igri. Nadopunite kod za klijenta i omogućite povezivanje s poslužiteljom putem utičnica. Nakon toga u terminalu pokrenite:
 
 ```bash
-python3 L10_game_client.py
+python3 Z01_game_client.py
 ```
 
 Odigrajte rundu Vješala. **Dozvoljen je unos jednog slova ili cijele riječi.**
@@ -130,13 +130,13 @@ U idućim kodovima su neke od prethodno pokazanih provjera preskočene kako se k
 :::
 
 ```bash
-gcc -pthread L10_multi_server.c -o L10_multi_server && ./L10_multi_server &
+gcc -pthread P02_multi_server.c -o P02_multi_server && ./P02_multi_server &
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
 ```bash
-python3 L10_multi_server.py &
+python3 P02_multi_server.py &
 ```
   </TabItem>
 </Tabs>
@@ -150,7 +150,7 @@ Kada želite završiti s komunikacijom, pritisnite `Enter`.
   <TabItem value="c" label="C">
 
 ```bash
-gcc -pthread L10_multi_client.c -o L10_multi_client && ./L10_multi_client
+gcc -pthread P02_multi_client.c -o P02_multi_client && ./P02_multi_client
 ```
 
 :::info Pitanje
@@ -161,7 +161,7 @@ Primjećujete li neki problem u serverskom kodu iz perspektive višedretvenosti?
   <TabItem value="python" label="Python">
 
 ```bash
-python3 L10_multi_client.py
+python3 P02_multi_client.py
 ```
   </TabItem>
 </Tabs>

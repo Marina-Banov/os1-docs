@@ -31,12 +31,12 @@ Isječak iz službene dokumentacije:
 
 ![](L07_fork.jpg)
 
-## Primjer 1: Hello, World
+### Primjer 1: Hello, World
 
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L07_hello_world.c"
+```c title="P01_hello-world.c"
 #include <unistd.h>
 #include <stdio.h>
 
@@ -52,12 +52,12 @@ int main() {
 }
 ```
 ```bash
-gcc L07_hello_world.c -o L07_hello_world && ./L07_hello_world
+gcc P01_hello-world.c -o P01_hello-world && ./P01_hello-world
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L07_hello_world.py"
+```python title="P01_hello-world.py"
 import os
 
 print(f"Current process PID={os.getpid()}")
@@ -65,7 +65,7 @@ forked_pid = os.fork()
 print(f"Did a fork. It returned {forked_pid}.\n └─ PID = {os.getpid()}, PPID = {os.getppid()}")
 ```
 ```bash
-python3 L07_hello_world.py
+python3 P01_hello-world.py
 ```
   </TabItem>
 </Tabs>
@@ -79,7 +79,7 @@ python3 L07_hello_world.py
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L07_hello_world_flush.c"
+```c title="P01_hello-world-flush.c"
 #include <unistd.h>
 #include <stdio.h>
 
@@ -96,14 +96,14 @@ int main() {
 }
 ```
 ```bash
-gcc L07_hello_world_flush.c -o L07_hello_world_flush && ./L07_hello_world_flush
+gcc P01_hello-world-flush.c -o P01_hello-world-flush && ./P01_hello-world-flush
 ```
 
 Kada koristite funkciju `printf()`, C ne ispisuje odmah zadani string, već ga prvo nakratko pohranjuje u privremenu memoriju (međuspremnik). Kada koristite `fork()` za stvaranje novog procesa, *child* proces nasljeđuje međuspremnik od *parent* procesa. Dodavanjem naredbe `fflush(stdout)` prisiljavate C da odmah [ispiše sadržaj međuspremnika i isprazni ga ](https://en.cppreference.com/w/c/io/fflush). Time ujedno i osiguravate da *child* proces naslijedi prazan međuspremnik i izbjegavate moguće *bug*-ove poput dupliciranog ispisa.
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L07_hello_world_flush.py"
+```python title="P01_hello-world-flush.py"
 import os
 
 # Odmah isprazni međuspremnik
@@ -112,7 +112,7 @@ forked_pid = os.fork()
 print(f"Did a fork. It returned {forked_pid}.\n └─ PID = {os.getpid()}, PPID = {os.getppid()}")
 ```
 ```bash
-python3 L07_hello_world_flush.py
+python3 P01_hello-world-flush.py
 ```
 
 Kada koristite funkciju `print()`, Python ne ispisuje odmah zadani string, već ga prvo nakratko pohranjuje u privremenu memoriju (međuspremnik). Kada koristite `os.fork()` za stvaranje novog procesa, *child* proces nasljeđuje međuspremnik od *parent* procesa. Dodavanjem `flush=True` funkciji `print()` prisiljavate Python da odmah ispiše string i [isprazni međuspremnik](https://docs.python.org/3/library/functions.html#print). Time ujedno i osiguravate da *child* proces naslijedi prazan međuspremnik i izbjegavate moguće *bug*-ove poput dupliciranog ispisa.
@@ -122,7 +122,7 @@ Kada koristite funkciju `print()`, Python ne ispisuje odmah zadani string, već 
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L07_hello_world_sleep.c"
+```c title="P01_hello-world-sleep.c"
 #include <unistd.h>
 #include <stdio.h>
 
@@ -138,25 +138,25 @@ int main() {
 }
 ```
 ```bash
-gcc L07_hello_world_sleep.c -o L07_hello_world_sleep && ./L07_hello_world_sleep
+gcc P01_hello-world-sleep.c -o P01_hello-world-sleep && ./P01_hello-world-sleep
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L07_hello_world_sleep.py"
+```python title="P01_hello-world-sleep.py"
 
 ```
   </TabItem>
 </Tabs>
 
-## Primjer 2: Odnos djeteta i roditelja
+### Primjer 2: Odnos djeteta i roditelja
 
 U ovom se primjeru *child* proces izvršava neko dulje vrijeme i pri uspješnom izvršavanju šalje roditelju `SIGCHLD` signal koristeći funkciju `_exit()`. *Parent* proces čeka na *child* proces.
 
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L07_parent_child.c"
+```c title="P02_parent-child.c"
 #include <stdio.h>
 #include <unistd.h>     // fork, getpid, sleep, _exit
 #include <stdlib.h>     // EXIT_SUCCESS
@@ -188,12 +188,12 @@ int main() {
 }
 ```
 ```bash
-gcc L07_parent_child.c -o L07_parent_child && ./L07_parent_child
+gcc P02_parent-child.c -o P02_parent-child && ./P02_parent-child
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L07_parent_child.py"
+```python title="P02_parent-child.py"
 import os
 import time
 
@@ -213,7 +213,7 @@ else:
     print(f"[PARENT] Child with PID = {child_pid} finished with return value {status}")
 ```
 ```bash
-strace -e "trace=!all" python3 L07_parent_child.py
+strace -e "trace=!all" python3 P02_parent-child.py
 ```
   </TabItem>
 </Tabs>
@@ -222,14 +222,16 @@ strace -e "trace=!all" python3 L07_parent_child.py
 Kada bi roditelj imao dva djeteta, kojeg bi funkcija `wait` čekala?
 :::
 
-## Zadatak 1: Odnos djeteta i roditelja
+## Zadaci za vježbu
+
+### Zadatak 1: Odnos djeteta i roditelja
 
 Nadopunite uvjete kako bi se ispravno ispisivali odnosi između procesa.
 
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L07_hierarchy.c"
+```c title="Z01_hierarchy.c"
 #include <unistd.h>
 #include <stdio.h>
 
@@ -254,12 +256,12 @@ int main() {
 }
 ```
 ```bash
-gcc L07_hierarchy.c -o L07_hierarchy && ./L07_hierarchy
+gcc Z01_hierarchy.c -o Z01_hierarchy && ./Z01_hierarchy
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L07_hierarchy.py"
+```python title="Z01_hierarchy.py"
 import os
 
 # forked_pid1 = ...
@@ -271,12 +273,12 @@ import os
 print(f"[{...}] forked_pid1 = {...}, forked_pid2 = {...}, PID = {...}, PPID = {...}")
 ```
 ```bash
-python3 L07_hierarchy.py
+python3 Z01_hierarchy.py
 ```
   </TabItem>
 </Tabs>
 
-## Primjer 3: Fork bomb
+### Primjer 3: Fork bomb
 
 Nemojte pokretati ovaj kod:
 
@@ -306,7 +308,7 @@ while True:
   </TabItem>
 </Tabs>
 
-## Zadatak 2: Višestruke kopije
+### Zadatak 2: Višestruke kopije
 
 :::info Pitanje
 Koliko će se puta ispisati `Hello` kada pokrenemo ovaj kod:
@@ -381,7 +383,7 @@ Kako bismo mogli ispisati `Hello` točno tri puta?
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L07_hello_three_times.c"
+```c title="Z02_hello_three_times.c"
 #include <unistd.h>
 #include <stdio.h>
 
@@ -394,7 +396,7 @@ int main() {
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L07_hello_three_times.py"
+```python title="Z02_hello_three_times.py"
 import os
 
 # ...
@@ -448,7 +450,7 @@ Koliko će novih procesa biti kreirano kada pokrenemo ovaj kod:
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L07_n_copies.c"
+```c title="Z02_n_copies.c"
 #include <stdio.h>
 #include <unistd.h>
 #define FORK_NUM 3
@@ -467,7 +469,7 @@ int main() {
   </TabItem>
   <TabItem value="python" label="Python predložak">
 
-```python title="L07_n_copies.py"
+```python title="Z02_n_copies.py"
 import os
 import time
 
@@ -485,7 +487,7 @@ Pokušajte mijenjati vrijednosti varijable `FORK_NUM` te predvidjeti broj kreira
 Zašto se redoslijed ispisa mijenja kada pokrenemo program više puta?  
 :::
 
-## Zadatak 3: Korisna djeca
+### Zadatak 3: Korisna djeca
 
 Stvaranje kloniranih procesa nije uvijek praktično jer često želimo kreirati novi proces kako bi obavljao različite zadatke od svog roditelja.  
 Prije svega, moramo razlikovati *child* proces od *parent* procesa. Dovoljno je provjeriti povratnu vrijednost funkcije `fork()` (0 za dijete i *child* PID za roditelja).  
@@ -494,7 +496,7 @@ Ako želimo *child* proces zadužiti za neku kompleksniju zadaću (za koju možd
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L07_ls_child.c"
+```c title="Z03_ls_child.c"
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -521,12 +523,12 @@ int main() {
 }
 ```
 ```bash
-gcc L07_ls_child.c -o L07_ls_child && ./L07_ls_child
+gcc Z03_ls_child.c -o Z03_ls_child && ./Z03_ls_child
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L07_ls_child.py"
+```python title="Z03_ls_child.py"
 import os
 
 forked_pid = os.fork()
@@ -553,7 +555,7 @@ Kreirajte proces koji ispisuje `man` stranicu za Vašu omiljenu naredbu:
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L07_man_child.c"
+```c title="Z03_man_child.c"
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -576,7 +578,7 @@ int main() {
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L07_man_child.py"
+```python title="Z03_man_child.py"
 # Stvaranje novog procesa
 # forked_pid = ...
 

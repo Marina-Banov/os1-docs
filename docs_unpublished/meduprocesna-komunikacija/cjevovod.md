@@ -19,6 +19,8 @@ man pipe | head -n 32 | tail -n 10
        tails, see pipe(7).
 ```
 
+## Primjer 3: Cjevovod
+
 Vođeni ispisom iz dokumentacije, sada ćemo istražiti kako [u kodu](https://en.wikipedia.org/wiki/Pipeline_(Unix)#Creating_pipelines_programmatically) kreirati cjevovod u svrhu međuprocesne komunikacije. Ako želimo postići potpuno dvosmjernu komunikaciju (takvu da oba procesa mogu istovremeno slati i primati podatke), potrebna su **dva cjevovoda**: jedan za slanje podataka u jednom smjeru, a drugi za slanje u drugom smjeru.
 
 ![](L09_pipe.png)
@@ -26,7 +28,7 @@ Vođeni ispisom iz dokumentacije, sada ćemo istražiti kako [u kodu](https://en
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L09_pipe.c"
+```c title="P03_pipe.c"
 #include<stdio.h>
 #include<unistd.h>
 #include<stdlib.h>
@@ -96,12 +98,12 @@ int main() {
 }
 ```
 ```bash
-gcc L09_pipe.c -o L09_pipe && ./L09_pipe
+gcc P03_pipe.c -o P03_pipe && ./P03_pipe
 ```
   </TabItem>
   <TabItem value="python" label="Python predložak">
 
-```python title="L09_pipe.py"
+```python title="P03_pipe.py"
 import os
 
 read1, write1 = os.pipe()  # Message from parent to child
@@ -154,7 +156,7 @@ else:
     os._exit(os.EX_OK)
 ```
 ```bash
-python3 L09_pipe.py
+python3 P03_pipe.py
 ```
   </TabItem>
 </Tabs>

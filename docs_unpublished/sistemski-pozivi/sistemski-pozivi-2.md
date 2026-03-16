@@ -7,7 +7,7 @@ import TabItem from "@theme/TabItem";
 
 Prisjetimo se primjera iz prošlotjedne vježbe:
 
-```c title="L04_hello_world.c"
+```c title="P01_hello-world.c"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -18,8 +18,8 @@ int main(int argc, char const *argv[]) {
 }
 ```
 ```bash
-gcc L04_hello_world.c -o L04_hello_world
-strace ./L04_hello_world
+gcc P01_hello-world.c -o P01_hello-world
+strace ./P01_hello-world
 ```
 
 Vidimo da je funkcija `printf` zapravo *wrapper* za sistemski poziv `write`. Funkcija `write` prihvaća tri argumenta:
@@ -50,7 +50,7 @@ Tablica kvadrata pruža prethodno izračunate vrijednosti kvadrata za različite
 <Tabs>
   <TabItem value="c" label="Primjer u C-u">
 
-```c title="L05_sqr.c"
+```c title="Z01_sqr.c"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -96,15 +96,15 @@ int main(int argc, char const *argv[]) {
 }
 ```
 ```bash
-gcc L05_sqr.c -lm -o L05_sqr
-strace -c ./L05_sqr L05_sqr.txt 4 12
-cat L05_sqr.txt
+gcc Z01_sqr.c -lm -o Z01_sqr
+strace -c ./Z01_sqr Z01_sqr.txt 4 12
+cat Z01_sqr.txt
 ```
 
   </TabItem>
   <TabItem value="bash" label="Bash predložak">
 
-```bash title="L05_sqr.sh"
+```bash title="Z01_sqr.sh"
 #!/bin/bash
 
 # Skripta prima tri argumenta, i to redom: filename, from, to
@@ -117,17 +117,17 @@ cat L05_sqr.txt
 
 ```
 ```bash
-chmod +x L05_sqr.sh
-rm L05_sqr.txt
-strace -c ./L05_sqr.sh L05_sqr.txt 8 20
-cat L05_sqr.txt
+chmod +x Z01_sqr.sh
+rm Z01_sqr.txt
+strace -c ./Z01_sqr.sh Z01_sqr.txt 8 20
+cat Z01_sqr.txt
 ```
   </TabItem>
   <TabItem value="python" label="Python predložak">
 
 <div>
 
-```python title="L05_sqr.py"
+```python title="Z01_sqr.py"
 import sys
 import math
 
@@ -152,9 +152,9 @@ except OSError:
     sys.exit("An error ocurred")
 ```
 ```bash
-rm L05_sqr.txt
-strace -c python3 L05_sqr.py L05_sqr.txt 8 20
-cat L05_sqr.txt
+rm Z01_sqr.txt
+strace -c python3 Z01_sqr.py Z01_sqr.txt 8 20
+cat Z01_sqr.txt
 ```
 
 ::: info Napomene
@@ -172,9 +172,9 @@ cat L05_sqr.txt
 Komentirajte vrijeme izvršavanja programa za kreiranje tablice kvadrata brojeva pisanog u C-u i u Bashu. Vrijeme izvršavanja naredbe, programa ili skripte možemo dobiti koristeći naredbu `time`. [Više o mjerenju vremena izvršavanja](https://stackoverflow.com/a/47478852/11497334)
 
 ```bash
-time ./L05_sqr L05_sqr.txt 4 5000
-time ./L05_sqr.sh L05_sqr.txt 4 5000
-time python3 L05_sqrt.py L05_sqrt.txt 4 5000
+time ./Z01_sqr Z01_sqr.txt 4 5000
+time ./Z01_sqr.sh Z01_sqr.txt 4 5000
+time python3 Z01_sqr.py Z01_sqr.txt 4 5000
 ```
 
 ### Zadatak 2: Kopiranje sadržaja datoteke
@@ -182,10 +182,10 @@ time python3 L05_sqrt.py L05_sqrt.txt 4 5000
 Pokrenite sljedeću naredbu kako biste stvorili datoteku veličine 100 MiB:
 
 ```bash
-dd if=/dev/zero of=L05.data bs=1M count=100
+dd if=/dev/zero of=Z02.data bs=1M count=100
 ```
 
-U terminalu pokrenite naredbu koja će kopirati sadržaj datoteke `L05.data` u `L05_kopija.data`. Sadržaj treba kopirati u blokovima, s time da:
+U terminalu pokrenite naredbu koja će kopirati sadržaj datoteke `Z02.data` u `Z02_kopija.data`. Sadržaj treba kopirati u blokovima, s time da:
 - u prvom slučaju koristite blokove maksimalne veličine 1 MiB (1024 * 1024 bajtova)
 - u drugom slučaju koristite blokove maksimalne veličine 20 MiB (20 * 1024 * 1024 bajtova)
 
@@ -217,7 +217,7 @@ Koristite dokumentaciju prilikom rješavanja zadatka: `man sysinfo` i `man statv
 - unsigned int `%u`
 - unsigned short `%hu`
 
-```c title="L05_sysinfo.c"
+```c title="Z03_sysinfo.c"
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/sysinfo.h>
@@ -254,7 +254,7 @@ int main(int argc, char const *argv[]) {
 }
 ```
 ```bash
-gcc L05_sysinfo.c -o L05_sysinfo && ./L05_sysinfo
+gcc Z03_sysinfo.c -o Z03_sysinfo && ./Z03_sysinfo
 ```
 
   </TabItem>
@@ -267,7 +267,7 @@ gcc L05_sysinfo.c -o L05_sysinfo && ./L05_sysinfo
 - Ako koristite prijenosno računalo možete ispisati i informacije o bateriji.
 :::
 
-```python title="L05_sysinfo.py"
+```python title="Z03_sysinfo.py"
 import psutil
 import time
 

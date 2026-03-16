@@ -7,23 +7,25 @@ Memorijsko mapiranje je tehnika koja omogućava **povezivanje adresnog prostora 
 
 Moguće je da više procesa mapira istu datoteku u svoj adresni prostor i umjesto da ju oni zasebno učitavaju, procesi dijele pristup datoteci. To im omogućava da komuniciraju tako što čitaju i pišu u isti segment memorije. Memorijsko mapiranje često se koristi u različitim implementacijama baza podataka ili aplikacijama za obradu podataka (npr. jedan proces je zadužen za statističku analizu podataka i zapisivanje u datoteku, a drugi proces čita rezultate i prikazuje ih korisniku).
 
-## Klasično uređivanje datoteke
+## Primjer 2: Memorijsko mapiranje
+
+### Klasično uređivanje datoteke
 
 ```bash
-echo "Hello, world!" > L09_example.txt
-cat L09_example.txt
+echo "Hello, world!" > P02_mmap-example.txt
+cat P02_mmap-example.txt
 ```
 
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L09_file.c"
+```c title="P02_file-no-mmap.c"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
 int main() {
-    FILE *file = fopen("L09_example.txt", "r+");
+    FILE *file = fopen("P02_mmap-example.txt", "r+");
 
     // Prvo: pročitamo tekst iz datoteke
     fseek(file, 0, SEEK_END);
@@ -56,14 +58,14 @@ int main() {
 }
 ```
 ```bash
-gcc L09_file.c -o L09_file && ./L09_file
-cat L09_example.txt
+gcc P02_file-no-mmap.c -o P02_file-no-mmap && ./P02_file-no-mmap
+cat P02_mmap-example.txt
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L09_file.py"
-file = open("L09_example.txt", "r+")
+```python title="P02_file-no-mmap.py"
+file = open("P02_mmap-example.txt", "r+")
 # Prvo: pročitamo tekst iz datoteke
 text = file.read()
 # Drugo: ažuriramo varijablu
@@ -74,23 +76,23 @@ file.write(text)
 file.close()
 ```
 ```bash
-python3 L09_file.py
-cat L09_example.txt
+python3 P02_file-no-mmap.py
+cat P02_mmap-example.txt
 ```
   </TabItem>
 </Tabs>
 
-## Uređivanje datoteke uz [memorijsko mapiranje](https://pubs.opengroup.org/onlinepubs/009695399/basedefs/sys/mman.h.html)
+### Uređivanje datoteke uz [memorijsko mapiranje](https://pubs.opengroup.org/onlinepubs/009695399/basedefs/sys/mman.h.html)
 
 ```bash
-echo "Hello, world!" > L09_example.txt
-cat L09_example.txt
+echo "Hello, world!" > P02_mmap-example.txt
+cat P02_mmap-example.txt
 ```
 
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L09_mmap.c"
+```c title="P02_mmap.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/mman.h>
@@ -100,7 +102,7 @@ cat L09_example.txt
 #include <string.h>
 
 int main() {
-    int fd = open("L09_example.txt", O_RDWR);
+    int fd = open("P02_mmap-example.txt", O_RDWR);
     struct stat sb;
     fstat(fd, &sb);
     size_t size = sb.st_size;
@@ -128,16 +130,16 @@ int main() {
 }
 ```
 ```bash
-gcc L09_mmap.c -o L09_mmap && ./L09_mmap
-cat L09_example.txt
+gcc P02_mmap.c -o P02_mmap && ./P02_mmap
+cat P02_mmap-example.txt
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L09_mmap.py"
+```python title="P02_mmap.py"
 import mmap
 
-file = open("L09_example.txt", "r+b")
+file = open("P02_mmap-example.txt", "r+b")
 mm = mmap.mmap(file.fileno(), 0)
 file.close()
 
@@ -148,18 +150,18 @@ mm[start:start + len(b"world")] = b"human"  # mm[7:12] = b"human"
 mm.close()
 ```
 ```bash
-python3 L09_mmap.py
-cat L09_example.txt
+python3 P02_mmap.py
+cat P02_mmap-example.txt
 ```
   </TabItem>
 </Tabs>
 
-## Međuprocesna komunikacija
+### Međuprocesna komunikacija
 
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L09_mmap_ipc.c"
+```c title="P02_mmap-ipc.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/mman.h>
@@ -200,7 +202,7 @@ void reader(int fd) {
 }
 
 int main() {
-    int fd = open("L09_example.txt", O_RDWR | O_CREAT, 0666);
+    int fd = open("P02_mmap-example.txt", O_RDWR | O_CREAT, 0666);
     ftruncate(fd, 13);  // Osiguraj da datoteka ima 13 bajtova
 
     // Započni procese
@@ -223,12 +225,12 @@ int main() {
 }
 ```
 ```bash
-gcc L09_mmap_ipc.c -o L09_mmap_ipc && ./L09_mmap_ipc
+gcc P02_mmap-ipc.c -o P02_mmap-ipc && ./P02_mmap-ipc
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L09_mmap_ipc.py"
+```python title="P02_mmap-ipc.py"
 import mmap
 import os
 import time
@@ -251,7 +253,7 @@ def reader(fileno):
     mm.close()
     print(f"[READER {os.getpid()}]: Finished")
 
-file = open("L09_example.txt", "r+b")
+file = open("P02_mmap-example.txt", "r+b")
 writer_process = multiprocessing.Process(target=writer, args=(file.fileno(),))  # sličnosti sa multithreading.Thread
 writer_process.start()
 reader_process = multiprocessing.Process(target=reader, args=(file.fileno(),))  # sličnosti sa multithreading.Thread
@@ -262,7 +264,7 @@ writer_process.join()
 reader_process.join()
 ```
 ```bash
-python3 L09_mmap_ipc.py
+python3 P02_mmap-ipc.py
 ```
   </TabItem>
 </Tabs>

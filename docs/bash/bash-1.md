@@ -161,7 +161,9 @@ chmod g-w my_file.txt
 Naredba `whoami` prikazuje trenutačnog korisnika. Naredba `chown` koristi se za promjenu vlasnika, npr. `sudo chown korisnik:grupa datoteka`.
 :::
 
-## Zadatak 1
+## Zadaci za vježbu
+
+### Zadatak 1
 
 - U svom korisničkom direktoriju `~` izradite sljedeće direktorije jednom naredbom: `Vjezba`, `Backup`, `Skripte`, `Temp`
 - Unutar direktorija `Vjezba` izradite datoteku naziva `prvi.txt` i upišite u nju tekst `Ovo je prvi red.`

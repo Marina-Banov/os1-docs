@@ -68,12 +68,14 @@ pstree
 - Napišite naredbu kojom ćete prikazati sve procese koje je pokrenuo korisnik `root`, uz detaljne informacije
 - Isprobajte osnovno korištenje naredbi `top` i `htop` (interaktivni preglednici procesa)
 
+### Primjer 1
+
 Ovako dohvaćamo PID trenutnog procesa:
 
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L06_print_pid.c"
+```c title="P01_print-pid.c"
 #include <stdio.h>
 #include <unistd.h>
 
@@ -83,29 +85,31 @@ int main() {
 }
 ```
 ```bash
-gcc L06_print_pid.c -o L06_print_pid && ./L06_print_pid
+gcc P01_print-pid.c -o P01_print-pid && ./P01_print-pid
 ```
 
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L06_print_pid.py"
+```python title="P01_print-pid.py"
 import os
 
 print(f"Process ID: {os.getpid()}")
 ```
 ```bash
-python3 L06_print_pid.py
+python3 P01_print-pid.py
 ```
   </TabItem>
 </Tabs>
+
+### Primjer 2
 
 Zadana je funkcija koja računa kvadrat unesenog broja i ispisuje PID trenutnog procesa. Kreirajte listu od 10 brojeva i pozovite funkciju `square` nad svim elementima te liste:
 
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L06_square.c"
+```c title="P02_square.c"
 #include <stdio.h>
 #include <unistd.h>
 
@@ -122,13 +126,13 @@ int main() {
 }
 ```
 ```bash
-gcc L06_square.c -o L06_square && ./L06_square
+gcc P02_square.c -o P02_square && ./P02_square
 ```
 
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L06_square.py"
+```python title="P02_square.py"
 def square(num):
     print(f"Uneseni broj: {num}, PID procesa: {os.getpid()}")
     return num * num
@@ -138,7 +142,7 @@ def square(num):
 # ...
 ```
 ```bash
-python3 L06_square.py
+python3 P02_square.py
 ```
   </TabItem>
 </Tabs>
@@ -152,12 +156,14 @@ Ispišite detaljne informacije o procesu s tim PID-om.
 
 Ove naredbe po *default*-u procesima šalju signal `SIGTERM (15)` kako bi se procesi normalno završili. Korisnik može procesima poslati i [drugačije signale](https://faculty.cs.niu.edu/~hutchins/csci480/signals.htm), poput `SIGKILL (9)` za trenutačan prekid procesa.
 
+### Primjer 3
+
 Iskoristimo prethodni primjer i napravimo ga da se vječno izvršava:
 
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L06_infinite_square.c"
+```c title="P03_infinite-square.c"
 #include <stdio.h>
 #include <unistd.h>
 
@@ -176,12 +182,12 @@ int main() {
 Pokrenimo ovaj beskonačni C proces u novom terminalu:
 
 ```bash
-gcc L06_infinite_square.c -o L06_infinite_square && ./L06_infinite_square
+gcc P03_infinite-square.c -o P03_infinite-square && ./P03_infinite-square
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L06_infinite_square.py"
+```python title="P03_infinite-square.py"
 import os
 import time
 
@@ -196,7 +202,7 @@ def square(num):
 Pokrenimo ovaj beskonačni Python proces u novom terminalu:
 
 ```bash
-python3 L06_infinite_square.py
+python3 P03_infinite-square.py
 ```
   </TabItem>
 </Tabs>
@@ -232,7 +238,7 @@ Kako biste provjerili je li varijabla okruženja `VICTIM_PID` točno zapisana?
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L06_murderer.c"
+```c title="P03_murderer.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -252,27 +258,27 @@ int main() {
 }
 ```
 ```bash
-gcc L06_murderer.c -o L06_murderer && ./L06_murderer
+gcc P03_murderer.c -o P03_murderer && ./P03_murderer
 ```
 
-Alat `strace` koji smo do sada koristili za praćenje sistemskih poziva u ovoj ćemo vježbi koristiti za praćenje signala koje procesi primaju. Želimo utvrditi kako će se terminirati naš beskonačni proces. Kopirajte sljedeću naredbu u terminal i **obavezno zamijenite `...` s PID-om procesa žrtve.** Naredbe koje završavaju sa znakom `&` pokreću se u pozadini. Ova `strace` naredba ignorira sve sistemske pozive procesa žrtve i bilježi samo signale koje taj proces prima u datoteku nazvanu `L06_victim_strace.out`.
+Alat `strace` koji smo do sada koristili za praćenje sistemskih poziva u ovoj ćemo vježbi koristiti za praćenje signala koje procesi primaju. Želimo utvrditi kako će se terminirati naš beskonačni proces. Kopirajte sljedeću naredbu u terminal i **obavezno zamijenite `...` s PID-om procesa žrtve.** Naredbe koje završavaju sa znakom `&` pokreću se u pozadini. Ova `strace` naredba ignorira sve sistemske pozive procesa žrtve i bilježi samo signale koje taj proces prima u datoteku nazvanu `P03_victim-strace.out`.
 
 ```bash
-strace -tt -o L06_victim_strace.out -p ... -e "trace=all" &
+strace -tt -o P03_victim-strace.out -p ... -e "trace=all" &
 ps -fu $USER
 ```
 
 Ubijmo žrtvu i promotrimo signale koje vraća `strace`:
 
 ```bash
-strace -tt -e "trace=all" L06_murderer
+strace -tt -e "trace=all" P03_murderer
 ps -fu $USER
-cat L06_victim_strace.out
+cat P03_victim-strace.out
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L06_murderer.py"
+```python title="P03_murderer.py"
 import os
 import signal
 
@@ -281,22 +287,22 @@ print(f"My pid is {os.getpid()}")
 os.kill(pid, signal.SIGTERM)
 ```
 ```bash
-python3 L06_murderer.py
+python3 P03_murderer.py
 ```
 
-Alat `strace` koji smo do sada koristili za praćenje sistemskih poziva u ovoj ćemo vježbi koristiti za praćenje signala koje procesi primaju. Želimo utvrditi kako će se terminirati naš beskonačni proces. Kopirajte sljedeću naredbu u terminal i **obavezno zamijenite `...` s PID-om procesa žrtve.** Naredbe koje završavaju sa znakom `&` pokreću se u pozadini. Ova `strace` naredba ignorira sve sistemske pozive procesa žrtve i bilježi samo signale koje taj proces prima u datoteku nazvanu `L06_victim_strace.out`.
+Alat `strace` koji smo do sada koristili za praćenje sistemskih poziva u ovoj ćemo vježbi koristiti za praćenje signala koje procesi primaju. Želimo utvrditi kako će se terminirati naš beskonačni proces. Kopirajte sljedeću naredbu u terminal i **obavezno zamijenite `...` s PID-om procesa žrtve.** Naredbe koje završavaju sa znakom `&` pokreću se u pozadini. Ova `strace` naredba ignorira sve sistemske pozive procesa žrtve i bilježi samo signale koje taj proces prima u datoteku nazvanu `P03_victim-strace.out`.
 
 ```bash
-strace -tt -o L06_victim_strace.out -p ... -e "trace=all" &
+strace -tt -o P03_victim-strace.out -p ... -e "trace=all" &
 ps -fu $USER
 ```
 
 Ubijmo žrtvu i promotrimo signale koje vraća `strace`:
 
 ```bash
-strace -tt -e "trace=all" python3 L06_murderer.py
+strace -tt -e "trace=all" python3 P03_murderer.py
 ps -fu $USER
-cat L06_victim_strace.out
+cat P03_victim-strace.out
 ```
   </TabItem>
 </Tabs>

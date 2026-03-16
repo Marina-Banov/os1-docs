@@ -16,12 +16,14 @@ Nadopunite značenje navedenih signala ([podsjetnik](https://faculty.cs.niu.edu/
 - `SIGSEGV:` 
 - `SIGALRM:` 
 
+## Primjer 6: Signali
+
 Zadani primjer pokazuje rad sa signalima u programima. `SIGALRM` se pokreće nakon dvije sekunde i proces reagira prema definiranom *signal handler*-u (ispisuje poruku):
 
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L09_signal.c"
+```c title="P06_signal.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -47,12 +49,12 @@ int main() {
 }
 ```
 ```bash
-gcc L09_signal.c -o L09_signal && ./L09_signal
+gcc P06_signal.c -o P06_signal && ./P06_signal
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L09_signal.py"
+```python title="P06_signal.py"
 import signal
 import time
 
@@ -67,7 +69,7 @@ time.sleep(5)
 print(f"[AFTER] {time.ctime()}")
 ```
 ```bash
-python3 L09_signal.py
+python3 P06_signal.py
 ```
   </TabItem>
 </Tabs>
@@ -86,7 +88,7 @@ Probajte slati signale iz jednog procesa u drugi te ispisati poruku kad ste ih p
 - Signale šaljite putem naredbi u terminalu.
 :::
 
-```c title="L09_signal_handler.c"
+```c title="Z06_signal-handler.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -98,7 +100,7 @@ int main() {
 }
 ```
 ```bash
-gcc L09_signal_handler.c -o L09_signal_handler && ./L09_signal_handler
+gcc Z06_signal-handler.c -o Z06_signal-handler && ./Z06_signal-handler
 ```
   </TabItem>
   <TabItem value="python" label="Python">
@@ -112,14 +114,14 @@ Probajte slati signale iz jednog procesa u drugi te ispisati poruku kad ste ih p
 - Signale šaljite putem naredbi u terminalu.
 :::
 
-```python title="L09_signal_handler.py"
+```python title="Z06_signal-handler.py"
 import os
 import signal
 import sys
 
 ```
 ```bash
-python3 L09_signal_handler.py
+python3 Z06_signal-handler.py
 ```
   </TabItem>
 </Tabs>

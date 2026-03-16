@@ -215,7 +215,9 @@ Bash koristi iste simbole za argumente skripte i argumente funkcije:
 ./test.sh 2 3 saksofon
 ```
 
-## Zadatak 1
+## Zadaci za vježbu
+
+### Zadatak 1
 
 Napišite skriptu koja broji od 1 do 100 u intervalima od jedne sekunde.
 
@@ -235,13 +237,13 @@ Napišite skriptu koja broji od 1 do 100 u intervalima od jedne sekunde.
 ```
 :::
 
-## Zadatak 2
+### Zadatak 2
 
 Napišite skriptu koja ispisuje svaku riječ u rečenici u obrnutom smjeru. Riječi neće biti dane pod navodnicima, tako da ćete svaku riječ dobiti kao zaseban argument.
 
 :::info Primjer poziva
 ```bash
-./Z02_obrnute_rijeci.sh My Name Is Jessa
+./Z02_obrnute-rijeci.sh My Name Is Jessa
 ```
 :::
 :::info Izlaz
@@ -250,13 +252,13 @@ yM emaN sI asseJ
 ```
 :::
 
-## Zadatak 3
+### Zadatak 3
 
 Ispišite unos duljine $N$ u obliku pravokutnog trokuta, u $N$ redaka, tako da svaki redak bude jedan znak kraći. Znakovni niz treba skratiti s desna na lijevo.
 
 :::info Primjer poziva
 ```bash
-./Z03_trokut_znakova.sh znak
+./Z03_trokut-znakova.sh znak
 ```
 :::
 :::info Izlaz
@@ -271,7 +273,7 @@ z
 Dužina znakovnog niza se dobiva sintaksom `${#niz}`, a podniz sintaksom `${niz:početak:duljina}`.
 :::
 
-## Zadatak 4
+### Zadatak 4
 
 Napišite skriptu koja dodaje ekstenziju `.html` svim datotekama u trenutačnom direktoriju.
 
@@ -300,13 +302,13 @@ Napišite skriptu koja dodaje ekstenziju `.html` svim datotekama u trenutačnom 
 U Bashu se obrasci poput `./*` i `./**/*` mogu koristiti za izlistavanje datoteka u trenutačnom direktoriju i njegovim poddirektorijima.
 :::
 
-## Zadatak 5
+### Zadatak 5
 
 Napišite skriptu koja provjerava je li zadana godina prijestupna. Koristite funkcije u Bashu.
 
 :::info Primjer poziva
 ```bash
-./Z05_prijestupne_godine.sh 1900
+./Z05_prijestupne-godine.sh 1900
 ```
 :::
 :::info Izlaz
@@ -315,7 +317,7 @@ Godina 1900. nije prijestupna.
 ```
 :::
 
-## Zadatak 6
+### Zadatak 6
 
 *N\*tk\* j\* c\*nz\*r\*r\*\* m\*j\* s\*m\*gl\*sn\*k\*!*  
 Srećom, Ljudmila je pronašla sve samoglasnike koji su bili tako nepristojno uklonjeni. Vratite izvorni necenzurirani string, ako je dan cenzurirani string i niz cenzuriranih samoglasnika.

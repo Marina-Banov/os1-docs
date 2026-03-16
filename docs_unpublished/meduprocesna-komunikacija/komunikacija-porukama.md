@@ -7,10 +7,12 @@ Komunikacija porukama koristi strukturu podataka u kojoj procesi mogu pohranjiva
 
 Istražite dokumentaciju funkcije za slanje poruke `man msgsnd`.
 
+## Primjer 5: Komunikacija porukama
+
 <Tabs>
   <TabItem value="c" label="C">
 
-```c "L09_msg_q_example.c"
+```c "P05_msg-q-example.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ipc.h>
@@ -47,14 +49,14 @@ int main() {
 }
 ```
 ```bash
-gcc L09_msg_q_example.c -o L09_msg_q_example && ./L09_msg_q_example
+gcc P05_msg-q-example.c -o P05_msg-q-example && ./P05_msg-q-example
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
 U Pythonu se za dodavanje vrijednosti u *message queue* koristi `send` metoda:
 
-```python title="L09_msg_q_example.py"
+```python title="P05_msg-q-example.py"
 import sysv_ipc
 
 key = sysv_ipc.ftok("/tmp", 65, silence_warning=True)
@@ -81,7 +83,7 @@ Nadopunite sljedeći kod na način da jedan proces računa kvadratnu vrijednost 
 <Tabs>
   <TabItem value="c" label="C">
 
-```c title="L09_msg_q_writer.c"
+```c title="P05_msg-q-writer.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ipc.h>
@@ -103,9 +105,9 @@ int main() {
 }
 ```
 ```bash
-gcc L09_msg_q_writer.c -o L09_msg_q_writer && ./L09_msg_q_writer
+gcc P05_msg-q-writer.c -o P05_msg-q-writer && ./P05_msg-q-writer
 ```
-```c title="L09_msg_q_reader.c"
+```c title="P05_msg-q-reader.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ipc.h>
@@ -130,12 +132,12 @@ int main() {
 }
 ```
 ```bash
-gcc L09_msg_q_reader.c -o L09_msg_q_reader && ./L09_msg_q_reader
+gcc P05_msg-q-reader.c -o P05_msg-q-reader && ./P05_msg-q-reader
 ```
   </TabItem>
   <TabItem value="python" label="Python">
 
-```python title="L09_msg_q_reader_writer.py"
+```python title="P05_msg-q-reader-writer.py"
 import multiprocessing
 import sysv_ipc
 import os
@@ -162,7 +164,7 @@ reader_process.start()  # Pokretanje procesa koji ispisuje kvadrate
 reader_process.join()
 ```
 ```bash
-python3 L09_msg_q_reader_writer.py
+python3 P05_msg-q-reader-writer.py
 ```
   </TabItem>
 </Tabs>
