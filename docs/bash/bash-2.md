@@ -99,13 +99,13 @@ ans=$(( $a + $b ))               # ans=$(( a + b )) je isto ispravno
 
 Bash omogućuje povezivanje naredbi u nizove s pomoću logičkih operatora:
 
-- AND niz: `naredba2` će se izvršiti samo ako se `naredba1` uspješno izvršila
+- **AND niz:** `naredba2` će se izvršiti samo ako se `naredba1` uspješno izvršila
 
 ```bash
 naredba1 && naredba2
 ```
 
-- OR niz: `naredba2` će se izvršiti samo ako se `naredba1` izvršila s greškom
+- **OR niz:** `naredba2` će se izvršiti samo ako se `naredba1` izvršila s greškom
 
 ```bash
 naredba1 || naredba2

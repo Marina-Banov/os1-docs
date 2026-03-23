@@ -27,13 +27,13 @@ const sidebars = {
       link: { type: 'doc', id: 'bash/index' },
       items: ['bash/bash-1', 'bash/bash-2'],
     },
-    /*{
+    {
       type: 'category',
       label: 'Sistemski pozivi',
       link: { type: 'doc', id: 'sistemski-pozivi/index' },
-      items: ['sistemski-pozivi/sistemski-pozivi-1', 'sistemski-pozivi/sistemski-pozivi-2'],
+      items: ['sistemski-pozivi/sistemski-pozivi-1'/*, 'sistemski-pozivi/sistemski-pozivi-2'*/],
     },
-    {
+    /*{
       type: 'category',
       label: 'Procesi',
       link: { type: 'doc', id: 'procesi/index' },

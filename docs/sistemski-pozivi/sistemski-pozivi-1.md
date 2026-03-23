@@ -3,11 +3,53 @@
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-Pobrinite se da je na vašem sustavu instaliran dijagnostički alat `strace`.
+## Jezgreni i korisnički način rada
+
+Korisnički su programi obično ograničeni na **vlastiti adresni prostor** i imaju niske privilegije. To znači da obična aplikacija ne može izravno pristupiti ili modificirati memoriju drugog programa ili jezgre OS-a. Također, ne može izravno manipulirati sklopovljem.
+
+Ako aplikacija treba izvršiti neku operaciju koja uključuje sklopovlje (npr. čitanje datoteke s diska ili slanje podataka putem mreže), jezgra OS-a to može omogućiti kroz **strogo definirane operacije**.
+
+Moderne arhitekture procesora koriste koncept prstenova privilegija. Kod koji se izvršava u jezgrenom načinu rada može pristupiti bilo kojoj memorijskoj adresi i hardverskom resursu. Osjetljive operacije izvršava jezgra OS na **najvišoj razini privilegija**. Korisničkim su programima ove usluge dostupne putem sistemskih poziva.
+
+![](https://upload.wikimedia.org/wikipedia/commons/2/2f/Priv_rings.svg)
+
+| Jezgreni način rada                       | Korisnički način rada               |
+|-------------------------------------------|-------------------------------------|
+| Operacijski sustav                        | Aplikacije na korisničkoj razini    |
+| Upravljanje resursima i sklopovljem       | Pokretanje korisničkih aplikacija   |
+| Visoka razina privilegija                 | Niska razina privilegija            |
+| Neograničen pristup sklopovlju            | Ograničen pristup sklopovlju        |
+| Potpuni pristup memoriji sustava          | Ograničen pristup memoriji sustava  |
+| Problemi s jezgrom mogu srušiti cijeli OS | Problemi s aplikacijom su izolirani |
+
+## Kada koristimo sistemske pozive?
+
+Sistemski su pozivi uključeni u gotovo svaku operaciju koja izlazi izvan okvira same računske logike programa:
+
+1. **Upravljanje procesima:** Kreiranje novih procesa, njihova terminacija ili promjena prioriteta.
+2. **Upravljanje datotekama:** Sve radnje poput otvaranja, čitanja, pisanja, brisanja ili pretraživanja datoteka na disku.
+3. **Upravljanje uređajima:** Komunikacija s ulazno/izlaznim uređajima i konfiguracija sklopovlja.
+4. **Održavanje i informacije:** Informacije o vremenu, korisnicima i resursima, konfiguracija parametara sustava.
+5. **Komunikacija:** Dijeljenje memorije između procesa, sinkronizacija i mrežni prijenos podataka.
+6. **Sigurnost:** Provjera prava pristupa, autentikacija korisnika, enkripcija i dekripcija podataka.
+
+S druge strane, čiste aritmetičke operacije, logičke operacije unutar procesora ili manipuliranje lokalnim varijablama unutar memorijskog prostora programa **ne zahtijevaju** sistemske pozive jer ne utječu izravno na integritet cijelog sustava.
 
 ## Kako funkcioniraju sistemski pozivi?
 
-Isječak iz službene dokumentacije `man syscalls 2>/dev/null | head -n 25 | tail -n 13`:
+Implementacija se sistemskih poziva razlikuje ovisno o arhitekturi procesora. Korisnički programi u pravilu ne moraju znati kako je sistemski poziv implementiran i većina je detalja skrivena od programera. Potrebno je samo ispravno pozivati funkcije sistemskih poziva koristeći [API](https://www.howtogeek.com/343877/what-is-an-api/) *(Application Programming Interface).*
+
+Pobrinite se da je na vašem sustavu instaliran dijagnostički alat `strace`:
+
+```bash
+sudo apt install strace
+```
+
+Isječak iz službene dokumentacije:
+
+```bash
+man syscalls 2>/dev/null | head -n 25 | tail -n 13
+```
 
 ```
     System calls and library wrapper functions
@@ -177,8 +219,9 @@ Napišite program koji će ispisivati broj `txt` datoteka u mapi koja je dana ka
 
 int main(int argc, char const *argv[]) {
     // Pročitati direktorij iz prvog argumenta ako postoji
-    // ili dodijeliti defaultnu vrijednost (.)
+    // ili dodijeliti defaultnu vrijednost (".")
     const char *dir_name = (argc > 1 ? argv[1] : ".");
+
     // Provjeriti postoji li direktorij
     DIR *pdir = opendir(dir_name);
     if (pdir == NULL) {
@@ -195,8 +238,8 @@ int main(int argc, char const *argv[]) {
         printf("Dummy file created\n");
     }
 
-    // Proći kroz datoteke u direktoriju i prebrojati sve
-    // koje završavaju na .txt
+    // Iterirati po datotekama u direktoriju i za svaku datoteku
+    // koja ima ekstenziju .txt inkrementirati varijablu txt_files
     int txt_files = 0;
     struct dirent *dent;
     while ((dent = readdir(pdir)) != NULL) {
@@ -226,15 +269,20 @@ strace -c ./Z02_txt-datoteke
 ```bash title="Z02_txt-datoteke.sh"
 #!/bin/bash
 
-# Pročitati direktorij iz prvog argumenta ili dodijeliti defaultnu vrijednost (.)
+# TODO: Pročitati direktorij iz prvog argumenta ako postoji
+# ili dodijeliti defaultnu vrijednost (".")
+# dir_name=...
 
-# Provjeriti postoji li direktorij
+# TODO: Provjeriti postoji li direktorij
 
-# Kreirati jednu txt datoteku ako je direktorij mapa gdje je spremljena skripta
+# TODO: Ako je direktorij mapa gdje je spremljen program,
+# stvoriti bar jednu txt datoteku
+if [ $dir_name = . ]
+then
+    # ...
+fi
 
-# Proći kroz datoteke u direktoriju i prebrojati sve koje završavaju na .txt
-
-# Ispisati broj datoteka s .txt nastavkom u zadanom direktoriju
+# TODO: Ispisati broj txt datoteka
 
 ```
 ```bash
@@ -242,8 +290,9 @@ chmod +x Z02_txt-datoteke.sh
 strace -c ./Z02_txt-datoteke.sh
 ```
 
-:::info Napomena
-Bash sintaksa `${n:-val}` vraća vrijednost `n`-tog argumenta ako on postoji, a u suprotnom vraća ono što je zadano u `val`
+:::info Napomene
+- Bash sintaksa `${n:-val}` vraća vrijednost `n`-tog argumenta ako on postoji, a u suprotnom vraća ono što je zadano u `val`
+- Da biste uspješno riješili zadatak, nije potrebno iterirati po datotekama u direktoriju i za svaku datoteku koja ima ekstenziju `.txt` inkrementirati varijablu `txt_files`. Dovoljno je koristiti ugrađene Bash naredbe i mehanizme.
 :::
 
   </TabItem>
@@ -255,24 +304,24 @@ Bash sintaksa `${n:-val}` vraća vrijednost `n`-tog argumenta ako on postoji, a 
 import os
 import sys
 
-# Postavite dir_name (slično kao u C programu)
-# Defaultna vrijednost neka bude prazan znakovni niz (""),
-# a ne točka (".")
+# TODO: Pročitati direktorij iz prvog argumenta ako postoji
+# ili dodijeliti defaultnu vrijednost ("")
 # dir_name = ...
 dir_path = os.path.join(os.getcwd(), dir_name)
 
-# Kreirajte jednu txt datoteku ako nije dan argument
+# TODO: Ako je direktorij mapa gdje je spremljen program,
+# stvoriti bar jednu txt datoteku
 if dir_name == "":
     # ...
 
 txt_files = 0
 try:
-    # Iterirajte po datotekama u direktoriju i za svaku datoteku
-    # koja ima ekstenziju .txt inkrementirajte varijablu txt_files
+    # TODO: Iterirati po datotekama u direktoriju i za svaku datoteku
+    # koja ima ekstenziju .txt inkrementirati varijablu txt_files
     # ...
     print(f"Number of txt files: {txt_files}")
 except OSError:
-    print(f"Can't open directory")
+    print(f"An error occurred")
 ```
 ```bash
 strace -c python3 Z02_txt-datoteke.py

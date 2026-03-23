@@ -16,7 +16,7 @@ export const Lessons = [
         title: "Sistemski pozivi",
         description: "",
         url: "/sistemski-pozivi/",
-        posted: false,
+        posted: true,
     },
     {
         title: "Procesi",
