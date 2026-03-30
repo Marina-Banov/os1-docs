@@ -296,47 +296,4 @@ strace -c ./Z02_txt-datoteke.sh
 :::
 
   </TabItem>
-  <TabItem value="python" label="Python predložak">
-
-<div>
-
-```python title="Z02_txt-datoteke.py"
-import os
-import sys
-
-# TODO: Pročitati direktorij iz prvog argumenta ako postoji
-# ili dodijeliti defaultnu vrijednost ("")
-# dir_name = ...
-dir_path = os.path.join(os.getcwd(), dir_name)
-
-# TODO: Ako je direktorij mapa gdje je spremljen program,
-# stvoriti bar jednu txt datoteku
-if dir_name == "":
-    # ...
-
-txt_files = 0
-try:
-    # TODO: Iterirati po datotekama u direktoriju i za svaku datoteku
-    # koja ima ekstenziju .txt inkrementirati varijablu txt_files
-    # ...
-    print(f"Number of txt files: {txt_files}")
-except OSError:
-    print(f"An error occurred")
-```
-```bash
-strace -c python3 Z02_txt-datoteke.py
-```
-
-:::info Napomene
-- Argumentima Python skripte pristupate s pomoću `sys.argv`. Zato se u predlošku nalazi linija `import sys`.
-- U ovom zadatku možete pretpostaviti da će korisnik kao argument predati relativnu putanju željene mape u odnosu na mapu u kojoj je spremljen program. Trenutačni direktorij dohvaća se s pomoću funkcije `os.getcwd()`. Zato se u predlošku nalazi linija `import os`.
-- Putanje se drugačije označavaju u Linuxu i u Windowsu. Zato je funkcija `os.path.join()` dobra za pisanje koda koji je moguće koristiti na raznim platformama ([više na poveznici](https://docs.python.org/3/library/os.path.html#os.path.join)).
-- Popis datoteka u direktoriju `dir_path` dohvaća se s pomoću funkcije `os.listdir(dir_path)`.
-- Možete provjeriti ako datoteka `file` ima određenu ekstenziju s pomoću funkcije `file.endswith(ekstenzija)`.
-- `try-except` blok će upravljati greškama ako se neka od operacija unutar `try` bloka neuspješno izvrši.
-:::
-
-</div>
-
-  </TabItem>
 </Tabs>
