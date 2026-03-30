@@ -28,7 +28,7 @@ Iako koristimo funkciju `printf`, ona je zapravo samo *wrapper* iz standardne C 
 
 Struktura i sadržaj binarne datoteke može se vizualizirali uz pomoć dijagnostičkih alata poput [radare2](https://rada.re/n/radare2.html). Na slici je prikazan poziv funkcije `write` kako bismo bolje razumjeli kako se program ponaša tijekom izvršavanja:
 
-![](../../docs/sistemski-pozivi/L05_radare.png)
+![](L05_radare.png)
 
 Obratite pozornost na dvije linije:
 
