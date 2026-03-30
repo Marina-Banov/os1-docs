@@ -31,7 +31,7 @@ const sidebars = {
       type: 'category',
       label: 'Sistemski pozivi',
       link: { type: 'doc', id: 'sistemski-pozivi/index' },
-      items: ['sistemski-pozivi/sistemski-pozivi-1', 'sistemski-pozivi/sistemski-pozivi-2'],
+      items: ['sistemski-pozivi/sistemski-pozivi-1'/*, 'sistemski-pozivi/sistemski-pozivi-2'*/],
     },
     /*{
       type: 'category',
