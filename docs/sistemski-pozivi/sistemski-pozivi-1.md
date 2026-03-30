@@ -102,13 +102,13 @@ Vidimo da je funkcija `printf` zapravo *wrapper* za sistemski poziv `write`. Fun
 strace ./P01_hello-world
 ```
 
-Uz sve sistemske pozive želimo i vrijeme kada su se izvršavali, to radimo sa `-t`. Specifične sistemske pozive možemo pratiti sa `-e`:
+Uz sve sistemske pozive želimo i vrijeme kada su se izvršavali, to radimo s `-t`. Specifične sistemske pozive možemo pratiti s `-e`:
 
 ```bash
 strace -t -e trace=openat,read ./P01_hello-world
 ```
 
-Detaljnije vrijeme možemo dobiti sa `-tt`:
+Detaljnije vrijeme možemo dobiti s `-tt`:
 
 ```bash
 strace -tt -e trace=openat,read ./P01_hello-world
@@ -125,7 +125,7 @@ strace -c ./P01_hello-world
 
 ### Primjer 2: [UNIX timestamp](https://www.unixtimestamp.com/)
 
-Usporedite izvršavanje koda za ispis trenutnog vremena pisanog u Bashu, C-u i Pythonu:
+Usporedite izvršavanje koda za ispis trenutačnog vremena pisanog u Bashu, C-u i Pythonu:
 
 <Tabs>
   <TabItem value="bash" label="Bash">
@@ -328,11 +328,11 @@ strace -c python3 Z02_txt-datoteke.py
 ```
 
 :::info Napomene
-- Argumentima Python skripte pristupate pomoću `sys.argv`. Zato se u predlošku nalazi linija `import sys`.
-- U ovom zadatku možete pretpostaviti da će korisnik kao argument predati relativnu putanju željene mape u odnosu na mapu u kojoj je spremljen program. Trenutni direktorij dohvaća se pomoću funkcije `os.getcwd()`. Zato se u predlošku nalazi linija `import os`.
+- Argumentima Python skripte pristupate s pomoću `sys.argv`. Zato se u predlošku nalazi linija `import sys`.
+- U ovom zadatku možete pretpostaviti da će korisnik kao argument predati relativnu putanju željene mape u odnosu na mapu u kojoj je spremljen program. Trenutačni direktorij dohvaća se s pomoću funkcije `os.getcwd()`. Zato se u predlošku nalazi linija `import os`.
 - Putanje se drugačije označavaju u Linuxu i u Windowsu. Zato je funkcija `os.path.join()` dobra za pisanje koda koji je moguće koristiti na raznim platformama ([više na poveznici](https://docs.python.org/3/library/os.path.html#os.path.join)).
-- Popis datoteka u direktoriju `dir_path` dohvaća se pomoću funkcije `os.listdir(dir_path)`.
-- Možete provjeriti ako datoteka `file` ima određenu ekstenziju pomoću funkcije `file.endswith(ekstenzija)`.
+- Popis datoteka u direktoriju `dir_path` dohvaća se s pomoću funkcije `os.listdir(dir_path)`.
+- Možete provjeriti ako datoteka `file` ima određenu ekstenziju s pomoću funkcije `file.endswith(ekstenzija)`.
 - `try-except` blok će upravljati greškama ako se neka od operacija unutar `try` bloka neuspješno izvrši.
 :::
 
