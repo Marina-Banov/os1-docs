@@ -11,7 +11,11 @@ Ako aplikacija treba izvršiti neku operaciju koja uključuje sklopovlje (npr. �
 
 Moderne arhitekture procesora koriste koncept prstenova privilegija. Kod koji se izvršava u jezgrenom načinu rada može pristupiti bilo kojoj memorijskoj adresi i hardverskom resursu. Osjetljive operacije izvršava jezgra OS na **najvišoj razini privilegija**. Korisničkim su programima ove usluge dostupne putem sistemskih poziva.
 
+<div style={{textAlign: 'center'}}>
+
 ![](https://upload.wikimedia.org/wikipedia/commons/2/2f/Priv_rings.svg)
+
+</div>
 
 | Jezgreni način rada                       | Korisnički način rada               |
 |-------------------------------------------|-------------------------------------|

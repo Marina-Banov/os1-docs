@@ -1,7 +1,56 @@
 # Procesi 1
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
+## Što su procesi?
+
+Proces je instanca računalnog programa u izvođenju. Kako bi proces mogao obavljati svoje zadatke, OS mu mora dodijeliti određene resurse, prvenstveno procesorsko vrijeme (CPU), radnu memoriju, pristup datotekama te ulazno-izlazne (I/O) uređaje.
+
+:::info Napomena
+Dok je program statični skup instrukcija pohranjen na disku, proces je aktivna jedinica koja se izvršava u memoriji.
+:::
+
+Procesi su međusobno nezavisni. Čak i u situacijama kada više procesa pokreće isti program (primjerice, dva otvorena prozora istog preglednika), svaki od njih koristi vlastite, zasebne resurse i ima izoliran memorijski prostor.
+
+OS brine o kreiranju i brisanju procesa, njihovom raspoređivanju *(scheduling)* te osigurava mehanizme za komunikaciju, sinkronizaciju i rješavanje zastoja.
+
+### Struktura procesa u memoriji
+
+Kada se program učita u memoriju i postane proces, njegov memorijski prostor podijeljen je u sljedeće segmente:
+
+- **Stog:** Privremeni podaci kao što su parametri funkcija, povratne adrese i lokalne varijable.
+- **Hrpa:** Dio memorije koji se dinamički alocira tijekom rada programa (npr. korištenjem funkcije `malloc` u C-u).
+- **Podatkovni dio:** Globalne i statičke varijable.
+- **Tekstualni dio:** Strojni kod programa koji proces izvršava.
+
+
+<div style={{textAlign: 'center'}}>
+
+![](L06_memorija.png)
+
+</div>
+
+
+### Stanja procesa
+
+Tijekom svog životnog ciklusa, proces prolazi kroz različita stanja. Razumijevanje ovih stanja ključno je za shvaćanje kako OS raspoređuje procese i postiže paralelizam:
+
+![](L06_stanja.png)
+
+### Process Control Block (PCB)
+
+Za svaki proces, OS održava posebnu strukturu podataka nazvanu *Process Control Block (PCB)* koja sadrži sve informacije potrebne za njegovo upravljanje:
+
+<div style={{textAlign: 'center'}}>
+
+![](L06_pcb.png)
+
+</div>
+
+### Hijerarhija procesa
+
+U operacijskom sustavu Linux, procesi su organizirani u strogu hijerarhijsku strukturu nalik stablu. Iako je Linux višeprocesni sustav, on direktno pokreće samo `init` proces (`PID=1`). To je prvi proces koji se pokreće pri podizanju sustava i stalno je u stanju izvršavanja *(running).*
+
+Svi ostali procesi na sustavu nastaju kao djeca postojećih procesa. Svaki proces ima točno jednog roditelja. Proces može imati puno braće i sestara *(siblings).* *Siblings* procesi su stvoreni od istog roditelja.
+Djeca mogu stvarati djecu. itd...
 
 ## Pregled procesa
 
@@ -26,37 +75,37 @@ ps -f
 Ako nas zanima proces s poznatim PID-om, možemo ga provjeriti sa `-p`:
 
 ```bash
-ps -fp 1
+ps -fp 1  # ps -f -p 1
 ```
 
-Naredba `ps` obično prikazuje samo procese povezane s trenutnom ljuskom/sesijom. To znači da će se unutar terminala prikazati samo oni procesi koji se odnose na njegovo izvršavanje. Ako želimo vidjeti sve procese koji se izvode na sustavu, možemo koristiti `-e`:
+Naredba `ps` obično prikazuje samo procese povezane s trenutačnom ljuskom/sesijom. To znači da će se unutar terminala prikazati samo oni procesi koji se odnose na njegovo izvršavanje. Ako želimo vidjeti sve procese koji se izvode na sustavu, možemo koristiti `-e`:
 
 ```bash
-ps -fe
+ps -fe  # ps -f -e
 ```
 
 Možemo filtrirati procese po određenom korisniku:
 
 ```bash
-ps -fu $USER
+ps -fu $USER  # ps -f -u $USER
 ```
 
 Ako želimo filtrirati procese po imenu, možemo koristiti `grep`:
 
 ```bash
-ps -e | grep python
+ps -e | grep firefox
 ```
 
 Jednostavnije je koristiti `pgrep`:
 
 ```bash
-pgrep python
+pgrep firefox
 ```
 
 Ako nas zanima PID procesa kojem poznajemo ime, možemo koristiti `pidof`:
 
 ```bash
-pidof python3
+pidof firefox-esr
 ```
 
 Grafički prikaz roditelja i djece procesa možemo vidjeti sa `pstree`:
@@ -70,10 +119,7 @@ pstree
 
 ### Primjer 1
 
-Ovako dohvaćamo PID trenutnog procesa:
-
-<Tabs>
-  <TabItem value="c" label="C">
+Ovako dohvaćamo PID trenutačnog procesa:
 
 ```c title="P01_print-pid.c"
 #include <stdio.h>
@@ -88,26 +134,10 @@ int main() {
 gcc P01_print-pid.c -o P01_print-pid && ./P01_print-pid
 ```
 
-  </TabItem>
-  <TabItem value="python" label="Python">
-
-```python title="P01_print-pid.py"
-import os
-
-print(f"Process ID: {os.getpid()}")
-```
-```bash
-python3 P01_print-pid.py
-```
-  </TabItem>
-</Tabs>
 
 ### Primjer 2
 
-Zadana je funkcija koja računa kvadrat unesenog broja i ispisuje PID trenutnog procesa. Kreirajte listu od 10 brojeva i pozovite funkciju `square` nad svim elementima te liste:
-
-<Tabs>
-  <TabItem value="c" label="C">
+Zadana je funkcija koja računa kvadrat unesenog broja i ispisuje PID trenutačnog procesa. Kreirajte listu od 10 brojeva i pozovite funkciju `square` nad svim elementima te liste:
 
 ```c title="P02_square.c"
 #include <stdio.h>
@@ -119,7 +149,7 @@ int square(int num) {
 }
 
 int main() {
-    // Kreirajte listu od 10 brojeva i pozovite funkciju `square`
+    // TODO: Kreirajte listu od 10 brojeva i pozovite funkciju `square`
     // nad svim elementima te liste
 
     return 0;
@@ -129,23 +159,6 @@ int main() {
 gcc P02_square.c -o P02_square && ./P02_square
 ```
 
-  </TabItem>
-  <TabItem value="python" label="Python">
-
-```python title="P02_square.py"
-def square(num):
-    print(f"Uneseni broj: {num}, PID procesa: {os.getpid()}")
-    return num * num
-
-# Kreirajte listu od 10 brojeva i pozovite funkciju `square`
-# nad svim elementima te liste
-# ...
-```
-```bash
-python3 P02_square.py
-```
-  </TabItem>
-</Tabs>
 
 Ispišite detaljne informacije o procesu s tim PID-om.
 
@@ -160,9 +173,6 @@ Ove naredbe po *default*-u procesima šalju signal `SIGTERM (15)` kako bi se pro
 
 Iskoristimo prethodni primjer i napravimo ga da se vječno izvršava:
 
-<Tabs>
-  <TabItem value="c" label="C">
-
 ```c title="P03_infinite-square.c"
 #include <stdio.h>
 #include <unistd.h>
@@ -173,7 +183,7 @@ int square(int num) {
 }
 
 int main() {
-    // Proširite prethodni primjer da se beskonačno izvršava
+    // TODO: Proširite prethodni primjer da se beskonačno izvršava
 
     return 0;
 }
@@ -184,28 +194,6 @@ Pokrenimo ovaj beskonačni C proces u novom terminalu:
 ```bash
 gcc P03_infinite-square.c -o P03_infinite-square && ./P03_infinite-square
 ```
-  </TabItem>
-  <TabItem value="python" label="Python">
-
-```python title="P03_infinite-square.py"
-import os
-import time
-
-def square(num):
-    print(f"Uneseni broj: {num}, PID procesa: {os.getpid()}")
-    return num * num
-
-# Proširite prethodni primjer da se beskonačno izvršava
-# ...
-```
-
-Pokrenimo ovaj beskonačni Python proces u novom terminalu:
-
-```bash
-python3 P03_infinite-square.py
-```
-  </TabItem>
-</Tabs>
 
 Pronađimo proces u popisu:
 
@@ -226,17 +214,15 @@ ps -fu $USER
 ```
 
 Sada ćemo napisati program koji ubija procese. Ponovno pokrenite beskonačni program u terminalu.
-Pohranite novi PID kao [varijablu okruženja](https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-env):
+Pohranite novi PID kao [varijablu okruženja](https://www.linuxbash.sh/post/working-with-environment-variables-in-bash):
 
 ```bash
-%env VICTIM_PID=...
+export VICTIM_PID=...
 ```
 
+:::info Pitanje
 Kako biste provjerili je li varijabla okruženja `VICTIM_PID` točno zapisana?
-
-
-<Tabs>
-  <TabItem value="c" label="C">
+:::
 
 ```c title="P03_murderer.c"
 #include <stdio.h>
@@ -246,19 +232,19 @@ Kako biste provjerili je li varijabla okruženja `VICTIM_PID` točno zapisana?
 
 int main() {
     char* victim_pid_str = getenv("VICTIM_PID");
-    if (victim_pid_str) {
-        fprintf(stderr, "Varijabla okruženja VICTIM_PID nije postavljena\n");
+    if (!victim_pid_str) {
+        perror("Varijabla okruženja VICTIM_PID nije postavljena");
         return 1;
     }
 
-    pid_t victim_pid = (pid_t)atoi(victim_pid_str);
+    pid_t victim_pid = (pid_t) atoi(victim_pid_str);
     printf("My pid is %d\n", getpid());
     kill(victim_pid, SIGTERM);
     return 0;
 }
 ```
 ```bash
-gcc P03_murderer.c -o P03_murderer && ./P03_murderer
+gcc P03_murderer.c -o P03_murderer
 ```
 
 Alat `strace` koji smo do sada koristili za praćenje sistemskih poziva u ovoj ćemo vježbi koristiti za praćenje signala koje procesi primaju. Želimo utvrditi kako će se terminirati naš beskonačni proces. Kopirajte sljedeću naredbu u terminal i **obavezno zamijenite `...` s PID-om procesa žrtve.** Naredbe koje završavaju sa znakom `&` pokreću se u pozadini. Ova `strace` naredba ignorira sve sistemske pozive procesa žrtve i bilježi samo signale koje taj proces prima u datoteku nazvanu `P03_victim-strace.out`.
@@ -271,41 +257,10 @@ ps -fu $USER
 Ubijmo žrtvu i promotrimo signale koje vraća `strace`:
 
 ```bash
-strace -tt -e "trace=all" P03_murderer
+strace -tt -e "trace=all" ./P03_murderer
 ps -fu $USER
 cat P03_victim-strace.out
 ```
-  </TabItem>
-  <TabItem value="python" label="Python">
-
-```python title="P03_murderer.py"
-import os
-import signal
-
-pid = int(os.getenv("VICTIM_PID"))
-print(f"My pid is {os.getpid()}")
-os.kill(pid, signal.SIGTERM)
-```
-```bash
-python3 P03_murderer.py
-```
-
-Alat `strace` koji smo do sada koristili za praćenje sistemskih poziva u ovoj ćemo vježbi koristiti za praćenje signala koje procesi primaju. Želimo utvrditi kako će se terminirati naš beskonačni proces. Kopirajte sljedeću naredbu u terminal i **obavezno zamijenite `...` s PID-om procesa žrtve.** Naredbe koje završavaju sa znakom `&` pokreću se u pozadini. Ova `strace` naredba ignorira sve sistemske pozive procesa žrtve i bilježi samo signale koje taj proces prima u datoteku nazvanu `P03_victim-strace.out`.
-
-```bash
-strace -tt -o P03_victim-strace.out -p ... -e "trace=all" &
-ps -fu $USER
-```
-
-Ubijmo žrtvu i promotrimo signale koje vraća `strace`:
-
-```bash
-strace -tt -e "trace=all" python3 P03_murderer.py
-ps -fu $USER
-cat P03_victim-strace.out
-```
-  </TabItem>
-</Tabs>
 
 ## Siročad *(orphans)*
 

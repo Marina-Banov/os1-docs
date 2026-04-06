@@ -33,13 +33,13 @@ const sidebars = {
       link: { type: 'doc', id: 'sistemski-pozivi/index' },
       items: ['sistemski-pozivi/sistemski-pozivi-1', 'sistemski-pozivi/sistemski-pozivi-2'],
     },
-    /*{
+    {
       type: 'category',
       label: 'Procesi',
       link: { type: 'doc', id: 'procesi/index' },
-      items: ['procesi/procesi-1', 'procesi/procesi-2'],
+      items: ['procesi/procesi-1', /*'procesi/procesi-2'*/],
     },
-    'dretve/index',
+    /*'dretve/index',
     {
       type: 'category',
       label: 'Međuprocesna komunikacija',

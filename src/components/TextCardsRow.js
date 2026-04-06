@@ -22,7 +22,7 @@ export const Lessons = [
         title: "Procesi",
         description: "",
         url: "/procesi/",
-        posted: false,
+        posted: true,
     },
     {
         title: "Dretve",
