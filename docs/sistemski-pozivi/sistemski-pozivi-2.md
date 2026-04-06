@@ -166,8 +166,8 @@ Usporedite ova dva scenarija.
 
 :::info Pomoć
 - Kopiranje datoteke u blokovima je moguće realizirati koristeći alat `dd`
-- Nazivi ulazne i izlazne datoteke se definiraju pomoću parametara `if` *(input file)* i `of` *(output file)*, npr. `dd if=in.txt of=out.txt`
-- Pomoću parametra `bs` *(block size)* može se definirati maksimalna veličina bloka u bajtovima prilikom kopiranja. Moguće je koristiti i sufikse M, MB, K, KB, ...
+- Nazivi ulazne i izlazne datoteke se definiraju s pomoću parametara `if` *(input file)* i `of` *(output file)*, npr. `dd if=in.txt of=out.txt`
+- S pomoću parametra `bs` *(block size)* može se definirati maksimalna veličina bloka u bajtovima prilikom kopiranja. Moguće je koristiti i sufikse M, MB, K, KB, ...
 :::
 
 ### Zadatak 3: Održavanje i informacije sustava
@@ -218,7 +218,7 @@ gcc Z03_sysinfo.c -o Z03_sysinfo && ./Z03_sysinfo
 ```
 
 :::info Napomene
-- Ispravnost svog programa provjerite tako da ispise usporedite sa ispisima naredbi `uptime`, `free -b` i `df -B 1`.
+- Ispravnost svog programa provjerite tako da ispise usporedite s ispisima naredbi `uptime`, `free -b` i `df -B 1`.
 - Koristite dokumentaciju prilikom rješavanja zadatka: `man sysinfo` i `man statvfs`.
 - Istražite [specifikacije](https://www.tutorialspoint.com/cprogramming/c_format_specifiers.htm) `printf` formata za različite tipove varijabli (npr. `long`, `unsigned long`, `unsigned int`, `unsigned short`)  
 :::
