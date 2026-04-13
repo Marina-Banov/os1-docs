@@ -8,7 +8,7 @@ Proces je instanca računalnog programa u izvođenju. Kako bi proces mogao obavl
 Dok je program statični skup instrukcija pohranjen na disku, proces je aktivna jedinica koja se izvršava u memoriji.
 :::
 
-Procesi su međusobno nezavisni. Čak i u situacijama kada više procesa pokreće isti program (primjerice, dva otvorena prozora istog preglednika), svaki od njih koristi vlastite, zasebne resurse i ima izoliran memorijski prostor.
+Procesi su međusobno nezavisni. Čak i u situacijama kada više procesa pokreće isti program (primjerice, dva otvorena prozora istog web preglednika), svaki od njih koristi vlastite, zasebne resurse i ima izoliran memorijski prostor.
 
 OS brine o kreiranju i brisanju procesa, njihovom raspoređivanju *(scheduling)* te osigurava mehanizme za komunikaciju, sinkronizaciju i rješavanje zastoja.
 
@@ -54,7 +54,7 @@ Djeca mogu stvarati djecu. itd...
 
 ## Pregled procesa
 
-- `ps` - daje informacije o procesima koji se trenutno izvršavaju, uključujući i njihov jedinstveni identifikacijski broj (PID)
+- `ps` - daje informacije o procesima koji se trenutačno izvršavaju, uključujući i njihov jedinstveni identifikacijski broj (PID)
 - `pgrep` - pretraga procesa po imenu
 - `pidof` - ispis `PID`-ova procesa s određenim imenom
 - `pstree` - prikaz stabla procesa
@@ -135,28 +135,28 @@ gcc P01_print-pid.c -o P01_print-pid && ./P01_print-pid
 ```
 
 
-### Primjer 2
+### Zadatak 1
 
 Zadana je funkcija koja računa kvadrat unesenog broja i ispisuje PID trenutačnog procesa. Kreirajte listu od 10 brojeva i pozovite funkciju `square` nad svim elementima te liste:
 
-```c title="P02_square.c"
+```c title="Z01_square.c"
 #include <stdio.h>
 #include <unistd.h>
 
 int square(int num) {
-    printf("Uneseni broj: %d, PID procesa: %d\n", num, getpid());
+    printf("Entered number: %d, process PID: %d\n", num, getpid());
     return num * num;
 }
 
 int main() {
-    // TODO: Kreirajte listu od 10 brojeva i pozovite funkciju `square`
+    // TODO: Kreirati listu od 10 brojeva i pozvati funkciju `square`
     // nad svim elementima te liste
 
     return 0;
 }
 ```
 ```bash
-gcc P02_square.c -o P02_square && ./P02_square
+gcc Z01_square.c -o Z01_square && ./Z01_square
 ```
 
 
@@ -169,21 +169,21 @@ Ispišite detaljne informacije o procesu s tim PID-om.
 
 Ove naredbe po *default*-u procesima šalju signal `SIGTERM (15)` kako bi se procesi normalno završili. Korisnik može procesima poslati i [drugačije signale](https://faculty.cs.niu.edu/~hutchins/csci480/signals.htm), poput `SIGKILL (9)` za trenutačan prekid procesa.
 
-### Primjer 3
+### Zadatak 2
 
 Iskoristimo prethodni primjer i napravimo ga da se vječno izvršava:
 
-```c title="P03_infinite-square.c"
+```c title="Z02_infinite-square.c"
 #include <stdio.h>
 #include <unistd.h>
 
 int square(int num) {
-    printf("Uneseni broj: %d, PID procesa: %d\n", num, getpid());
+    printf("Entered number: %d, process PID: %d\n", num, getpid());
     return num * num;
 }
 
 int main() {
-    // TODO: Proširite prethodni primjer da se beskonačno izvršava
+    // TODO: Proširiti prethodni primjer da se beskonačno izvršava
 
     return 0;
 }
@@ -192,7 +192,7 @@ int main() {
 Pokrenimo ovaj beskonačni C proces u novom terminalu:
 
 ```bash
-gcc P03_infinite-square.c -o P03_infinite-square && ./P03_infinite-square
+gcc Z02_infinite-square.c -o Z02_infinite-square && ./Z02_infinite-square
 ```
 
 Pronađimo proces u popisu:
@@ -224,42 +224,43 @@ export VICTIM_PID=...
 Kako biste provjerili je li varijabla okruženja `VICTIM_PID` točno zapisana?
 :::
 
-```c title="P03_murderer.c"
+```c title="Z02_murderer.c"
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
 #include <unistd.h>
-#include <signal.h>
 
 int main() {
     char* victim_pid_str = getenv("VICTIM_PID");
     if (!victim_pid_str) {
-        perror("Varijabla okruženja VICTIM_PID nije postavljena");
+        perror("Environment variable VICTIM_PID is not set");
         return 1;
     }
 
-    pid_t victim_pid = (pid_t) atoi(victim_pid_str);
+    pid_t victim_pid = (pid_t)atoi(victim_pid_str);
     printf("My pid is %d\n", getpid());
     kill(victim_pid, SIGTERM);
     return 0;
 }
 ```
 ```bash
-gcc P03_murderer.c -o P03_murderer
+gcc Z02_murderer.c -o Z02_murderer
 ```
 
-Alat `strace` koji smo do sada koristili za praćenje sistemskih poziva u ovoj ćemo vježbi koristiti za praćenje signala koje procesi primaju. Želimo utvrditi kako će se terminirati naš beskonačni proces. Kopirajte sljedeću naredbu u terminal i **obavezno zamijenite `...` s PID-om procesa žrtve.** Naredbe koje završavaju sa znakom `&` pokreću se u pozadini. Ova `strace` naredba ignorira sve sistemske pozive procesa žrtve i bilježi samo signale koje taj proces prima u datoteku nazvanu `P03_victim-strace.out`.
+Alat `strace` koji smo do sada koristili za praćenje sistemskih poziva u ovoj ćemo vježbi koristiti za praćenje signala koje procesi primaju. Želimo utvrditi kako će se terminirati naš beskonačni proces. Kopirajte sljedeću naredbu u terminal i **obavezno zamijenite `...` s PID-om procesa žrtve.** Naredbe koje završavaju sa znakom `&` pokreću se u pozadini. Ova `strace` naredba ignorira sve sistemske pozive procesa žrtve i bilježi samo signale koje taj proces prima u datoteku nazvanu `Z02_victim-strace.out`.
 
 ```bash
-strace -tt -o P03_victim-strace.out -p ... -e "trace=all" &
+strace -tt -o Z02_victim-strace.out -p ... -e "trace=all" &
 ps -fu $USER
 ```
 
 Ubijmo žrtvu i promotrimo signale koje vraća `strace`:
 
 ```bash
-strace -tt -e "trace=all" ./P03_murderer
+strace -tt -e "trace=all" ./Z02_murderer
 ps -fu $USER
-cat P03_victim-strace.out
+cat Z02_victim-strace.out
 ```
 
 ## Siročad *(orphans)*
