@@ -171,7 +171,7 @@ Ove naredbe po *default*-u procesima šalju signal `SIGTERM (15)` kako bi se pro
 
 ### Zadatak 2
 
-Iskoristimo prethodni primjer i napravimo ga da se vječno izvršava:
+Iskoristimo prethodni zadatak i napravimo ga da se vječno izvršava:
 
 ```c title="Z02_infinite-square.c"
 #include <stdio.h>
@@ -183,7 +183,7 @@ int square(int num) {
 }
 
 int main() {
-    // TODO: Proširiti prethodni primjer da se beskonačno izvršava
+    // TODO: Proširiti prethodni zadatak da se beskonačno izvršava
 
     return 0;
 }

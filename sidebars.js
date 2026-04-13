@@ -37,7 +37,7 @@ const sidebars = {
       type: 'category',
       label: 'Procesi',
       link: { type: 'doc', id: 'procesi/index' },
-      items: ['procesi/procesi-1', /*'procesi/procesi-2'*/],
+      items: ['procesi/procesi-1', 'procesi/procesi-2'],
     },
     /*'dretve/index',
     {
