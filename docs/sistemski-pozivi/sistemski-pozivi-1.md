@@ -52,7 +52,7 @@ sudo apt install strace
 Isječak iz službene dokumentacije:
 
 ```bash
-man syscalls 2>/dev/null | head -n 25 | tail -n 13
+man syscalls | head -n 25 | tail -n 13
 ```
 
 ```
