@@ -1,9 +1,22 @@
 # Dretve
 
-Višedretvenost nam omogućuje postojanje više neovisnih tokova instrukcija koji se unutar jednog procesa mogu izvršavati istovremeno. Ključna značajka dretvi je da one dijele zajednički adresni prostor, što omogućuje vrlo brzu razmjenu podataka, ali istovremeno zahtijeva pažljivo upravljanje pristupom tim podacima.
+Višedretvenost nam omogućuje postojanje više neovisnih tokova instrukcija koji se unutar jednog procesa mogu izvršavati istovremeno.
+
+
+U praksi, dretve koristimo kako bismo postigli paralelizam. Primjerice, web preglednik može u jednoj dretvi iscrtavati korisničko sučelje, dok u drugoj preuzima datoteku s interneta. Uređivač teksta može istovremeno obrađivati unos korisnika i provjeravati pravopis.
+
+
+![](L08_server.png#gh-light-mode-only)
+![](L08_server_dark.png#gh-dark-mode-only)
+
+![](https://i.redd.it/1nyex36iv7u71.jpg)
 
 ## Uvod u višedretvenost
-U praksi, dretve koristimo kako bismo postigli **paralelizam**. Primjerice, web preglednik može u jednoj dretvi iscrtavati korisničko sučelje, dok u drugoj preuzima datoteku s interneta. Slično tome, uređivač teksta može istovremeno obrađivati unos korisnika i provjeravati pravopis.
+
+Jedan proces može imati jednu ili više dretvi.
+Dretve dijele zajednički adresni prostor, što omogućuje vrlo brzu razmjenu podataka, ali istovremeno zahtijeva pažljivo upravljanje pristupom tim podacima.
+
+![](L08_dretve.png)
 
 | Procesi                                 | Dretve                                       |
 |-----------------------------------------|----------------------------------------------|
@@ -17,17 +30,29 @@ U praksi, dretve koristimo kako bismo postigli **paralelizam**. Primjerice, web 
 
 Primjena dretvi donosi nekoliko ključnih prednosti u razvoju softvera:
 
-Responzivnost: Čak i ako je jedna dretva blokirana dugotrajnom operacijom, aplikacija može nastaviti reagirati na korisničke zahtjeve putem drugih dretvi.
+- **Responzivnost:** Čak i ako je jedna dretva blokirana dugotrajnom operacijom, aplikacija može nastaviti reagirati na korisničke zahtjeve putem drugih dretvi.
+- **Efikasnost:** Zamjena konteksta između dretvi je znatno brža u usporedbi s procesima.
+- **Bolja komunikacija:** Dretve komuniciraju izravno putem dijeljene memorije, što je puno efikasnije od mehanizama koje koriste procesi.
+- **Skalabilnost:** Na višeprocesorskim sustavima, dretve omogućuju stvarno paralelno izvršavanje zadataka na različitim jezgrama.
 
-Efikasnost: Izmjena konteksta (context switching) između dretvi je znatno brža nego između procesa jer operacijski sustav ne mora mijenjati cijeli adresni prostor i tablice stranica.
+### Izazovi korištenja dretvi
 
-Bolja komunikacija: Dretve komuniciraju izravno putem dijeljene memorije, što je puno efikasnije od mehanizama za međuprocesnu komunikaciju (IPC).
+Korištenje dretvi uvodi specifične probleme. Da bismo razumjeli zašto u višedretvenim programima ponekad dolazi do pogrešaka, važno je **razlikovati paralelizam od konkurentnosti**. Paralelizam podrazumijeva stvarno istovremeno izvršavanje zadataka na više procesorskih jezgri, dok konkurentnost označava sposobnost sustava da upravlja s više zadataka koji se preklapaju u vremenu. Čak i na sustavu s jednom jezgrom, OS brzo izmjenjuje dretve, što znači da dretva može biti prekinuta u bilo kojem trenutku (npr. usred matematičke operacije), ostavljajući podatke u nekonzistentnom stanju.
 
-Skalabilnost: Na višeprocesorskim sustavima, dretve omogućuju stvarno paralelno izvršavanje zadataka na različitim jezgrama.
+![](L08_dogs.png)
 
-### Tipovi i arhitektura dretvi
+Upravo ta nepredvidivost izvršavanja dovodi do **problema utrkivanja.** Do utrkivanja dolazi kada više dretvi istovremeno pokušava pristupiti i mijenjati zajedničke resurse, pri čemu konačni rezultat ovisi o točnom redoslijedu njihovog izvršavanja koji nije unaprijed definiran. Ovo se najčešće događa u takozvanim **kritičnim sekcijama** koda:
 
-Dretve se općenito dijele na korisničke dretve (User Threads) i jezgrene dretve (Kernel Threads). Korisničke dretve implementiraju aplikacijski programi pomoću biblioteka i jezgra operacijskog sustava ih ne vidi izravno. Lake su za implementaciju i upravljanje, ali ako se jedna korisnička dretva blokira, blokira se cijeli proces. Jezgrene dretve podržava sama jezgra OS-a, što omogućuje istinsko paralelno izvršavanje više zadataka unutar jezgre, ali je njihova implementacija kompleksnija.
+| Operacija           | Primjer                      |
+|---------------------|------------------------------|
+| *Read-modify-write* | `x = x + 5;`                 |
+| *Check-then-act*    | `if (x == 5) { x = x * 2; }` |
+
+Kako bismo spriječili neželjena ponašanja uzrokovana utrkivanjem, koristimo mehanizme **sinkronizacije** kao što su:
+
+- **Atomske operacije:** Operacije koje se izvršavaju kao jedna neraskidiva cjelina.
+- **Semafori:** Signalni mehanizmi koji upravljaju pristupom ograničenom broju resursa.
+- **Međusobno isključivanje (Mutex):** Mehanizam zaključavanja koji osigurava da u svakom trenutku samo jedna dretva može biti unutar kritične sekcije. Dok je dretva "vlasnik" mutexa, ostale dretve koje pokušaju ući u istu sekciju bit će blokirane dok se resurs ne oslobodi.
 
 Prije pisanja višedretvenih programa, pažljivo razmotrite maksimalan broj dretvi koje će biti korisne za paralelizaciju zadatka. Ako računalo ima više CPU jezgri, možete koristiti veći broj dretvi, ali nemojte premašiti broj logičkih jezgri. Za provjeru broja logičkih jezgri na računalu koristite funkciju `nproc`, a za detaljnije informacije o CPU naredbu `lscpu`:
 
