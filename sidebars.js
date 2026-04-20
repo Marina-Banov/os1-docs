@@ -39,8 +39,8 @@ const sidebars = {
       link: { type: 'doc', id: 'procesi/index' },
       items: ['procesi/procesi-1', 'procesi/procesi-2'],
     },
-    /*'dretve/index',
-    {
+    'dretve/index',
+    /*{
       type: 'category',
       label: 'Međuprocesna komunikacija',
       link: { type: 'doc', id: 'meduprocesna-komunikacija/index' },

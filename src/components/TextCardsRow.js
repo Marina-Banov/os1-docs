@@ -28,7 +28,7 @@ export const Lessons = [
         title: "Dretve",
         description: "",
         url: "/dretve/",
-        posted: false,
+        posted: true,
     },
     {
         title: "Međuprocesna komunikacija",

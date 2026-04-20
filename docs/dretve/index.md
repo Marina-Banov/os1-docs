@@ -1,8 +1,33 @@
 # Dretve
 
-U ovim vježbama fokusirat ćemo se na problem utrkivanja i međusobno isključivanje *(mutex)* kao tehniku sinkronizacije koja rješava taj problem.
+Višedretvenost nam omogućuje postojanje više neovisnih tokova instrukcija koji se unutar jednog procesa mogu izvršavati istovremeno. Ključna značajka dretvi je da one dijele zajednički adresni prostor, što omogućuje vrlo brzu razmjenu podataka, ali istovremeno zahtijeva pažljivo upravljanje pristupom tim podacima.
 
-![](L08_talking_stick.png)
+## Uvod u višedretvenost
+U praksi, dretve koristimo kako bismo postigli **paralelizam**. Primjerice, web preglednik može u jednoj dretvi iscrtavati korisničko sučelje, dok u drugoj preuzima datoteku s interneta. Slično tome, uređivač teksta može istovremeno obrađivati unos korisnika i provjeravati pravopis.
+
+| Procesi                                 | Dretve                                       |
+|-----------------------------------------|----------------------------------------------|
+| *Overhead* kod stvaranja i komunikacije | *Lightweight*                                |
+| Izolirani memorijski prostor            | Dijeljeni memorijski prostor                 |
+| Neovisni jedni o drugima                | Ovisne jedne o drugima                       |
+| Manja potreba za sinkronizacijom        | Sinkronizacija nužna zbog dijeljenih resursa |
+| Greške ne utječu na ostale procese      | Greške utječu na ostale dretve               |
+
+### Prednosti korištenja dretvi
+
+Primjena dretvi donosi nekoliko ključnih prednosti u razvoju softvera:
+
+Responzivnost: Čak i ako je jedna dretva blokirana dugotrajnom operacijom, aplikacija može nastaviti reagirati na korisničke zahtjeve putem drugih dretvi.
+
+Efikasnost: Izmjena konteksta (context switching) između dretvi je znatno brža nego između procesa jer operacijski sustav ne mora mijenjati cijeli adresni prostor i tablice stranica.
+
+Bolja komunikacija: Dretve komuniciraju izravno putem dijeljene memorije, što je puno efikasnije od mehanizama za međuprocesnu komunikaciju (IPC).
+
+Skalabilnost: Na višeprocesorskim sustavima, dretve omogućuju stvarno paralelno izvršavanje zadataka na različitim jezgrama.
+
+### Tipovi i arhitektura dretvi
+
+Dretve se općenito dijele na korisničke dretve (User Threads) i jezgrene dretve (Kernel Threads). Korisničke dretve implementiraju aplikacijski programi pomoću biblioteka i jezgra operacijskog sustava ih ne vidi izravno. Lake su za implementaciju i upravljanje, ali ako se jedna korisnička dretva blokira, blokira se cijeli proces. Jezgrene dretve podržava sama jezgra OS-a, što omogućuje istinsko paralelno izvršavanje više zadataka unutar jezgre, ali je njihova implementacija kompleksnija.
 
 Prije pisanja višedretvenih programa, pažljivo razmotrite maksimalan broj dretvi koje će biti korisne za paralelizaciju zadatka. Ako računalo ima više CPU jezgri, možete koristiti veći broj dretvi, ali nemojte premašiti broj logičkih jezgri. Za provjeru broja logičkih jezgri na računalu koristite funkciju `nproc`, a za detaljnije informacije o CPU naredbu `lscpu`:
 
@@ -96,6 +121,10 @@ gcc P01_single-thread.c -o P01_single-thread -pthread && ./P01_single-thread
 ```
 
 ## Zadaci za vježbu
+ 
+U ovim vježbama fokusirat ćemo se na problem utrkivanja i međusobno isključivanje *(mutex)* kao tehniku sinkronizacije koja rješava taj problem.
+
+![](L08_talking_stick.png)
 
 ### Primjer 2: Brojač
 
