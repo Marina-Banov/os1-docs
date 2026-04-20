@@ -251,14 +251,14 @@ gcc Z02_murderer.c -o Z02_murderer
 Alat `strace` koji smo do sada koristili za praćenje sistemskih poziva u ovoj ćemo vježbi koristiti za praćenje signala koje procesi primaju. Želimo utvrditi kako će se terminirati naš beskonačni proces. Kopirajte sljedeću naredbu u terminal i **obavezno zamijenite `...` s PID-om procesa žrtve.** Naredbe koje završavaju sa znakom `&` pokreću se u pozadini. Ova `strace` naredba ignorira sve sistemske pozive procesa žrtve i bilježi samo signale koje taj proces prima u datoteku nazvanu `Z02_victim-strace.out`.
 
 ```bash
-strace -tt -o Z02_victim-strace.out -p ... -e "trace=all" &
+strace -tt -o Z02_victim-strace.out -p ... -e "trace=!all" &
 ps -fu $USER
 ```
 
 Ubijmo žrtvu i promotrimo signale koje vraća `strace`:
 
 ```bash
-strace -tt -e "trace=all" ./Z02_murderer
+strace -tt -e "trace=!all" ./Z02_murderer
 ps -fu $USER
 cat Z02_victim-strace.out
 ```
