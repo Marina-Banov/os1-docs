@@ -4,7 +4,7 @@ Jezgra pokreće `init` proces pri pokretanju sustava, a taj proces onda naknadno
 
 ## Kreiranje procesa
 
-Jedan proces može stvoriti nove procese sistemskim pozivom `fork`, pri čemu su novonastali procesi **kopije** (klonovi) roditeljskog procesa. *Children* procesi kopiraju (nasljeđuju) trenutno stanje memorije *parent* procesa, ali se izvršavaju nezavisno.
+Jedan proces može stvoriti nove procese sistemskim pozivom `fork`, pri čemu su novonastali procesi **kopije** (klonovi) roditeljskog procesa. *Children* procesi kopiraju (nasljeđuju) trenutačno stanje memorije *parent* procesa, ali se izvršavaju nezavisno.
 
 Isječak iz službene dokumentacije:
 
@@ -247,7 +247,7 @@ int main() {
 Kako bismo mogli ispisati `Hello` točno tri puta?
 :::
 
-```c title="Z02_hello_three_times.c"
+```c title="Z02_hello-three-times.c"
 #include <stdio.h>
 #include <unistd.h>
 
@@ -256,6 +256,9 @@ int main() {
 
     return 0;
 }
+```
+```bash
+gcc Z02_hello-three-times.c -o Z02_hello-three-times && ./Z02_hello-three-times
 ```
 
 :::info Pomoć
@@ -284,7 +287,7 @@ int main() {
 Koliko će novih procesa biti kreirano kada pokrenemo ovaj kod:
 :::
 
-```c title="Z02_n_copies.c"
+```c title="Z02_n-copies.c"
 #include <stdio.h>
 #include <unistd.h>
 #define FORK_NUM 3
@@ -300,6 +303,9 @@ int main() {
     return 0;
 }
 ```
+```bash
+gcc Z02_n-copies.c -o Z02_n-copies && ./Z02_n-copies
+```
 
 Pokušajte mijenjati vrijednosti varijable `FORK_NUM` te predvidjeti broj kreiranih procesa.
 
@@ -311,9 +317,9 @@ Zašto se redoslijed ispisa mijenja kada pokrenemo program više puta?
 
 Stvaranje kloniranih procesa nije uvijek praktično jer često želimo kreirati novi proces kako bi obavljao različite zadatke od svog roditelja. 
 Prije svega, moramo razlikovati *child* proces od *parent* procesa. Dovoljno je provjeriti povratnu vrijednost funkcije `fork()` (0 za dijete i *child* PID za roditelja). 
-Ako želimo *child* proces zadužiti za neku kompleksniju zadaću (za koju možda niti nemamo izvorni kod), možemo koristiti `exec()` [obitelj funkcija](https://linux.die.net/man/3/exec). Ove funkcije pružaju nešto drugačiji API, ali sve zamjenjuju trenutni proces novim programom. To nam omogućuje izvršavanje gotovo bilo koje binarne datoteke na našem sustavu.
+Ako želimo *child* proces zadužiti za neku kompleksniju zadaću (za koju možda niti nemamo izvorni kod), možemo koristiti `exec()` [obitelj funkcija](https://linux.die.net/man/3/exec). Ove funkcije pružaju nešto drugačiji API, ali sve zamjenjuju trenutačni proces novim programom. To nam omogućuje izvršavanje gotovo bilo koje binarne datoteke na našem sustavu.
 
-```c title="Z03_ls_child.c"
+```c title="Z03_ls-child.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -341,7 +347,7 @@ int main() {
 }
 ```
 ```bash
-gcc Z03_ls_child.c -o Z03_ls_child && ./Z03_ls_child
+gcc Z03_ls-child.c -o Z03_ls-child && ./Z03_ls-child
 ```
 
 :::info Pitanje
@@ -352,7 +358,7 @@ Nakon pokretanja programa koji je definiran u `execl` funkciji, proces se više 
 
 Kreirajte proces koji ispisuje `man` stranicu za Vašu omiljenu naredbu:
 
-```c title="Z03_man_child.c"
+```c title="Z03_man-child.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -374,7 +380,11 @@ int main() {
     return 0;
 }
 ```
+```bash
+gcc Z03_man-child.c -o Z03_man-child && ./Z03_man-child
+```
 
-:::info Napomena
-Ako niste sigurni gdje se nalazi izvršna datoteka za naredbu `man`, možete pokrenuti naredbu `which man`.
+:::info Napomene
+- Naredba `man` po zadanim postavkama koristi *pager* (program za pregled i navigaciju kroz tekst, npr. `less`) koji zahtijeva interaktivni terminal. Kada se `man` pokreće s pomoću funkcije `exec`, proces dijete ne prepoznaje ispravno interaktivni terminal, *pager* ne može raditi i dolazi do greške. U nekim okruženjima (npr. Sublime) taj se problem ne pojavljuje jer `man` ne radi u klasičnom terminalu pa ne pokreće *pager*, nego direktno ispisuje rezultat (kao `cat`). Kako biste u terminalu izbjegli grešku, koristite naredbu `man -P cat ...`, čime se isključuje *pager* i dobiva ponašanje slično kao u Sublimeu.
+- Ako niste sigurni gdje se nalazi izvršna datoteka za naredbu `man`, možete pokrenuti naredbu `which man`.
 :::
