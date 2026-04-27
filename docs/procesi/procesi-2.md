@@ -138,7 +138,7 @@ int main() {
         printf("[PARENT] Child with PID = %d finished with return value %d\n",
                child_pid, status);
     } else {
-        printf("[PARENT] Fork failed\n");
+        perror("[PARENT] Fork failed");
         return 1;
     }
 
@@ -329,6 +329,7 @@ int main() {
     // Stvaranje novog procesa
     pid_t forked_pid = fork();
     if (forked_pid == -1) {
+        perror("Fork failed");
         return 1;
     }
 
@@ -368,6 +369,7 @@ int main() {
     // Stvaranje novog procesa
     pid_t forked_pid = fork();
     if (forked_pid == -1) {
+        perror("Fork failed");
         return 1;
     }
 

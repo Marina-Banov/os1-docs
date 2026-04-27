@@ -216,3 +216,7 @@ Proučite programski kod `P03_files.c`. U ovom primjeru želimo obraditi 5 datot
 ```bash
 gcc P03_files.c -o P03_files -pthread && ./P03_files
 ```
+
+### Zadatak za kraj
+
+[![](./L08_deadlock_empire.jpg)](https://deadlockempire.github.io/)
