@@ -38,12 +38,12 @@ Signali služe kao obavijesti procesu o rezultatu nekog specifičnog događaja i
 
 O ovoj temi ćemo učiti više sljedeći tjedan...
 
-Provjerite svoje znanje o vrstama IPC-a na ovoj poveznici:
-
-![](./L09_slido.png)
-
 Sada kada smo prošli teorijski okvir, možemo prijeći na implementaciju ovih koncepata u programskom jeziku C.
 
 import {ListItems} from "@site/src/components/ListItems";
 
 <ListItems></ListItems>
+
+Provjerite svoje znanje o vrstama IPC-a na ovoj poveznici:
+
+![](./L09_slido.png)
