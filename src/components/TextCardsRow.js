@@ -34,7 +34,7 @@ export const Lessons = [
         title: "Međuprocesna komunikacija",
         description: "",
         url: "/meduprocesna-komunikacija/",
-        posted: false,
+        posted: true,
     },
     {
         title: "Upravljanje memorijom",

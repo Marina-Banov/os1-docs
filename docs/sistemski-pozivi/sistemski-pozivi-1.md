@@ -56,19 +56,19 @@ man syscalls | head -n 25 | tail -n 13
 ```
 
 ```
-    System calls and library wrapper functions
-       System calls are generally not invoked directly, but rather via wrapper
-       functions in glibc (or perhaps some other library).  For details of di‐
-       rect invocation of a system call, see intro(2).  Often, but not always,
-       the  name of the wrapper function is the same as the name of the system
-       call that it invokes.  For example, glibc contains a  function  chdir()
-       which invokes the underlying "chdir" system call.
+System calls and library wrapper functions
+    System calls are generally not invoked directly, but rather via wrapper
+    functions in glibc (or perhaps some other library).  For details of di‐
+    rect invocation of a system call, see intro(2).  Often, but not always,
+    the  name of the wrapper function is the same as the name of the system
+    call that it invokes.  For example, glibc contains a  function  chdir()
+    which invokes the underlying "chdir" system call.
 
-       Often the glibc wrapper function is quite thin, doing little work other
-       than copying arguments to the right registers before invoking the  sys‐
-       tem  call,  and  then setting errno appropriately after the system call
-       has returned.   (These  are  the  same  steps  that  are  performed  by
-       syscall(2), which can be used to invoke system calls for which no wrap‐
+    Often the glibc wrapper function is quite thin, doing little work other
+    than copying arguments to the right registers before invoking the  sys‐
+    tem  call,  and  then setting errno appropriately after the system call
+    has returned.   (These  are  the  same  steps  that  are  performed  by
+    syscall(2), which can be used to invoke system calls for which no wrap‐
 ```
 
 ### Primjer 1
