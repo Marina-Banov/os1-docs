@@ -281,7 +281,7 @@ strace -c ./Z02_txt-datoteke
 
 # TODO: Ako je direktorij mapa gdje je spremljen program,
 # stvoriti bar jednu txt datoteku
-if [ $dir_name = . ]
+if [ $dir_name = "." ]
 then
     # ...
 fi

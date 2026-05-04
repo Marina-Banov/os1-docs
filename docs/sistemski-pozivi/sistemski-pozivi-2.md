@@ -179,16 +179,16 @@ Iskoristite dani predložak i napišite C program koji ispisuje:
 - Unutar programa provjerite je li se funkcija `statvfs` uspješno izvršila
 
 ```c title="Z03_sysinfo.c"
-#include <stdlib.h>
 #include <stdio.h>
-#include <sys/sysinfo.h>
+#include <stdlib.h>
 #include <sys/statvfs.h>
+#include <sys/sysinfo.h>
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const* argv[]) {
     struct sysinfo info;
     int ret = sysinfo(&info);
     if (ret == -1) {
-        perror("An error occurred\n");
+        perror("An error occurred");
         return 1;
     }
 
@@ -201,8 +201,8 @@ int main(int argc, char const *argv[]) {
 
     struct statvfs stat;
     ret = statvfs("/home/student", &stat);
-    if (/*TODO: Provjeriti je li funkcija statvfs javila gresku*/) {
-        perror("An error occurred\n");
+    if (/* TODO: Provjeriti je li funkcija `statvfs` javila grešku */) {
+        perror("An error occurred");
         return 1;
     }
 

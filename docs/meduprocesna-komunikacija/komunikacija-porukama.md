@@ -10,7 +10,7 @@ man msgsnd
 
 ## Primjer 5: Komunikacija porukama
 
-```c "P05_msg-q-example.c"
+```c title="P05_msg-q-example.c"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ipc.h>
@@ -104,6 +104,7 @@ int main() {
     // TODO: Ispisati kvadrat iz queuea
     // ...
 
+    // Ukloniti queue nakon čitanja
     msgctl(msgid, IPC_RMID, NULL);
 
     return 0;
