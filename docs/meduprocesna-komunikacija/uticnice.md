@@ -34,7 +34,7 @@ Stanje TCP utičnica na računalu možete provjeriti ovako:
 netstat -tn
 ```
 
-## Primjer 1: Hello, world
+### Primjer 1: Hello, world
 
 Poslužitelj i klijent razmjenjuju jednu poruku. Za svaku stranu (program) pišemo jedan kod. Koristimo `unistd` knjižnicu koja sadrži *wrappere* za sistemski poziv `close`. Knjižnicu `arpa/inet.h` koristimo za funkcije vezane uz mrežnu komunikaciju (npr. `htons`, `inet_addr`, itd.) Utičnice i funkcije za rad sa utičnicama su definirane u `sys/socket.h`. Struktura `sockaddr_in` je definirana u `netinet/in.h`.
 
@@ -52,7 +52,7 @@ Znak `&` na kraju naredbe koristi se za pokretanje programa u pozadini.
 gcc P01_client.c -o P01_client && ./P01_client
 ```
 
-## Zadatak 1: Vješala
+### Zadatak 1: Vješala
 
 Poslužiteljski dio aplikacije u pravilu sadrži većinu logike, prati trenutačno stanje i komunicira s klijentima. U primjeru igre Vješala, poslužitelj nasumično odabire tajnu riječ i reagira na korisnikove pokušaje. Pritom prati koliko je pokušaja preostalo do kraja igre i šalje klijentu sve potrebne informacije.
 
@@ -78,7 +78,7 @@ Ovakva podjela i razdvajanje logike igre od korisničkog sučelja, uz korištenj
 Ako budete htjeli više puta isprobati igru, morat ćete sačekati između pokušaja da operacijski sustav oslobodi port koji koristite za komunikaciju. Čak i nakon uspješnog zatvaranja socketa, taj port može ostati u `TIME_WAIT` statusu neko vrijeme. Budite strpljivi i **uvijek prvo pokrećite poslužitelja, a tek onda klijenta**.
 :::
 
-## Primjer 2: Višestruke veze
+### Primjer 2: Višestruke veze
 
 Do sada smo radili sa slučajem u kojem se na jednog poslužitelja spaja točno jedan klijent. Korištenjem utičnica možemo omogućiti da više klijenata pristupa istom poslužitelju i tako postići interakciju među korisnicima. U ovom primjeru izgradit ćemo chat aplikaciju kako bismo demonstrirali rad s višestrukim vezama. Dodavanje te funkcionalnosti učinit će naš kod malo kompleksnijim.
 
@@ -105,6 +105,10 @@ gcc -pthread P02_multi_client.c -o P02_multi_client && ./P02_multi_client
 Primjećujete li neki problem u serverskom kodu iz perspektive višedretvenosti?
 :::
 
-## Zadatak 2: Višestruka Vješala
+### Zadatak 2: Višestruka Vješala
 
 Probajte nadopuniti kod iz Zadatka 1 prateći Primjer 2 kako biste omogućili da više klijenata istovremeno igraju Vješala i zajedno pogađaju tajnu riječ.
+
+### Zadatak za kraj
+
+[![](./L10_skribbl.png)](https://skribbl.io/)
