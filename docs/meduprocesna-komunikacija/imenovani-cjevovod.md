@@ -2,7 +2,7 @@
 
 Imenovani cjevovod je [sličan](https://www.sfu.ca/sasdoc/sashtml/os2/zipeover.htm) prethodno navedenoj tehnici, uz neke dodatne mogućnosti. Uobičajeno nazivlje za ovakav tip komunikacijskog kanala je *named pipe/FIFO*.
 
-Inicijalizacijom imenovanog cjevovoda stvara se referenca u datotečnom sustavu. Ta je referenca dostupna svim procesima, ali se najčešće koristi između dva nepovezana procesa. FIFO omogućava dvosmjernu komunikaciju, za što je dovoljna samo jedna instanca (za razliku od prethodno opisanog cjevovoda). Važno je naglasiti da vrijedi pravilo "prvi unutra, prvi van" *(first-in-first-out)*. Iako se više procesa može povezati na FIFO, samo jedan proces može čitati trenutno pohranjenu poruku. Nakon toga ona nestaje iz FIFO reda.
+Inicijalizacijom imenovanog cjevovoda stvara se referenca u datotečnom sustavu. Ta je referenca dostupna svim procesima, ali se najčešće koristi između dva nepovezana procesa. FIFO omogućava dvosmjernu komunikaciju, za što je dovoljna samo jedna instanca (za razliku od prethodno opisanog cjevovoda). Važno je naglasiti da vrijedi pravilo "prvi unutra, prvi van" *(first-in-first-out)*. Iako se više procesa može povezati na FIFO, samo jedan proces može čitati trenutačno pohranjenu poruku. Nakon toga ona nestaje iz FIFO reda.
 
 ## Primjer 4: Imenovani cjevovod
 

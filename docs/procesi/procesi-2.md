@@ -357,7 +357,13 @@ Zašto se nije ispisala poruka `Child executed ls`?
 
 Nakon pokretanja programa koji je definiran u `execl` funkciji, proces se više nikada ne vraća u originalni program. Postoji li (hipotetska) situacija u kojoj bi se poruka `Child executed ls` ipak ispisala?
 
-Kreirajte proces koji ispisuje `man` stranicu za Vašu omiljenu naredbu:
+<div style={{ alignItems: "center", display: "flex", gap: "1em", marginBottom: "1em" }}>
+
+<span>Kreirajte proces koji ispisuje <code>man</code> stranicu za Vašu omiljenu naredbu:</span>
+<img src={require('./L07_sabrina.jpg').default} height="50" />
+
+</div>
+
 
 ```c title="Z03_man-child.c"
 #include <stdio.h>

@@ -8,15 +8,15 @@ Komunikacija putem dijeljene memorije ostvaruje se čitanjem i pisanjem podataka
 
 ## Memorijsko mapiranje
 
-Memorijsko mapiranje omogućuje komunikaciju putem čitanja i pisanja u dijeljene datoteke, pri čemu jezgra OS-a upravlja operacijama prijenosa podataka na disk. Procesi tretiraju mapirani dio datoteke kao da se nalazi izravno u primarnoj memoriji, što se postiže mapiranjem bloka s medija (poput diska) na stranicu *(page)* u memoriji. Sve promjene nastale u mapiranoj memoriji automatski se i odmah odražavaju u povezanoj datoteci.
+Memorijsko mapiranje omogućuje komunikaciju putem čitanja i pisanja u dijeljene datoteke, pri čemu jezgra OS-a upravlja operacijama prijenosa podataka na disk. Procesi tretiraju mapirani dio datoteke kao da se nalazi izravno u primarnoj memoriji, što se postiže mapiranjem bloka s medija (poput diska) na stranicu *(page)* u memoriji. Sve promjene nastale u mapiranoj memoriji automatski se odražavaju u povezanoj datoteci.
 
 ## Cjevovod
 
-Cjevovod omogućuje jednosmjernu sekvencijalnu komunikaciju u kojoj je izlaz iz jednog procesa izravno povezan s ulazom u drugi proces. U ovom modelu jedan proces isključivo piše podatke, dok ih drugi čita. Cjevovodi se najčešće koriste za komunikaciju između dvije dretve unutar istog procesa ili između roditeljskog *(parent)* i djetetovog *(child)* procesa. Tipičan primjer u terminalu je naredba `ps -ax | grep firefox`. Cjevovod živi koliko i povezani procesi.
+Cjevovod omogućuje jednosmjernu sekvencijalnu komunikaciju u kojoj je izlaz iz jednog procesa izravno povezan s ulazom u drugi proces. U ovom modelu jedan proces isključivo piše podatke, dok ih drugi čita. Cjevovodi se najčešće koriste za komunikaciju između dvije dretve unutar istog procesa ili između *parent* i *child* procesa. Tipičan primjer u terminalu je naredba `ps -ax | grep firefox`. Cjevovod živi koliko i povezani procesi.
 
 ## Imenovani cjevovod
 
-Imenovani cjevovod (FIFO) je varijanta cjevovoda koja ima dodijeljeno ime unutar datotečnog sustava, iako se ne ponaša kao klasična datoteka već kao tok podataka. Njegova glavna prednost je što omogućuje komunikaciju između potpuno **nepovezanih** procesa. Svaki proces s odgovarajućim pravima može otvoriti ili zatvoriti FIFO objekt te u njega pisati ili iz njega čitati. Primjer kreiranja i korištenja ovakvog kanala za dvostruki ispis je sljedeći skup naredbi:
+Imenovani cjevovod (FIFO) je varijanta cjevovoda koja ima dodijeljeno ime unutar datotečnog sustava, iako se ne ponaša kao klasična datoteka već kao [tok podataka](https://wiki.imindlabs.com.au/cs/usp/2_streamsprocessfs/2_1_streams/). Njegova glavna prednost je što omogućuje komunikaciju između potpuno **nepovezanih** procesa. Svaki proces s odgovarajućim pravima može otvoriti ili zatvoriti FIFO objekt te u njega pisati ili iz njega čitati. Primjer kreiranja i korištenja ovakvog kanala za dvostruki ispis je sljedeći skup naredbi:
 
 ```bash
 mkfifo /tmp/helloFifo

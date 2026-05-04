@@ -45,7 +45,7 @@ Korištenje dretvi uvodi specifične probleme. Da bismo razumjeli zašto u više
 
 ![](L08_dogs.png)
 
-Upravo ta nepredvidivost izvršavanja dovodi do **problema utrkivanja.** Do utrkivanja dolazi kada više dretvi istovremeno pokušava pristupiti i mijenjati zajedničke resurse, pri čemu konačni rezultat ovisi o točnom redoslijedu njihovog izvršavanja koji nije unaprijed definiran. Ovo se najčešće događa u takozvanim **kritičnim sekcijama** koda:
+Upravo ta nepredvidivost izvršavanja dovodi do **problema utrkivanja.** Do utrkivanja dolazi kada više dretvi istovremeno pokušava pristupiti i mijenjati zajedničke resurse, pri čemu rezultat ovisi o točnom redoslijedu njihovog izvršavanja koji nije unaprijed definiran. Ovo se najčešće događa u takozvanim **kritičnim sekcijama** koda:
 
 | Operacija           | Primjer                      |
 |---------------------|------------------------------|
@@ -85,7 +85,7 @@ man pthread_create
 
 Funkcija `pthread_create` prima sljedeće argumente:
 - `thread`: Pokazivač na varijablu u koju se pohranjuje stvorena dretva
-- `attr`: [Atributi](https://docs.oracle.com/cd/E19120-01/open.solaris/816-5137/6mba5vpok/index.html) dretve pomoću kojih se može prilagoditi ponašanje dretve (veličina stoga, prioritet, politika raspoređivanja itd.)
+- `attr`: [Atributi](https://docs.oracle.com/cd/E19120-01/open.solaris/816-5137/6mba5vpok/index.html) dretve s pomoću kojih se može prilagoditi ponašanje dretve (veličina stoga, prioritet, politika raspoređivanja itd.)
 - `start_routine`: Funkcija koju dretva izvršava
 - `arg`: Argumenti koji se prosljeđuju funkciji predanoj pod `start_routine` (funkcionira slično kao `char *argv[]` u potpisu `main` funkcije)
 
@@ -99,11 +99,11 @@ man pthread_join
 
 Funkcija `pthread_join` prima sljedeće argumente:
 - `thread`: Varijabla koja sadrži dretvu koju želimo čekati
-- `retval`: Pokazivač na varijablu u koju će se spremiti vrijednost koju dretva vraća.  Ako dretvi koja čeka nije bitan rezultat dretve, kao drugi argument funkcije `pthread_join` predaje se `NULL`.
+- `retval`: Pokazivač na varijablu u koju će se spremiti vrijednost koju dretva vraća. Ako dretvi koja čeka nije bitan rezultat dretve, kao drugi argument funkcije `pthread_join` predaje se `NULL`.
 
 ### Završavanje dretvi
 
-Funkcija `pthread_exit` omogućava dretvi da završi svoje izvršavanje i vrati neku vrijednost dretvi koja ju čeka pomoću `pthread_join`. Tim putem dretva može drugoj dretvi "predati" svoj rezultat.
+Funkcija `pthread_exit` omogućava dretvi da završi svoje izvršavanje i vrati neku vrijednost dretvi koja ju čeka s pomoću `pthread_join`. Tim putem dretva može drugoj dretvi "predati" svoj rezultat.
 
 ```bash
 man pthread_exit
@@ -179,7 +179,7 @@ Razlika u očekivanom i ostvarenom rezultatu događa se zbog toga što se operac
 
 </div>
 
-Problem utrkivanja u ovom primjeru možemo rješiti korištenjem *mutex*-a. Kada neka dretva dobije pristup resursima oni će se zaključati, što znači da ih ostale dretve neće moći koristiti dok se ne završi rad trenutne dretve. [Više u dokumentaciji](https://man7.org/linux/man-pages/man3/pthread_mutex_lock.3.html)
+Problem utrkivanja u ovom primjeru možemo riješiti korištenjem *mutex*-a. Kada neka dretva dobije pristup resursima oni će se zaključati, što znači da ih ostale dretve neće moći koristiti dok se ne završi rad trenutačne dretve. [Više u dokumentaciji](https://man7.org/linux/man-pages/man3/pthread_mutex_lock.3.html)
 
 Ovo zahtjeva minimalne promjene u kodu. Proučite programski kod `P02_race-condition-lock.c`, uočite razlike i onda pokrenite program.
 
@@ -211,7 +211,7 @@ Ako uočite da dolazi do utrkivanja i da se stanje na računu ne mijenja na konz
 
 Paralelizacija ubrzava obradu velikog skupa podataka tako što se ti podaci podijele na manje dijelove koji se zatim obrađuju neovisno i istovremeno, svaki u vlastitoj dretvi. Na primjer, kada treniramo model strojnog učenja s velikim brojem slika za treniranje, paralelizacija nam omogućuje da te slike dodijelimo određenom broju dretvi kako bismo istovremeno obradili više slika, svaku u zasebnoj dretvi. Nakon što se sve slike obrade, rezultati se mogu kombinirati kako bi se dobio konačni model.
 
-Proučite programski kod `P03_files.c`. U ovom primjeru želimo obraditi 5 datoteka (na prilično jednostavan način) i dobiti neki konačni rezultat. Koristimo paralelizaciju i obrađujemo jednu datoteku po dretvi.
+Proučite programski kod `P03_files.c`. U ovom primjeru želimo obraditi 5 datoteka (na prilično jednostavan način) i dobiti rezultat zajedničke obrade. Koristimo paralelizaciju i obrađujemo jednu datoteku po dretvi.
 
 ```bash
 gcc P03_files.c -o P03_files -pthread && ./P03_files

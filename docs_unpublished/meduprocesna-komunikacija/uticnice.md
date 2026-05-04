@@ -63,7 +63,7 @@ python3 P01_client.py &
 
 ## Zadatak 1: Vješala
 
-Poslužiteljski dio aplikacije u pravilu sadrži većinu logike, prati trenutno stanje i komunicira s klijentima. U primjeru igre Vješala, poslužitelj nasumično odabire tajnu riječ i reagira na korisnikove pokušaje. Pritom prati koliko je pokušaja preostalo do kraja igre i šalje klijentu sve potrebne informacije.
+Poslužiteljski dio aplikacije u pravilu sadrži većinu logike, prati trenutačno stanje i komunicira s klijentima. U primjeru igre Vješala, poslužitelj nasumično odabire tajnu riječ i reagira na korisnikove pokušaje. Pritom prati koliko je pokušaja preostalo do kraja igre i šalje klijentu sve potrebne informacije.
 
 <Tabs>
   <TabItem value="c" label="C">
@@ -141,7 +141,7 @@ python3 P02_multi_server.py &
   </TabItem>
 </Tabs>
 
-Kod za klijenta je isto postao malo kompleksniji. U prethodnim slučajevima, komunikacija između klijenta i servera je bila slijedna jer je klijent očekivao poruku od servera tek kao **odgovor** na poruku koju bi mu sam poslao. U chat aplikaciji svi korisnici mogu slati poruke nedefiniranim redoslijedom. To znači da klijent mora istovremeno pratiti dva izvora podataka: standardni ulaz ako trenutni korisnik želi poslati neku poruku i vezu sa server socketom ako želi proslijediti poruke od ostalih klijenata. Te dvije zadaće mogle bi se odvojiti i u dvije dretve, ali ovdje ćemo koristiti malo stariji mehanizam, funkciju `select`.
+Kod za klijenta je isto postao malo kompleksniji. U prethodnim slučajevima, komunikacija između klijenta i servera je bila slijedna jer je klijent očekivao poruku od servera tek kao **odgovor** na poruku koju bi mu sam poslao. U chat aplikaciji svi korisnici mogu slati poruke nedefiniranim redoslijedom. To znači da klijent mora istovremeno pratiti dva izvora podataka: standardni ulaz ako trenutačni korisnik želi poslati neku poruku i vezu sa server socketom ako želi proslijediti poruke od ostalih klijenata. Te dvije zadaće mogle bi se odvojiti i u dvije dretve, ali ovdje ćemo koristiti malo stariji mehanizam, funkciju `select`.
 
 Pokrenite sljedeću naredbu u dva različita terminala i isprobajte chat funkcionalnost:
 Kada želite završiti s komunikacijom, pritisnite `Enter`.
