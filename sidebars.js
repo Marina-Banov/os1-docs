@@ -47,7 +47,7 @@ const sidebars = {
         'meduprocesna-komunikacija/imenovani-cjevovod',
         'meduprocesna-komunikacija/komunikacija-porukama',
         'meduprocesna-komunikacija/signali',
-        // 'meduprocesna-komunikacija/uticnice',
+        'meduprocesna-komunikacija/uticnice',
       ],
     },
     /*'upravljanje-memorijom/index',

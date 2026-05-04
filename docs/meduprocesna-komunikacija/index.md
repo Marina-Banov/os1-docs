@@ -36,7 +36,9 @@ Signali služe kao obavijesti procesu o rezultatu nekog specifičnog događaja i
 
 ## Utičnice
 
-O ovoj temi ćemo učiti više sljedeći tjedan...
+Utičnice su mehanizam koji omogućuje IPC između više procesa na [istom računalu](https://en.wikipedia.org/wiki/Unix_domain_socket) ili na različitim računalima [**unutar iste mreže**](https://en.wikipedia.org/wiki/Network_socket). Podaci koji se šalju putem utičnica dijele se u pakete, a najčešći način rada temelji se na modelu **poslužitelj-klijent**.
+
+## Zaključak
 
 Sada kada smo prošli teorijski okvir, možemo prijeći na implementaciju ovih koncepata u programskom jeziku C.
 
