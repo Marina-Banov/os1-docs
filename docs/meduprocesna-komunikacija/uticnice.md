@@ -25,6 +25,7 @@ Najčešći oblik upotrebe utičnica je u komunikaciji između poslužitelja i k
 Stanje utičnica na računalu možete provjeriti uz pomoć alata `netstat`:
 
 ```bash
+sudo apt install net-tools
 netstat -an
 ```
 
@@ -40,13 +41,11 @@ Poslužitelj i klijent razmjenjuju jednu poruku. Za svaku stranu (program) piše
 
 Možete definirati port koji želite da klijent koristi prilikom poziva `bind` funkciji (morate koristiti `htons` funkciju prilikom definiranja porta).
 
-```bash
-gcc P01_server.c -o P01_server && ./P01_server &
-```
+Otvorite dva terminala i pokrenite sljedeće naredbe:
 
-:::info Podsjetnik
-Znak `&` na kraju naredbe koristi se za pokretanje programa u pozadini.
-:::
+```bash
+gcc P01_server.c -o P01_server && ./P01_server
+```
 
 ```bash
 gcc P01_client.c -o P01_client && ./P01_client
@@ -59,10 +58,10 @@ Poslužiteljski dio aplikacije u pravilu sadrži većinu logike, prati trenutač
 Nadopunite kod za poslužitelja i omogućite povezivanje s klijentom putem utičnica. Logika igre već je implementirana. Nakon toga otvorite terminal i pokrenite:
 
 ```bash
-gcc Z01_game_server.c -o Z01_game_server && ./Z01_game_server &
+gcc Z01_game_server.c -o Z01_game_server && ./Z01_game_server
 ```
 
-Klijentski dio aplikacije predstavlja sučelje prema korisniku koje mu omogućuje sudjelovanje u igri. Nadopunite kod za klijenta i omogućite povezivanje s poslužiteljom putem utičnica. Nakon toga u terminalu pokrenite:
+Klijentski dio aplikacije predstavlja sučelje prema korisniku koje mu omogućuje sudjelovanje u igri. Nadopunite kod za klijenta i omogućite povezivanje s poslužiteljom putem utičnica. Nakon toga u drugom terminalu pokrenite:
 
 ```bash
 gcc Z01_game_client.c -o Z01_game_client && ./Z01_game_client
@@ -89,7 +88,7 @@ U idućim kodovima su neke od prethodno pokazanih provjera preskočene kako se k
 :::
 
 ```bash
-gcc -pthread P02_multi_server.c -o P02_multi_server && ./P02_multi_server &
+gcc -pthread P02_multi_server.c -o P02_multi_server && ./P02_multi_server
 ```
 
 Kod za klijenta je isto postao malo kompleksniji. U prethodnim slučajevima, komunikacija između klijenta i servera je bila slijedna jer je klijent očekivao poruku od servera tek kao **odgovor** na poruku koju bi mu sam poslao. U chat aplikaciji svi korisnici mogu slati poruke nedefiniranim redoslijedom. To znači da klijent mora istovremeno pratiti dva izvora podataka: standardni ulaz ako trenutačni korisnik želi poslati neku poruku i vezu sa server socketom ako želi proslijediti poruke od ostalih klijenata. Te dvije zadaće mogle bi se odvojiti i u dvije dretve, ali ovdje ćemo koristiti malo stariji mehanizam, funkciju `select`.
