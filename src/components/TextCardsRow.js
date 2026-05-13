@@ -40,7 +40,7 @@ export const Lessons = [
         title: "Upravljanje memorijom",
         description: "",
         url: "/upravljanje-memorijom/",
-        posted: false,
+        posted: true,
     },
     {
         title: "Računalna sigurnost",

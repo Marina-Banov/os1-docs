@@ -50,8 +50,8 @@ const sidebars = {
         'meduprocesna-komunikacija/uticnice',
       ],
     },
-    /*'upravljanje-memorijom/index',
-    'racunalna-sigurnost/index',*/
+    'upravljanje-memorijom/index',
+    /*'racunalna-sigurnost/index',*/
   ],
 };
 
