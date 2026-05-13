@@ -1,5 +1,8 @@
 # Memorijsko mapiranje (Mapped memory)
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 Memorijsko mapiranje je tehnika koja omogućava **povezivanje adresnog prostora procesa i** nekog drugog resursa na sustavu, najčešće **datoteke** pohranjene na disku. Procesi tada mogu pristupati sadržaju datoteke kao običnom polju u memoriji (pokazivaču), bez korištenja sistemskih poziva `read` i `write`.
 
 Za uspostavljanje takvog povezivanja koristi se sistemski poziv `mmap`, koji mapira (preslikava) datoteku u virtualni adresni prostor procesa i vraća pokazivač na početak tog prostora. Nakon toga, čitanje i pisanje se svodi na rad s memorijom (npr. dereferenciranje pokazivača ili korištenje funkcija poput `strncpy`). Jezgra OS u pozadini brine o sinkronizaciji između memorije i datoteke. Kod korištenja zastavice `MAP_SHARED`, promjene koje jedan proces napravi u mapiranoj memoriji odmah se odražavaju u povezanoj datoteci i postaju vidljive drugim procesima koji su mapirali istu datoteku.
@@ -25,12 +28,27 @@ echo "Hello, world!" > P02_mmap-example.txt
 cat P02_mmap-example.txt
 ```
 
+<Tabs>
+  <TabItem value="c" label="C">
+
 ```bash
 gcc P02_file-no-mmap.c -o P02_file-no-mmap && ./P02_file-no-mmap
 cat P02_mmap-example.txt
 ```
+  </TabItem>
+  <TabItem value="python" label="Python">
+
+```bash
+python3 P02_file-no-mmap.py
+cat P02_mmap-example.txt
+```
+  </TabItem>
+</Tabs>
 
 ### Uređivanje datoteke uz [memorijsko mapiranje](https://pubs.opengroup.org/onlinepubs/009695399/basedefs/sys/mman.h.html)
+
+<Tabs>
+  <TabItem value="c" label="C">
 
 ```bash
 echo "Hello, world!" > P02_mmap-example.txt
@@ -41,9 +59,29 @@ cat P02_mmap-example.txt
 gcc P02_mmap.c -o P02_mmap && ./P02_mmap
 cat P02_mmap-example.txt
 ```
+  </TabItem>
+  <TabItem value="python" label="Python">
+
+```bash
+python3 P02_mmap.py
+cat P02_mmap-example.txt
+```
+  </TabItem>
+</Tabs>
 
 ### Međuprocesna komunikacija
+
+<Tabs>
+  <TabItem value="c" label="C">
 
 ```bash
 gcc P02_mmap-ipc.c -o P02_mmap-ipc && ./P02_mmap-ipc
 ```
+  </TabItem>
+  <TabItem value="python" label="Python">
+  
+```bash
+python3 P02_mmap-ipc.py
+```
+  </TabItem>
+</Tabs>
