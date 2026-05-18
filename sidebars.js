@@ -51,7 +51,7 @@ const sidebars = {
       ],
     },
     'upravljanje-memorijom/index',
-    /*'racunalna-sigurnost/index',*/
+    'racunalna-sigurnost/index',
   ],
 };
 

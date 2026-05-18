@@ -46,7 +46,7 @@ export const Lessons = [
         title: "Računalna sigurnost",
         description: "",
         url: "/racunalna-sigurnost/",
-        posted: false,
+        posted: true,
     },
 ];
 
