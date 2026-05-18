@@ -3,7 +3,9 @@
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-U današnjim ćemo vježbama istražiti algoritme za dodjeljivanje memorije i *buddy system*.
+Jedna od osnovnih zadaća OS-a je učitavanje procesa u radnu memoriju i upravljanje korištenjem memorije.
+
+U današnjim ćemo vježbama istražiti algoritme za dodjeljivanje memorije i *buddy system*. Ove su strategije primjenjive kod sustava s dinamičkim particioniranjem gdje se slobodni blokovi tijekom rada dijele i po potrebi ponovno spajaju. Cilj nam je minimizirati vanjsku fragmentaciju memorije i smanjiti učestalost [zbijanja](https://www.tutorialspoint.com/operating_system/images/memory_fragmentation.jpg).
 
 <Tabs>
   <TabItem value="c" label="C">
@@ -11,6 +13,8 @@ U današnjim ćemo vježbama istražiti algoritme za dodjeljivanje memorije i *b
 U svrhu preglednosti koda, funkcije zajedničke svim algoritmima izdvojene su u posebnu knjižnicu `L10_memory-management.h`.
   </TabItem>
   <TabItem value="python" label="Python">
+
+U svrhu preglednosti koda, funkcije zajedničke svim algoritmima izdvojene su u posebnu skriptu `L10_memory-management.py`.
 
 Za grafički prikaz dodjeljivanja memorije instalirajte knjižnicu `matplotlib`:
 
@@ -23,20 +27,18 @@ pip install matplotlib
 
 ## Primjer 1: *First-fit*
 
-*First-fit* [algoritam](https://www.geeksforgeeks.org/first-fit-allocation-in-operating-systems/) pronalazi prvi slobodni blok memorije koji je dovoljno velik da zadovolji zahtjeve procesa koji traži memoriju. Primjerice, ako proces traži 100 KB memorije, algoritam će proći kroz listu slobodnih blokova i pronaći prvi blok koji je veći ili jednak 100 KB. Ako takav blok postoji, on se dodjeljuje procesu tako što se blok podijeli na dva dijela - jedan koji zauzima proces i drugi koji ostaje slobodan.
+[*First-fit* algoritam](https://www.geeksforgeeks.org/first-fit-allocation-in-operating-systems/) pronalazi prvi slobodni blok memorije koji je dovoljno velik da zadovolji zahtjeve procesa koji traži memoriju. Primjerice, ako proces traži 100 KB memorije, algoritam će proći kroz listu slobodnih blokova i pronaći prvi blok koji je veći ili jednak 100 KB. Ako takav blok postoji, on se dodjeljuje procesu tako što se blok podijeli na dva dijela - jedan koji zauzima proces i drugi koji ostaje slobodan.
+
+Kada se proces završi, zauzeti dio memorije se oslobađa i, ako je to moguće, slobodni dijelovi susjednih blokova se spajaju kako bi se stvorio jedan veći slobodan blok (funkcije `deallocate` i `merge_blocks`).
 
 <Tabs>
   <TabItem value="c" label="C">
-
-Kada se proces završi, zauzeti dio memorije se oslobađa i, ako je to moguće, slobodni dijelovi susjednih blokova se spajaju kako bi se stvorio jedan veći slobodan blok (funkcije `deallocate` i `merge_blocks`).
 
 ```bash
 gcc P01_first-fit.c L10_memory-management.c -o P01_first-fit && ./P01_first-fit
 ```
   </TabItem>
   <TabItem value="python" label="Python">
-
-Kada se proces završi, zauzeti dio memorije se oslobađa i, ako je to moguće, slobodni dijelovi susjednih blokova se spajaju kako bi se stvorio jedan veći slobodan blok (funkcija `deallocate`).
 
 ```bash
 python3 P01_first-fit.py
@@ -46,7 +48,7 @@ python3 P01_first-fit.py
 
 ## Primjer 2: *Next-fit*
 
-*Next-fit* [algoritam](https://www.geeksforgeeks.org/program-for-next-fit-algorithm-in-memory-management/) prolazi redom kroz listu slobodnih blokova memorije, slično kao *First-fit* algoritam. Glavna razlika je u tome što *Next-fit* počinje od mjesta gdje je završila prethodna alokacija. *Next-fit* ima tendenciju da alocira procese blizu prethodno alociranih blokova, što može rezultirati manjim fragmentiranjem memorije.
+[*Next-fit* algoritam](https://www.geeksforgeeks.org/program-for-next-fit-algorithm-in-memory-management/) prolazi redom kroz listu slobodnih blokova memorije, slično kao *First-fit* algoritam. Glavna razlika je u tome što *Next-fit* počinje od mjesta gdje je završila prethodna alokacija. *Next-fit* ima tendenciju da alocira procese blizu prethodno alociranih blokova, što može rezultirati manjim fragmentiranjem memorije.
 
 <Tabs>
   <TabItem value="c" label="C">
@@ -65,7 +67,7 @@ python3 P02_next-fit.py
 
 ## Primjer 3: *Best-fit*
 
-*Best-fit* [algoritam](https://www.geeksforgeeks.org/best-fit-allocation-in-operating-system/) prolazi kroz listu slobodnih blokova i odabire najmanji slobodni blok koji je dovoljno velik da zadovolji zahtjeve procesa.
+[*Best-fit* algoritam](https://www.geeksforgeeks.org/best-fit-allocation-in-operating-system/) prolazi kroz listu slobodnih blokova i odabire najmanji slobodni blok koji je dovoljno velik da zadovolji zahtjeve procesa.
 
 <Tabs>
   <TabItem value="c" label="C">
@@ -84,7 +86,7 @@ python3 P03_best-fit.py
 
 ## Primjer 4: *Worst-fit*
 
-*Worst-fit* [algoritam](https://www.geeksforgeeks.org/worst-fit-allocation-in-operating-systems/) prolazi kroz listu slobodnih blokova i odabire najveći slobodni blok (koji je dovoljno velik da zadovolji zahtjeve procesa). Većina koda iz *best-fit* algoritma se može ponovno iskoristiti.
+[*Worst-fit* algoritam](https://www.geeksforgeeks.org/worst-fit-allocation-in-operating-systems/) prolazi kroz listu slobodnih blokova i odabire najveći slobodni blok (koji je dovoljno velik da zadovolji zahtjeve procesa). Većina koda iz *best-fit* algoritma se može ponovno iskoristiti.
 
 <Tabs>
   <TabItem value="c" label="C">
@@ -151,6 +153,12 @@ python3 Z02_random-generation.py
 ## Primjer 5: *Buddy system*
 
 *Buddy system* je algoritam za upravljanje memorijom koji dijeli memorijski prostor na blokove veličine $2^k$. Algoritam radi s parovima blokova, gdje svaki blok ima svog partnera ili prijatelja *(buddy)* s kojim se može spojiti nazad u veći blok kada oba postanu slobodna. *Buddy system* započinje s cijelim memorijskim prostorom kao jednim velikim blokom.
+
+<div style={{textAlign: 'center'}}>
+
+![](./L11_buddy_system.png)
+
+</div>
 
 Prilikom alokacije, algoritam traži najmanji slobodni blok koji je dovoljno velik da zadovolji taj zahtjev. Ako takav blok nije dostupan, veći blok se dijeli na dva jednaka manja bloka. Ovi manji blokovi su *buddy* par (prijatelji). Proces se ponavlja sve dok se ne dobije blok odgovarajuće veličine. Jedan od tih blokova se dodjeljuje zahtjevu, dok drugi ostaje slobodan.
 
