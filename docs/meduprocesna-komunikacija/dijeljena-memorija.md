@@ -78,7 +78,7 @@ import sysv_ipc
 
 key = sysv_ipc.ftok("/tmp", 65, silence_warning=True)
 message = "Hello from shared memory!"
-shm = sysv_ipc.SharedMemory(key)
+shm = sysv_ipc.SharedMemory(key, flags=sysv_ipc.IPC_CREAT)
 shm.attach()
 shm.write(message.encode() + b"\0")
 print(f'[WRITER {os.getpid()}]: Message "{message}" sent to shared memory [{key}]')

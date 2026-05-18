@@ -46,6 +46,8 @@ import {ListItems} from "@site/src/components/ListItems";
 
 <ListItems></ListItems>
 
+{/*
 Provjerite svoje znanje o vrstama IPC-a na ovoj poveznici:
 
 ![](./L09_slido.png)
+*/}

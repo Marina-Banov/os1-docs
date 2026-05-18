@@ -1,5 +1,8 @@
 # Komunikacija porukama (Message queues)
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 Komunikacija porukama koristi strukturu podataka u kojoj procesi mogu pohranjivati poruke koje će drugi procesi kasnije pročitati. Ovaj koncept nalikuje na FIFO, a koristi se na sličan način kao dijeljena memorija (generiranje jedinstvenog ključa uz `ftok`, dohvaćanje identifikatora uz `msgget`, slanje poruka uz `msgsnd`, primanje poruka uz `msgrcv` i uklanjanje *queuea* uz `msgctl`).
 
 Istražite dokumentaciju funkcije za slanje poruke, obratite pažnju na tip poruke i razmislite zašto je obavezan:
@@ -9,6 +12,9 @@ man msgsnd
 ```
 
 ## Primjer 5: Komunikacija porukama
+
+<Tabs>
+  <TabItem value="c" label="C">
 
 ```c title="P05_msg-q-example.c"
 #include <stdio.h>
@@ -52,10 +58,47 @@ int main() {
 ```bash
 gcc P05_msg-q-example.c -o P05_msg-q-example && ./P05_msg-q-example
 ```
+  </TabItem>
+  <TabItem value="python" label="Python">
+
+U Pythonu se za dodavanje vrijednosti u *message queue* koristi `send` metoda.
+Za čitanje vrijednosti iz *message queue*-a koristi se `receive` metoda:
+
+
+```python title="P05_msg-q-example.py"
+import sysv_ipc
+
+key = sysv_ipc.ftok("/tmp", 65, silence_warning=True)
+queue = sysv_ipc.MessageQueue(key, sysv_ipc.IPC_CREAT)
+
+# Slanje poruka
+queue.send(b"1")
+queue.send(b"3")
+queue.send(b"5")
+
+# Čitanje poruka dok message queue nije prazan
+try:
+    while True:
+        message, _ = queue.receive(block=False)
+        print(int(message))
+except sysv_ipc.BusyError:
+    pass  # Message queue je prazan
+
+# Ukloniti queue nakon čitanja
+queue.remove()
+```
+```bash
+python3 P05_msg-q-example.py
+```
+  </TabItem>
+</Tabs>
 
 ## Zadatak 5
 
 Nadopunite sljedeći kod tako da jedan proces računa kvadratnu vrijednost za niz brojeva, a drugi ispisuje izračunatu vrijednost. Sve je potrebno učiniti koristeći *message queue*.
+
+<Tabs>
+  <TabItem value="c" label="C">
 
 ```c title="Z05_msg-q-writer.c"
 #include <stdio.h>
@@ -113,4 +156,40 @@ int main() {
 ```bash
 gcc Z05_msg-q-reader.c -o Z05_msg-q-reader && ./Z05_msg-q-reader
 ```
- 
+  </TabItem>
+  <TabItem value="python" label="Python">
+
+```python title="P05_msg-q-reader-writer.py"
+import multiprocessing
+import sysv_ipc
+
+
+def writer():
+    key = sysv_ipc.ftok("/tmp", 65, silence_warning=True)
+    queue = sysv_ipc.MessageQueue(key, sysv_ipc.IPC_CREAT)
+    # TODO: Dodati kvadrate u queue za vrijednosti [1, 2, 3, 4, 5]
+    # ...
+    queue.remove()
+
+
+def reader():
+    key = sysv_ipc.ftok("/tmp", 65, silence_warning=True)
+    queue = sysv_ipc.MessageQueue(key, sysv_ipc.IPC_CREAT)
+    # TODO: Ispisati kvadrate iz queuea
+    # ...
+    queue.remove()
+
+
+writer_process = multiprocessing.Process(target=writer, args=())
+writer_process.start()  # Pokretanje procesa koji kvadrira vrijednosti
+writer_process.join()  # Čekaj da proces završi
+
+reader_process = multiprocessing.Process(target=reader, args=())
+reader_process.start()  # Pokretanje procesa koji ispisuje kvadrate
+reader_process.join()  # Čekaj da proces završi
+```
+```bash
+python3 P05_msg-q-reader-writer.py
+```
+  </TabItem>
+</Tabs>

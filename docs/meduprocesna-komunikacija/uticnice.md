@@ -106,7 +106,7 @@ pip install wonderwords
 Nadopunite kod za poslužitelja i omogućite povezivanje s klijentom putem utičnica. Logika igre već je implementirana. Nakon toga otvorite terminal i pokrenite:
 
 ```bash
-python3 Z01_game_server.py &
+python3 Z01_game_server.py
 ```
 
 Klijentski dio aplikacije predstavlja sučelje prema korisniku koje mu omogućuje sudjelovanje u igri. Nadopunite kod za klijenta i omogućite povezivanje s poslužiteljom putem utičnica. Nakon toga u terminalu pokrenite:
@@ -148,7 +148,7 @@ gcc -pthread P02_multi_server.c -o P02_multi_server && ./P02_multi_server
   <TabItem value="python" label="Python">
 
 ```bash
-python3 P02_multi_server.py &
+python3 P02_multi_server.py
 ```
   </TabItem>
 </Tabs>

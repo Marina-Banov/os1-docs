@@ -47,13 +47,13 @@ cat P02_mmap-example.txt
 
 ### Uređivanje datoteke uz [memorijsko mapiranje](https://pubs.opengroup.org/onlinepubs/009695399/basedefs/sys/mman.h.html)
 
-<Tabs>
-  <TabItem value="c" label="C">
-
 ```bash
 echo "Hello, world!" > P02_mmap-example.txt
 cat P02_mmap-example.txt
 ```
+
+<Tabs>
+  <TabItem value="c" label="C">
 
 ```bash
 gcc P02_mmap.c -o P02_mmap && ./P02_mmap

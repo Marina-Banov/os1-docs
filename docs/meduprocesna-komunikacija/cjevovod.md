@@ -1,5 +1,8 @@
 # Cjevovod (Pipe)
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 Cjevovod se koristi za jednosmjernu komunikaciju između *parent* i *child* procesa. Ovakav tip komunikacijskog kanala ponekad se naziva *anonymous/unnamed pipe*. Do sada ste se susretali s cjevovodima u Bashu kao mehanizmom redirekcije standardnog izlaza jedne naredbe u standardni ulaz druge naredbe, npr.:
 
 ```bash
@@ -25,6 +28,9 @@ Vođeni ispisom iz dokumentacije, sada ćemo istražiti kako [u kodu](https://en
 ![](L09_pipe.png)
 
 </div>
+
+<Tabs>
+  <TabItem value="c" label="C">
 
 ```c title="P03_pipe.c"
 #include <stdio.h>
@@ -104,4 +110,65 @@ int main() {
 ```bash
 gcc P03_pipe.c -o P03_pipe && ./P03_pipe
 ```
+  </TabItem>
+  <TabItem value="python" label="Python">
 
+```python title="P03_pipe.py"
+import os
+
+# Koristimo dva cjevovoda
+# Prvi cjevovod za slanje poruke od roditelja do djeteta
+# Drugi cjevovod za slanje poruke od djeteta do roditelja
+
+read1, write1 = os.pipe()  # Dva kraja prvog cjevovoda
+read2, write2 = os.pipe()  # Dva kraja drugog cjevovoda
+
+forked_pid = os.fork()
+
+if forked_pid > 0:
+    # Zatvaranje dijela za čitanje prvog cjevovoda
+    os.close(read1)
+    # Zatvaranje dijela za pisanje drugog cjevovoda
+    os.close(write2)
+
+    # Zapisivanje poruke i zatvaranje dijela za pisanje prvog cjevovoda
+    parent_str = "Hello, Child!"
+    os.write(write1, parent_str.encode())
+    os.close(write1)
+
+    # Čekanje da dijete završi
+    os.wait()
+
+    # Čitanje poruke od djeteta i zatvaranje dijela za čitanje drugog
+    # cjevovoda
+    result_str = os.read(read2, 100).decode()
+    print(f"[PARENT {os.getpid()}] Message recieved from child: {result_str}")
+    os.close(read2)
+else:
+    # Zatvaranje dijela za pisanje prvog cjevovoda
+    os.close(write1)
+    # Zatvaranje dijela za čitanje drugog cjevovoda
+    os.close(read2)
+
+    # Čitanje poruke od roditelja i zatvaranje dijela za čitanje prvog
+    # cjevovoda
+    result_str = os.read(read1, 100).decode()
+    print(f"[CHILD {os.getpid()}] Message recieved from parent: {result_str}")
+    os.close(read1)
+
+    # Modifikacija poruke (dodavanje teksta)
+    child_str = " Hope you are well."
+    result_str += child_str
+
+    # Zapisivanje poruke i zatvaranje dijela za pisanje drugog cjevovoda
+    os.write(write2, result_str.encode() + b"\0")
+    os.close(write2)
+
+    # Dijete završava, a roditelj će dobiti SIGCHLD signal
+    os._exit(os.EX_OK)
+```
+```bash
+python3 P03_pipe.py
+```
+  </TabItem>
+</Tabs>
