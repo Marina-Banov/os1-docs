@@ -161,6 +161,7 @@ gcc Z05_msg-q-reader.c -o Z05_msg-q-reader && ./Z05_msg-q-reader
 
 ```python title="P05_msg-q-reader-writer.py"
 import multiprocessing
+import os
 import sysv_ipc
 
 
@@ -168,15 +169,18 @@ def writer():
     key = sysv_ipc.ftok("/tmp", 65, silence_warning=True)
     queue = sysv_ipc.MessageQueue(key, sysv_ipc.IPC_CREAT)
     # TODO: Dodati kvadrate u queue za vrijednosti [1, 2, 3, 4, 5]
-    # ...
-    queue.remove()
+    for ...:
+        # ...
+    print(f"[WRITER {os.getpid()}] Finished")
 
 
 def reader():
     key = sysv_ipc.ftok("/tmp", 65, silence_warning=True)
     queue = sysv_ipc.MessageQueue(key, sysv_ipc.IPC_CREAT)
-    # TODO: Ispisati kvadrate iz queuea
-    # ...
+    # TODO: Ispisati kvadrate iz queue-a
+    while ...:
+        # ...
+        print(f"[READER {os.getpid()}] Received: {...}")
     queue.remove()
 
 
