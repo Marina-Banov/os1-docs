@@ -111,15 +111,6 @@ Ono što svi ovi primjeri imaju zajedničko jest loša politika korištenja alat
 - Napadači pritom iskorištavaju ljudske slabosti: igraju na emocije, stvaraju osjećaj hitnoće, računaju na strah od autoriteta, loše navike i umor.
 - Jedino trajno rješenje je **edukacija.**
 
-### A kakvi ste vi?
-
-Što svaki student računarstva minimalno mora imati:
-
-1. **Password manager** ✓
-2. **2FA na glavnom e-mailu i ostalim važnim servisima** ✓
-3. **Različite lozinke svugdje** ✓
-4. **Backup,** pravilo 3-2-1 (3 kopije, 2 medija, 1 off-site) ✓
-
 ### Posljedice
 
 - **Za fizičke osobe** posljedice su najčešće krađa identiteta, financijski gubitak i osjećaj straha ili srama. Važno je ne kriviti žrtve nego ih zaštititi, promijeniti lozinke i po potrebi deaktivirati bankovne kartice.
@@ -205,6 +196,6 @@ CTF natjecanja su dobar uvod za studente koji se jednog dana žele baviti cybers
 - [Have I Been Pwned](https://haveibeenpwned.com/)
 - [Personal Security Checklist](https://digital-defense.io/)
 - [Security, privacy, and Anonymity Quiz](https://techlore.tech/spa/)
-
+- Nalazi li se tvoja lozinka na nekoj od [ovih](https://github.com/kiloquad/__SecLists/blob/master/Passwords/10_million_password_list_top_1000.txt) [stranica](https://github.com/RykerWilder/rockyou.txt)? Ako da, napadač može dobiti pristup tvom računu u samo nekoliko sekundi.
 
 
